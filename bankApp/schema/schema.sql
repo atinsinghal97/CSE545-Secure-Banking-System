@@ -51,7 +51,9 @@ CREATE TABLE `secure_banking_system`.`transaction` (
   transaction_updated_date DATETIME NOT NULL DEFAULT NOW(),
   from_account INT NOT NULL,
   to_account INT NOT NULL,
-  transaction_approved_by INT NOT NULL,
+  transaction_approved_by INT NOT NULL, /* final approval which should trigger transfer. Tier 2 can directly approve critical transactions no problem. */
+  level_1_approval BOOLEAN DEFAULT NULL, /* Customer approval */
+  level_2_approval BOOLEAN DEFAULT NULL, /* Tier 2 employee approval */
   FOREIGN KEY (from_account) REFERENCES `secure_banking_system`.`account`(account_id),
   FOREIGN KEY (to_account) REFERENCES `secure_banking_system`.`account`(account_id),
   FOREIGN KEY (transaction_approved_by) REFERENCES `secure_banking_system`.`user`(user_id)
@@ -70,9 +72,10 @@ CREATE TABLE `secure_banking_system`.`appointment` (
 CREATE TABLE `secure_banking_system`.`request` (
   request_id INT PRIMARY KEY AUTO_INCREMENT,
   requested_by INT NOT NULL,
-  type_of_request INT NOT NULL,
+  type_of_request INT NOT NULL, /* request to modify account, request to ??? */
   request_assigned_to INT DEFAULT NULL,
   type_of_account VARCHAR(25) NOT NULL,
+  approved BOOLEAN DEFAULT NULL, /* Can be approved by merchant or bank employee depending on type of request */
   FOREIGN KEY (request_assigned_to) REFERENCES `secure_banking_system`.`user`(user_id),
   FOREIGN KEY (requested_by) REFERENCES `secure_banking_system`.`user`(user_id)
 );
