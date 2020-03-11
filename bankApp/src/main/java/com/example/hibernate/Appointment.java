@@ -1,5 +1,5 @@
 package com.example.hibernate;
-// Generated Feb 23, 2020, 8:51:51 PM by Hibernate Tools 5.4.7.Final
+// Generated Mar 11, 2020, 5:05:15 PM by Hibernate Tools 5.4.7.Final
 
 import java.util.Date;
 
@@ -15,10 +15,6 @@ public class Appointment implements java.io.Serializable {
 	private String appointmentStatus;
 
 	public Appointment() {
-	}
-
-	public Appointment(int appointmentId) {
-		this.appointmentId = appointmentId;
 	}
 
 	public Appointment(int appointmentId, User userByAppointmentUserId, User userByAssignedToUserId, Date createdDate,

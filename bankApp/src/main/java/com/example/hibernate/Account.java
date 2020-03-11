@@ -1,5 +1,5 @@
 package com.example.hibernate;
-// Generated Feb 23, 2020, 8:51:51 PM by Hibernate Tools 5.4.7.Final
+// Generated Mar 11, 2020, 5:05:15 PM by Hibernate Tools 5.4.7.Final
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -12,29 +12,44 @@ import java.util.Set;
 public class Account implements java.io.Serializable {
 
 	private int accountId;
-	private User user;
+	private User userByUserId;
+	private User userByApprover;
+	private String accountNumber;
 	private String accountType;
-	private BigDecimal currentAmount;
+	private BigDecimal currentBalance;
 	private Date createdDate;
-	private Integer status;
+	private boolean approvalStatus;
+	private BigDecimal interest;
+	private Date approvalDate;
 	private Set transactionsForFromAccount = new HashSet(0);
 	private Set transactionsForToAccount = new HashSet(0);
 
 	public Account() {
 	}
 
-	public Account(int accountId) {
+	public Account(int accountId, User userByUserId, String accountNumber, String accountType, Date createdDate,
+			boolean approvalStatus) {
 		this.accountId = accountId;
+		this.userByUserId = userByUserId;
+		this.accountNumber = accountNumber;
+		this.accountType = accountType;
+		this.createdDate = createdDate;
+		this.approvalStatus = approvalStatus;
 	}
 
-	public Account(int accountId, User user, String accountType, BigDecimal currentAmount, Date createdDate,
-			Integer status, Set transactionsForFromAccount, Set transactionsForToAccount) {
+	public Account(int accountId, User userByUserId, User userByApprover, String accountNumber, String accountType,
+			BigDecimal currentBalance, Date createdDate, boolean approvalStatus, BigDecimal interest, Date approvalDate,
+			Set transactionsForFromAccount, Set transactionsForToAccount) {
 		this.accountId = accountId;
-		this.user = user;
+		this.userByUserId = userByUserId;
+		this.userByApprover = userByApprover;
+		this.accountNumber = accountNumber;
 		this.accountType = accountType;
-		this.currentAmount = currentAmount;
+		this.currentBalance = currentBalance;
 		this.createdDate = createdDate;
-		this.status = status;
+		this.approvalStatus = approvalStatus;
+		this.interest = interest;
+		this.approvalDate = approvalDate;
 		this.transactionsForFromAccount = transactionsForFromAccount;
 		this.transactionsForToAccount = transactionsForToAccount;
 	}
@@ -47,12 +62,28 @@ public class Account implements java.io.Serializable {
 		this.accountId = accountId;
 	}
 
-	public User getUser() {
-		return this.user;
+	public User getUserByUserId() {
+		return this.userByUserId;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserByUserId(User userByUserId) {
+		this.userByUserId = userByUserId;
+	}
+
+	public User getUserByApprover() {
+		return this.userByApprover;
+	}
+
+	public void setUserByApprover(User userByApprover) {
+		this.userByApprover = userByApprover;
+	}
+
+	public String getAccountNumber() {
+		return this.accountNumber;
+	}
+
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
 	}
 
 	public String getAccountType() {
@@ -63,12 +94,12 @@ public class Account implements java.io.Serializable {
 		this.accountType = accountType;
 	}
 
-	public BigDecimal getCurrentAmount() {
-		return this.currentAmount;
+	public BigDecimal getCurrentBalance() {
+		return this.currentBalance;
 	}
 
-	public void setCurrentAmount(BigDecimal currentAmount) {
-		this.currentAmount = currentAmount;
+	public void setCurrentBalance(BigDecimal currentBalance) {
+		this.currentBalance = currentBalance;
 	}
 
 	public Date getCreatedDate() {
@@ -79,12 +110,28 @@ public class Account implements java.io.Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public Integer getStatus() {
-		return this.status;
+	public boolean isApprovalStatus() {
+		return this.approvalStatus;
 	}
 
-	public void setStatus(Integer status) {
-		this.status = status;
+	public void setApprovalStatus(boolean approvalStatus) {
+		this.approvalStatus = approvalStatus;
+	}
+
+	public BigDecimal getInterest() {
+		return this.interest;
+	}
+
+	public void setInterest(BigDecimal interest) {
+		this.interest = interest;
+	}
+
+	public Date getApprovalDate() {
+		return this.approvalDate;
+	}
+
+	public void setApprovalDate(Date approvalDate) {
+		this.approvalDate = approvalDate;
 	}
 
 	public Set getTransactionsForFromAccount() {

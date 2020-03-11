@@ -1,5 +1,5 @@
 package com.example.hibernate;
-// Generated Feb 23, 2020, 8:51:51 PM by Hibernate Tools 5.4.7.Final
+// Generated Mar 11, 2020, 5:05:15 PM by Hibernate Tools 5.4.7.Final
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -13,33 +13,47 @@ public class Transaction implements java.io.Serializable {
 	private Account accountByFromAccount;
 	private Account accountByToAccount;
 	private User user;
-	private Integer transactionType;
-	private Integer transactionStatus;
-	private BigDecimal transactionAmount;
-	private Boolean isCriticalTransaction;
-	private Date transactionCreatedDate;
-	private Date transactionUpdatedDate;
+	private String transactionType;
+	private boolean approvalStatus;
+	private BigDecimal amount;
+	private boolean isCriticalTransaction;
+	private Date requestedDate;
+	private Date decisionDate;
+	private Boolean level1Approval;
+	private Boolean level2Approval;
 
 	public Transaction() {
 	}
 
-	public Transaction(int transactionId) {
-		this.transactionId = transactionId;
-	}
-
 	public Transaction(int transactionId, Account accountByFromAccount, Account accountByToAccount, User user,
-			Integer transactionType, Integer transactionStatus, BigDecimal transactionAmount,
-			Boolean isCriticalTransaction, Date transactionCreatedDate, Date transactionUpdatedDate) {
+			String transactionType, boolean approvalStatus, boolean isCriticalTransaction, Date requestedDate,
+			Date decisionDate) {
 		this.transactionId = transactionId;
 		this.accountByFromAccount = accountByFromAccount;
 		this.accountByToAccount = accountByToAccount;
 		this.user = user;
 		this.transactionType = transactionType;
-		this.transactionStatus = transactionStatus;
-		this.transactionAmount = transactionAmount;
+		this.approvalStatus = approvalStatus;
 		this.isCriticalTransaction = isCriticalTransaction;
-		this.transactionCreatedDate = transactionCreatedDate;
-		this.transactionUpdatedDate = transactionUpdatedDate;
+		this.requestedDate = requestedDate;
+		this.decisionDate = decisionDate;
+	}
+
+	public Transaction(int transactionId, Account accountByFromAccount, Account accountByToAccount, User user,
+			String transactionType, boolean approvalStatus, BigDecimal amount, boolean isCriticalTransaction,
+			Date requestedDate, Date decisionDate, Boolean level1Approval, Boolean level2Approval) {
+		this.transactionId = transactionId;
+		this.accountByFromAccount = accountByFromAccount;
+		this.accountByToAccount = accountByToAccount;
+		this.user = user;
+		this.transactionType = transactionType;
+		this.approvalStatus = approvalStatus;
+		this.amount = amount;
+		this.isCriticalTransaction = isCriticalTransaction;
+		this.requestedDate = requestedDate;
+		this.decisionDate = decisionDate;
+		this.level1Approval = level1Approval;
+		this.level2Approval = level2Approval;
 	}
 
 	public int getTransactionId() {
@@ -74,52 +88,68 @@ public class Transaction implements java.io.Serializable {
 		this.user = user;
 	}
 
-	public Integer getTransactionType() {
+	public String getTransactionType() {
 		return this.transactionType;
 	}
 
-	public void setTransactionType(Integer transactionType) {
+	public void setTransactionType(String transactionType) {
 		this.transactionType = transactionType;
 	}
 
-	public Integer getTransactionStatus() {
-		return this.transactionStatus;
+	public boolean isApprovalStatus() {
+		return this.approvalStatus;
 	}
 
-	public void setTransactionStatus(Integer transactionStatus) {
-		this.transactionStatus = transactionStatus;
+	public void setApprovalStatus(boolean approvalStatus) {
+		this.approvalStatus = approvalStatus;
 	}
 
-	public BigDecimal getTransactionAmount() {
-		return this.transactionAmount;
+	public BigDecimal getAmount() {
+		return this.amount;
 	}
 
-	public void setTransactionAmount(BigDecimal transactionAmount) {
-		this.transactionAmount = transactionAmount;
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
 	}
 
-	public Boolean getIsCriticalTransaction() {
+	public boolean isIsCriticalTransaction() {
 		return this.isCriticalTransaction;
 	}
 
-	public void setIsCriticalTransaction(Boolean isCriticalTransaction) {
+	public void setIsCriticalTransaction(boolean isCriticalTransaction) {
 		this.isCriticalTransaction = isCriticalTransaction;
 	}
 
-	public Date getTransactionCreatedDate() {
-		return this.transactionCreatedDate;
+	public Date getRequestedDate() {
+		return this.requestedDate;
 	}
 
-	public void setTransactionCreatedDate(Date transactionCreatedDate) {
-		this.transactionCreatedDate = transactionCreatedDate;
+	public void setRequestedDate(Date requestedDate) {
+		this.requestedDate = requestedDate;
 	}
 
-	public Date getTransactionUpdatedDate() {
-		return this.transactionUpdatedDate;
+	public Date getDecisionDate() {
+		return this.decisionDate;
 	}
 
-	public void setTransactionUpdatedDate(Date transactionUpdatedDate) {
-		this.transactionUpdatedDate = transactionUpdatedDate;
+	public void setDecisionDate(Date decisionDate) {
+		this.decisionDate = decisionDate;
+	}
+
+	public Boolean getLevel1Approval() {
+		return this.level1Approval;
+	}
+
+	public void setLevel1Approval(Boolean level1Approval) {
+		this.level1Approval = level1Approval;
+	}
+
+	public Boolean getLevel2Approval() {
+		return this.level2Approval;
+	}
+
+	public void setLevel2Approval(Boolean level2Approval) {
+		this.level2Approval = level2Approval;
 	}
 
 }

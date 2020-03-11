@@ -1,5 +1,5 @@
 package com.example.hibernate;
-// Generated Feb 23, 2020, 8:51:51 PM by Hibernate Tools 5.4.7.Final
+// Generated Mar 11, 2020, 5:05:15 PM by Hibernate Tools 5.4.7.Final
 
 import java.util.Date;
 
@@ -8,7 +8,7 @@ import java.util.Date;
  */
 public class LoginHistoryId implements java.io.Serializable {
 
-	private Integer userId;
+	private int userId;
 	private Date loggedIn;
 	private Date loggedOut;
 	private String ipAddress;
@@ -17,7 +17,14 @@ public class LoginHistoryId implements java.io.Serializable {
 	public LoginHistoryId() {
 	}
 
-	public LoginHistoryId(Integer userId, Date loggedIn, Date loggedOut, String ipAddress, String deviceType) {
+	public LoginHistoryId(int userId, Date loggedIn, String ipAddress, String deviceType) {
+		this.userId = userId;
+		this.loggedIn = loggedIn;
+		this.ipAddress = ipAddress;
+		this.deviceType = deviceType;
+	}
+
+	public LoginHistoryId(int userId, Date loggedIn, Date loggedOut, String ipAddress, String deviceType) {
 		this.userId = userId;
 		this.loggedIn = loggedIn;
 		this.loggedOut = loggedOut;
@@ -25,11 +32,11 @@ public class LoginHistoryId implements java.io.Serializable {
 		this.deviceType = deviceType;
 	}
 
-	public Integer getUserId() {
+	public int getUserId() {
 		return this.userId;
 	}
 
-	public void setUserId(Integer userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 
@@ -74,8 +81,7 @@ public class LoginHistoryId implements java.io.Serializable {
 			return false;
 		LoginHistoryId castOther = (LoginHistoryId) other;
 
-		return ((this.getUserId() == castOther.getUserId()) || (this.getUserId() != null
-				&& castOther.getUserId() != null && this.getUserId().equals(castOther.getUserId())))
+		return (this.getUserId() == castOther.getUserId())
 				&& ((this.getLoggedIn() == castOther.getLoggedIn()) || (this.getLoggedIn() != null
 						&& castOther.getLoggedIn() != null && this.getLoggedIn().equals(castOther.getLoggedIn())))
 				&& ((this.getLoggedOut() == castOther.getLoggedOut()) || (this.getLoggedOut() != null
@@ -90,7 +96,7 @@ public class LoginHistoryId implements java.io.Serializable {
 	public int hashCode() {
 		int result = 17;
 
-		result = 37 * result + (getUserId() == null ? 0 : this.getUserId().hashCode());
+		result = 37 * result + this.getUserId();
 		result = 37 * result + (getLoggedIn() == null ? 0 : this.getLoggedIn().hashCode());
 		result = 37 * result + (getLoggedOut() == null ? 0 : this.getLoggedOut().hashCode());
 		result = 37 * result + (getIpAddress() == null ? 0 : this.getIpAddress().hashCode());

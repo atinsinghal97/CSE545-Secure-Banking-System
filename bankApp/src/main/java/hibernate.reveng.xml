@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.org/dtd/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+	<table-filter match-schema="secure_banking_system" match-name=".*" />
+	<table-filter match-name="account"
+		match-catalog="secure_banking_system">
+	</table-filter>
+	<table-filter match-name="appointment"
+		match-catalog="secure_banking_system">
+	</table-filter>
+	<table-filter match-name="login_history"
+		match-catalog="secure_banking_system">
+	</table-filter>
+	<table-filter match-name="request"
+		match-catalog="secure_banking_system">
+	</table-filter>
+	<table-filter match-name="transaction"
+		match-catalog="secure_banking_system">
+	</table-filter>
+	<table-filter match-name="user"
+		match-catalog="secure_banking_system">
+	</table-filter>
+	<table-filter match-name="user_details"
+		match-catalog="secure_banking_system">
+	</table-filter>
+</hibernate-reverse-engineering>
