@@ -27,4 +27,40 @@
 	<table-filter match-name="customer"
 		match-catalog="secure_banking_system">
 	</table-filter>
+	<table-filter match-name="admin"
+		match-catalog="secure_banking_system">
+	</table-filter>
+	<table-filter match-name="checking_account"
+		match-catalog="secure_banking_system">
+	</table-filter>
+	<table-filter match-name="cheque_transaction"
+		match-catalog="secure_banking_system">
+	</table-filter>
+	<table-filter match-name="credit_account"
+		match-catalog="secure_banking_system">
+	</table-filter>
+	<table-filter match-name="critical_transaction"
+		match-catalog="secure_banking_system">
+	</table-filter>
+	<table-filter match-name="debit_transaction"
+		match-catalog="secure_banking_system">
+	</table-filter>
+	<table-filter match-name="merchant"
+		match-catalog="secure_banking_system">
+	</table-filter>
+	<table-filter match-name="non_critical_transaction"
+		match-catalog="secure_banking_system">
+	</table-filter>
+	<table-filter match-name="savings_account"
+		match-catalog="secure_banking_system">
+	</table-filter>
+	<table-filter match-name="tier1"
+		match-catalog="secure_banking_system">
+	</table-filter>
+	<table-filter match-name="tier2"
+		match-catalog="secure_banking_system">
+	</table-filter>
+	<table-filter match-name="transfer_transaction"
+		match-catalog="secure_banking_system">
+	</table-filter>
 </hibernate-reverse-engineering>

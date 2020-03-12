@@ -39,7 +39,7 @@ CREATE TABLE `secure_banking_system`.`account` (
   account_id INT PRIMARY KEY AUTO_INCREMENT,
   user_id INT NOT NULL,
   account_number VARCHAR(255) NOT NULL,
-  account_type ENUM('saving', 'checking', 'credit') NOT NULL,
+  account_type ENUM('savings', 'checking', 'credit') NOT NULL,
   current_balance DECIMAL(10, 5) DEFAULT 0.0,
   created_date DATETIME NOT NULL DEFAULT NOW(),
   approval_status BOOLEAN NOT NULL,
@@ -99,3 +99,19 @@ CREATE TABLE `secure_banking_system`.`login_history` (
 );
 
 CREATE VIEW `secure_banking_system`.`customer` AS SELECT * FROM `secure_banking_system`.`user` WHERE user_type = 'customer';
+CREATE VIEW `secure_banking_system`.`merchant` AS SELECT * FROM `secure_banking_system`.`user` WHERE user_type = 'merchant';
+CREATE VIEW `secure_banking_system`.`tier1` AS SELECT * FROM `secure_banking_system`.`user` WHERE user_type = 'tier1';
+CREATE VIEW `secure_banking_system`.`tier2` AS SELECT * FROM `secure_banking_system`.`user` WHERE user_type = 'tier2';
+CREATE VIEW `secure_banking_system`.`admin` AS SELECT * FROM `secure_banking_system`.`user` WHERE user_type = 'admin';
+
+
+CREATE VIEW `secure_banking_system`.`savings_account` AS SELECT * FROM `secure_banking_system`.`account` WHERE account_type = 'savings';
+CREATE VIEW `secure_banking_system`.`checking_account` AS SELECT * FROM `secure_banking_system`.`account` WHERE account_type = 'checking';
+CREATE VIEW `secure_banking_system`.`credit_account` AS SELECT * FROM `secure_banking_system`.`account` WHERE account_type = 'credit';
+
+CREATE VIEW `secure_banking_system`.`cheque_transaction` AS SELECT * FROM `secure_banking_system`.`transaction` WHERE transaction_type = 'cc';
+CREATE VIEW `secure_banking_system`.`transfer_transaction` AS SELECT * FROM `secure_banking_system`.`transaction` WHERE transaction_type = 'transfer';
+CREATE VIEW `secure_banking_system`.`debit_transaction` AS SELECT * FROM `secure_banking_system`.`transaction` WHERE transaction_type = 'debit';
+
+CREATE VIEW `secure_banking_system`.`critical_transaction` AS SELECT * FROM `secure_banking_system`.`transaction` WHERE is_critical_transaction = TRUE;
+CREATE VIEW `secure_banking_system`.`non_critical_transaction` AS SELECT * FROM `secure_banking_system`.`transaction` WHERE is_critical_transaction = FALSE;

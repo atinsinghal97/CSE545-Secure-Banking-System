@@ -1,5 +1,5 @@
 package com.example.hibernate;
-// Generated Mar 11, 2020, 5:19:25 PM by Hibernate Tools 5.4.7.Final
+// Generated Mar 11, 2020, 5:51:53 PM by Hibernate Tools 5.4.7.Final
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -9,7 +9,7 @@ import java.util.Date;
  */
 public class Transaction implements java.io.Serializable {
 
-	private int transactionId;
+	private Integer transactionId;
 	private Account accountByFromAccount;
 	private Account accountByToAccount;
 	private User user;
@@ -25,10 +25,8 @@ public class Transaction implements java.io.Serializable {
 	public Transaction() {
 	}
 
-	public Transaction(int transactionId, Account accountByFromAccount, Account accountByToAccount, User user,
-			String transactionType, boolean approvalStatus, boolean isCriticalTransaction, Date requestedDate,
-			Date decisionDate) {
-		this.transactionId = transactionId;
+	public Transaction(Account accountByFromAccount, Account accountByToAccount, User user, String transactionType,
+			boolean approvalStatus, boolean isCriticalTransaction, Date requestedDate, Date decisionDate) {
 		this.accountByFromAccount = accountByFromAccount;
 		this.accountByToAccount = accountByToAccount;
 		this.user = user;
@@ -39,10 +37,9 @@ public class Transaction implements java.io.Serializable {
 		this.decisionDate = decisionDate;
 	}
 
-	public Transaction(int transactionId, Account accountByFromAccount, Account accountByToAccount, User user,
-			String transactionType, boolean approvalStatus, BigDecimal amount, boolean isCriticalTransaction,
-			Date requestedDate, Date decisionDate, Boolean level1Approval, Boolean level2Approval) {
-		this.transactionId = transactionId;
+	public Transaction(Account accountByFromAccount, Account accountByToAccount, User user, String transactionType,
+			boolean approvalStatus, BigDecimal amount, boolean isCriticalTransaction, Date requestedDate,
+			Date decisionDate, Boolean level1Approval, Boolean level2Approval) {
 		this.accountByFromAccount = accountByFromAccount;
 		this.accountByToAccount = accountByToAccount;
 		this.user = user;
@@ -56,11 +53,11 @@ public class Transaction implements java.io.Serializable {
 		this.level2Approval = level2Approval;
 	}
 
-	public int getTransactionId() {
+	public Integer getTransactionId() {
 		return this.transactionId;
 	}
 
-	public void setTransactionId(int transactionId) {
+	public void setTransactionId(Integer transactionId) {
 		this.transactionId = transactionId;
 	}
 

@@ -1,5 +1,5 @@
 package com.example.hibernate;
-// Generated Mar 11, 2020, 5:19:25 PM by Hibernate Tools 5.4.7.Final
+// Generated Mar 11, 2020, 5:51:53 PM by Hibernate Tools 5.4.7.Final
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -11,7 +11,7 @@ import java.util.Set;
  */
 public class Account implements java.io.Serializable {
 
-	private int accountId;
+	private Integer accountId;
 	private User userByUserId;
 	private User userByApprover;
 	private String accountNumber;
@@ -27,9 +27,8 @@ public class Account implements java.io.Serializable {
 	public Account() {
 	}
 
-	public Account(int accountId, User userByUserId, String accountNumber, String accountType, Date createdDate,
+	public Account(User userByUserId, String accountNumber, String accountType, Date createdDate,
 			boolean approvalStatus) {
-		this.accountId = accountId;
 		this.userByUserId = userByUserId;
 		this.accountNumber = accountNumber;
 		this.accountType = accountType;
@@ -37,10 +36,9 @@ public class Account implements java.io.Serializable {
 		this.approvalStatus = approvalStatus;
 	}
 
-	public Account(int accountId, User userByUserId, User userByApprover, String accountNumber, String accountType,
+	public Account(User userByUserId, User userByApprover, String accountNumber, String accountType,
 			BigDecimal currentBalance, Date createdDate, boolean approvalStatus, BigDecimal interest, Date approvalDate,
 			Set transactionsForFromAccount, Set transactionsForToAccount) {
-		this.accountId = accountId;
 		this.userByUserId = userByUserId;
 		this.userByApprover = userByApprover;
 		this.accountNumber = accountNumber;
@@ -54,11 +52,11 @@ public class Account implements java.io.Serializable {
 		this.transactionsForToAccount = transactionsForToAccount;
 	}
 
-	public int getAccountId() {
+	public Integer getAccountId() {
 		return this.accountId;
 	}
 
-	public void setAccountId(int accountId) {
+	public void setAccountId(Integer accountId) {
 		this.accountId = accountId;
 	}
 

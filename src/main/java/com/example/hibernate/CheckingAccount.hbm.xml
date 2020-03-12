@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated Mar 11, 2020, 5:51:53 PM by Hibernate Tools 5.4.7.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class catalog="secure_banking_system" dynamic-insert="false" dynamic-update="false" mutable="true" name="com.example.hibernate.CheckingAccount" optimistic-lock="version" polymorphism="implicit" select-before-update="false" table="checking_account">
+        <comment>VIEW</comment>
+        <composite-id class="com.example.hibernate.CheckingAccountId" mapped="false" name="id" unsaved-value="undefined">
+            <key-property name="accountId" type="int">
+                <column name="account_id"/>
+            </key-property>
+            <key-property name="userId" type="int">
+                <column name="user_id"/>
+            </key-property>
+            <key-property name="accountNumber" type="string">
+                <column name="account_number"/>
+            </key-property>
+            <key-property name="accountType" type="string">
+                <column length="8" name="account_type"/>
+            </key-property>
+            <key-property name="currentBalance" type="big_decimal">
+                <column name="current_balance" precision="10" scale="5"/>
+            </key-property>
+            <key-property name="createdDate" type="timestamp">
+                <column length="19" name="created_date"/>
+            </key-property>
+            <key-property name="approvalStatus" type="boolean">
+                <column name="approval_status"/>
+            </key-property>
+            <key-property name="interest" type="big_decimal">
+                <column name="interest" precision="10" scale="5"/>
+            </key-property>
+            <key-property name="approvalDate" type="timestamp">
+                <column length="19" name="approval_date"/>
+            </key-property>
+            <key-property name="approver" type="java.lang.Integer">
+                <column name="approver"/>
+            </key-property>
+        </composite-id>
+    </class>
+</hibernate-mapping>
