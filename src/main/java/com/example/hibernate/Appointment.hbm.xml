@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated Mar 11, 2020, 5:19:25 PM by Hibernate Tools 5.4.7.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class catalog="secure_banking_system" dynamic-insert="false" dynamic-update="false" mutable="true" name="com.example.hibernate.Appointment" optimistic-lock="version" polymorphism="implicit" select-before-update="false" table="appointment">
+        <id name="appointmentId" type="int">
+            <column name="appointment_id"/>
+            <generator class="assigned"/>
+        </id>
+        <many-to-one class="com.example.hibernate.User" embed-xml="true" fetch="select" insert="true" name="userByAppointmentUserId" not-found="exception" optimistic-lock="true" unique="false" update="true">
+            <column name="appointment_user_id" not-null="true"/>
+        </many-to-one>
+        <many-to-one class="com.example.hibernate.User" embed-xml="true" fetch="select" insert="true" name="userByAssignedToUserId" not-found="exception" optimistic-lock="true" unique="false" update="true">
+            <column name="assigned_to_user_id" not-null="true"/>
+        </many-to-one>
+        <property generated="never" lazy="false" name="createdDate" optimistic-lock="true" type="timestamp" unique="false">
+            <column length="19" name="created_date" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="appointmentStatus" optimistic-lock="true" type="string" unique="false">
+            <column length="25" name="appointment_status" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>

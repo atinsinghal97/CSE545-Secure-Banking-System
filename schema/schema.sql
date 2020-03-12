@@ -12,7 +12,7 @@ CREATE TABLE `secure_banking_system`.`user` (
   incorrect_attempts INT DEFAULT 0,
   created_date DATETIME DEFAULT NOW(),
   modified_date DATETIME DEFAULT NOW(),
-  is_external_user BOOLEAN NOT NULL
+  user_type ENUM('tier1', 'tier2', 'admin', 'customer', 'merchant')
 );
 
 CREATE TABLE `secure_banking_system`.`user_details` (
@@ -28,35 +28,44 @@ CREATE TABLE `secure_banking_system`.`user_details` (
   city VARCHAR(255) NOT NULL,
   province VARCHAR(255) NOT NULL,
   zip INT NOT NULL,
+  date_of_birth DATETIME NOT NULL,
+  ssn VARCHAR(15) NOT NULL UNIQUE,
+  question_1 VARCHAR(255) NOT NULL,
+  question_2 VARCHAR(255) NOT NULL,
   FOREIGN KEY (user_id) REFERENCES `secure_banking_system`.`user`(user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE `secure_banking_system`.`account` (
   account_id INT PRIMARY KEY AUTO_INCREMENT,
   user_id INT NOT NULL,
-  account_type VARCHAR(255) NOT NULL,
-  current_amount DECIMAL(10, 5) DEFAULT 0.0,
+  account_number VARCHAR(255) NOT NULL,
+  account_type ENUM('saving', 'checking', 'credit') NOT NULL,
+  current_balance DECIMAL(10, 5) DEFAULT 0.0,
   created_date DATETIME NOT NULL DEFAULT NOW(),
-  status INT NOT NULL,
+  approval_status BOOLEAN NOT NULL,
+  interest DECIMAL(10, 5) DEFAULT 0.0,
+  approval_date DATETIME,
+  approver INT,
+  FOREIGN KEY (approver) REFERENCES `secure_banking_system`.`user`(user_id) ON DELETE CASCADE,
   FOREIGN KEY (user_id) REFERENCES `secure_banking_system`.`user`(user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE `secure_banking_system`.`transaction` (
   transaction_id INT PRIMARY KEY AUTO_INCREMENT,
-  transaction_type INT NOT NULL,
-  transaction_status INT NOT NULL,
-  transaction_amount DECIMAL(10, 5),
+  transaction_type ENUM('cc', 'debit', 'transfer') NOT NULL,
+  approval_status BOOLEAN NOT NULL,
+  amount DECIMAL(10, 5),
   is_critical_transaction BOOLEAN NOT NULL,
-  transaction_created_date DATETIME NOT NULL DEFAULT NOW(),
-  transaction_updated_date DATETIME NOT NULL DEFAULT NOW(),
+  requested_date DATETIME NOT NULL DEFAULT NOW(),
+  decision_date DATETIME NOT NULL DEFAULT NOW(),
   from_account INT NOT NULL,
   to_account INT NOT NULL,
-  transaction_approved_by INT NOT NULL, /* final approval which should trigger transfer. Tier 2 can directly approve critical transactions no problem. */
+  approver INT NOT NULL, /* final approval which should trigger transfer. Tier 2 can directly approve critical transactions no problem. */
   level_1_approval BOOLEAN DEFAULT NULL, /* Customer approval */
   level_2_approval BOOLEAN DEFAULT NULL, /* Tier 2 employee approval */
   FOREIGN KEY (from_account) REFERENCES `secure_banking_system`.`account`(account_id),
   FOREIGN KEY (to_account) REFERENCES `secure_banking_system`.`account`(account_id),
-  FOREIGN KEY (transaction_approved_by) REFERENCES `secure_banking_system`.`user`(user_id)
+  FOREIGN KEY (approver) REFERENCES `secure_banking_system`.`user`(user_id)
 );
 
 CREATE TABLE `secure_banking_system`.`appointment` (
@@ -88,3 +97,5 @@ CREATE TABLE `secure_banking_system`.`login_history` (
   device_type VARCHAR(25) NOT NULL,
   FOREIGN KEY (user_id) REFERENCES `secure_banking_system`.`user`(user_id)
 );
+
+CREATE VIEW `secure_banking_system`.`customer` AS SELECT * FROM `secure_banking_system`.`user` WHERE user_type = 'customer';

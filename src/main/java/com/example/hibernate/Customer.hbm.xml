@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated Mar 11, 2020, 5:19:25 PM by Hibernate Tools 5.4.7.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class catalog="secure_banking_system" dynamic-insert="false" dynamic-update="false" mutable="true" name="com.example.hibernate.Customer" optimistic-lock="version" polymorphism="implicit" select-before-update="false" table="customer">
+        <comment>VIEW</comment>
+        <composite-id class="com.example.hibernate.CustomerId" mapped="false" name="id" unsaved-value="undefined">
+            <key-property name="userId" type="int">
+                <column name="user_id"/>
+            </key-property>
+            <key-property name="username" type="string">
+                <column name="username"/>
+            </key-property>
+            <key-property name="password" type="string">
+                <column length="60" name="password"/>
+            </key-property>
+            <key-property name="status" type="int">
+                <column name="status"/>
+            </key-property>
+            <key-property name="incorrectAttempts" type="java.lang.Integer">
+                <column name="incorrect_attempts"/>
+            </key-property>
+            <key-property name="createdDate" type="timestamp">
+                <column length="19" name="created_date"/>
+            </key-property>
+            <key-property name="modifiedDate" type="timestamp">
+                <column length="19" name="modified_date"/>
+            </key-property>
+            <key-property name="userType" type="string">
+                <column length="8" name="user_type"/>
+            </key-property>
+        </composite-id>
+    </class>
+</hibernate-mapping>

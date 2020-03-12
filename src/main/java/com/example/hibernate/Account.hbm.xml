@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated Mar 11, 2020, 5:19:25 PM by Hibernate Tools 5.4.7.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class catalog="secure_banking_system" dynamic-insert="false" dynamic-update="false" mutable="true" name="com.example.hibernate.Account" optimistic-lock="version" polymorphism="implicit" select-before-update="false" table="account">
+        <id name="accountId" type="int">
+            <column name="account_id"/>
+            <generator class="assigned"/>
+        </id>
+        <many-to-one class="com.example.hibernate.User" embed-xml="true" fetch="select" insert="true" name="userByUserId" not-found="exception" optimistic-lock="true" unique="false" update="true">
+            <column name="user_id" not-null="true"/>
+        </many-to-one>
+        <many-to-one class="com.example.hibernate.User" embed-xml="true" fetch="select" insert="true" name="userByApprover" not-found="exception" optimistic-lock="true" unique="false" update="true">
+            <column name="approver"/>
+        </many-to-one>
+        <property generated="never" lazy="false" name="accountNumber" optimistic-lock="true" type="string" unique="false">
+            <column name="account_number" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="accountType" optimistic-lock="true" type="string" unique="false">
+            <column length="8" name="account_type" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="currentBalance" optimistic-lock="true" type="big_decimal" unique="false">
+            <column name="current_balance" precision="10" scale="5"/>
+        </property>
+        <property generated="never" lazy="false" name="createdDate" optimistic-lock="true" type="timestamp" unique="false">
+            <column length="19" name="created_date" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="approvalStatus" optimistic-lock="true" type="boolean" unique="false">
+            <column name="approval_status" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="interest" optimistic-lock="true" type="big_decimal" unique="false">
+            <column name="interest" precision="10" scale="5"/>
+        </property>
+        <property generated="never" lazy="false" name="approvalDate" optimistic-lock="true" type="timestamp" unique="false">
+            <column length="19" name="approval_date"/>
+        </property>
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="transactionsForFromAccount" optimistic-lock="true" sort="unsorted" table="transaction">
+            <key on-delete="noaction">
+                <column name="from_account" not-null="true"/>
+            </key>
+            <one-to-many class="com.example.hibernate.Transaction" embed-xml="true" not-found="exception"/>
+        </set>
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="transactionsForToAccount" optimistic-lock="true" sort="unsorted" table="transaction">
+            <key on-delete="noaction">
+                <column name="to_account" not-null="true"/>
+            </key>
+            <one-to-many class="com.example.hibernate.Transaction" embed-xml="true" not-found="exception"/>
+        </set>
+    </class>
+</hibernate-mapping>

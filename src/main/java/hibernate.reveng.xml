@@ -24,4 +24,7 @@
 	<table-filter match-name="user_details"
 		match-catalog="secure_banking_system">
 	</table-filter>
+	<table-filter match-name="customer"
+		match-catalog="secure_banking_system">
+	</table-filter>
 </hibernate-reverse-engineering>

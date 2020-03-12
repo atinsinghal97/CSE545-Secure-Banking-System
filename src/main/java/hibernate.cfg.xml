@@ -12,6 +12,7 @@
         <property name="hibernate.validator.apply_to_ddl">false</property>
         <mapping resource="com/example/hibernate/User.hbm.xml"/>
         <mapping resource="com/example/hibernate/Account.hbm.xml"/>
+        <mapping resource="com/example/hibernate/Customer.hbm.xml"/>
         <mapping resource="com/example/hibernate/Transaction.hbm.xml"/>
         <mapping resource="com/example/hibernate/UserDetails.hbm.xml"/>
         <mapping resource="com/example/hibernate/Appointment.hbm.xml"/>

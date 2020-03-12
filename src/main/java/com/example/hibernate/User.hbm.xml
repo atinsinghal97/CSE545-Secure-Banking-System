@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated Mar 11, 2020, 5:19:25 PM by Hibernate Tools 5.4.7.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class catalog="secure_banking_system" dynamic-insert="false" dynamic-update="false" mutable="true" name="com.example.hibernate.User" optimistic-lock="version" polymorphism="implicit" select-before-update="false" table="user">
+        <id name="userId" type="java.lang.Integer">
+            <column name="user_id"/>
+            <generator class="identity"/>
+        </id>
+        <property generated="never" lazy="false" name="username" optimistic-lock="true" type="string" unique="false">
+            <column name="username" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="password" optimistic-lock="true" type="string" unique="false">
+            <column length="60" name="password" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="status" optimistic-lock="true" type="int" unique="false">
+            <column name="status" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="incorrectAttempts" optimistic-lock="true" type="java.lang.Integer" unique="false">
+            <column name="incorrect_attempts"/>
+        </property>
+        <property generated="never" lazy="false" name="createdDate" optimistic-lock="true" type="timestamp" unique="false">
+            <column length="19" name="created_date"/>
+        </property>
+        <property generated="never" lazy="false" name="modifiedDate" optimistic-lock="true" type="timestamp" unique="false">
+            <column length="19" name="modified_date"/>
+        </property>
+        <property generated="never" lazy="false" name="userType" optimistic-lock="true" type="string" unique="false">
+            <column length="8" name="user_type"/>
+        </property>
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="accountsForUserId" optimistic-lock="true" sort="unsorted" table="account">
+            <key on-delete="noaction">
+                <column name="user_id" not-null="true"/>
+            </key>
+            <one-to-many class="com.example.hibernate.Account" embed-xml="true" not-found="exception"/>
+        </set>
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="accountsForApprover" optimistic-lock="true" sort="unsorted" table="account">
+            <key on-delete="noaction">
+                <column name="approver"/>
+            </key>
+            <one-to-many class="com.example.hibernate.Account" embed-xml="true" not-found="exception"/>
+        </set>
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="loginHistories" optimistic-lock="true" sort="unsorted" table="login_history">
+            <key on-delete="noaction">
+                <column name="user_id" not-null="true"/>
+            </key>
+            <one-to-many class="com.example.hibernate.LoginHistory" embed-xml="true" not-found="exception"/>
+        </set>
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="requestsForRequestAssignedTo" optimistic-lock="true" sort="unsorted" table="request">
+            <key on-delete="noaction">
+                <column name="request_assigned_to"/>
+            </key>
+            <one-to-many class="com.example.hibernate.Request" embed-xml="true" not-found="exception"/>
+        </set>
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="transactions" optimistic-lock="true" sort="unsorted" table="transaction">
+            <key on-delete="noaction">
+                <column name="approver" not-null="true"/>
+            </key>
+            <one-to-many class="com.example.hibernate.Transaction" embed-xml="true" not-found="exception"/>
+        </set>
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="requestsForRequestedBy" optimistic-lock="true" sort="unsorted" table="request">
+            <key on-delete="noaction">
+                <column name="requested_by" not-null="true"/>
+            </key>
+            <one-to-many class="com.example.hibernate.Request" embed-xml="true" not-found="exception"/>
+        </set>
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="appointmentsForAppointmentUserId" optimistic-lock="true" sort="unsorted" table="appointment">
+            <key on-delete="noaction">
+                <column name="appointment_user_id" not-null="true"/>
+            </key>
+            <one-to-many class="com.example.hibernate.Appointment" embed-xml="true" not-found="exception"/>
+        </set>
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="appointmentsForAssignedToUserId" optimistic-lock="true" sort="unsorted" table="appointment">
+            <key on-delete="noaction">
+                <column name="assigned_to_user_id" not-null="true"/>
+            </key>
+            <one-to-many class="com.example.hibernate.Appointment" embed-xml="true" not-found="exception"/>
+        </set>
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="userDetailses" optimistic-lock="true" sort="unsorted" table="user_details">
+            <key on-delete="noaction">
+                <column name="user_id" not-null="true"/>
+            </key>
+            <one-to-many class="com.example.hibernate.UserDetails" embed-xml="true" not-found="exception"/>
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,5 +1,5 @@
 package com.example.hibernate;
-// Generated Mar 11, 2020, 5:05:15 PM by Hibernate Tools 5.4.7.Final
+// Generated Mar 11, 2020, 5:19:25 PM by Hibernate Tools 5.4.7.Final
 
 import java.util.Date;
 import java.util.HashSet;
@@ -10,7 +10,7 @@ import java.util.Set;
  */
 public class User implements java.io.Serializable {
 
-	private int userId;
+	private Integer userId;
 	private String username;
 	private String password;
 	private int status;
@@ -31,18 +31,16 @@ public class User implements java.io.Serializable {
 	public User() {
 	}
 
-	public User(int userId, String username, String password, int status) {
-		this.userId = userId;
+	public User(String username, String password, int status) {
 		this.username = username;
 		this.password = password;
 		this.status = status;
 	}
 
-	public User(int userId, String username, String password, int status, Integer incorrectAttempts, Date createdDate,
+	public User(String username, String password, int status, Integer incorrectAttempts, Date createdDate,
 			Date modifiedDate, String userType, Set accountsForUserId, Set accountsForApprover, Set loginHistories,
 			Set requestsForRequestAssignedTo, Set transactions, Set requestsForRequestedBy,
 			Set appointmentsForAppointmentUserId, Set appointmentsForAssignedToUserId, Set userDetailses) {
-		this.userId = userId;
 		this.username = username;
 		this.password = password;
 		this.status = status;
@@ -61,11 +59,11 @@ public class User implements java.io.Serializable {
 		this.userDetailses = userDetailses;
 	}
 
-	public int getUserId() {
+	public Integer getUserId() {
 		return this.userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 
