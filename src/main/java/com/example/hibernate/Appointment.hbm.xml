@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Generated Mar 11, 2020, 5:51:53 PM by Hibernate Tools 5.4.7.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 13, 2020, 2:30:54 PM by Hibernate Tools 5.4.7.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
     <class catalog="secure_banking_system" dynamic-insert="false" dynamic-update="false" mutable="true" name="com.example.hibernate.Appointment" optimistic-lock="version" polymorphism="implicit" select-before-update="false" table="appointment">
-        <id name="appointmentId" type="int">
+        <id name="appointmentId" type="java.lang.Integer">
             <column name="appointment_id"/>
-            <generator class="assigned"/>
+            <generator class="identity"/>
         </id>
         <many-to-one class="com.example.hibernate.User" embed-xml="true" fetch="select" insert="true" name="userByAppointmentUserId" not-found="exception" optimistic-lock="true" unique="false" update="true">
             <column name="appointment_user_id" not-null="true"/>

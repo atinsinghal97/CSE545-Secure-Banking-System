@@ -1,5 +1,5 @@
 package com.example.hibernate;
-// Generated Mar 11, 2020, 5:51:53 PM by Hibernate Tools 5.4.7.Final
+// Generated Mar 13, 2020, 2:30:54 PM by Hibernate Tools 5.4.7.Final
 
 import java.util.Date;
 
@@ -8,7 +8,7 @@ import java.util.Date;
  */
 public class Appointment implements java.io.Serializable {
 
-	private int appointmentId;
+	private Integer appointmentId;
 	private User userByAppointmentUserId;
 	private User userByAssignedToUserId;
 	private Date createdDate;
@@ -17,20 +17,19 @@ public class Appointment implements java.io.Serializable {
 	public Appointment() {
 	}
 
-	public Appointment(int appointmentId, User userByAppointmentUserId, User userByAssignedToUserId, Date createdDate,
+	public Appointment(User userByAppointmentUserId, User userByAssignedToUserId, Date createdDate,
 			String appointmentStatus) {
-		this.appointmentId = appointmentId;
 		this.userByAppointmentUserId = userByAppointmentUserId;
 		this.userByAssignedToUserId = userByAssignedToUserId;
 		this.createdDate = createdDate;
 		this.appointmentStatus = appointmentStatus;
 	}
 
-	public int getAppointmentId() {
+	public Integer getAppointmentId() {
 		return this.appointmentId;
 	}
 
-	public void setAppointmentId(int appointmentId) {
+	public void setAppointmentId(Integer appointmentId) {
 		this.appointmentId = appointmentId;
 	}
 
