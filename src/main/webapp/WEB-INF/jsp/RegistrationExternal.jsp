@@ -19,8 +19,8 @@
 						      <div class="col-lg-5">
 						        <select class="form-control" name="designation" id="designation">
 						          <option value="">Select Option</option>
-						          <option value="Individual">Individual</option>
-						          <option value="Merchant">Merchant</option>
+						          <option value="customer">Individual</option>
+						          <option value="merchant">Merchant</option>
 						        </select>
 						       </div>
 						     </div>

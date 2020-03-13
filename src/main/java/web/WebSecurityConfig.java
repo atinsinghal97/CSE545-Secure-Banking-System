@@ -70,6 +70,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	        .antMatchers("/users/**").hasRole("USER")//USER role can access /users/**
 	        .antMatchers("/admin/**").hasRole("ADMIN")//ADMIN role can access /admin/**
 	        .antMatchers("/login").permitAll()// anyone can access /quests/**
+	        .antMatchers("/externalregister").permitAll()// anyone can access /quests/**
 	        .antMatchers("/register").permitAll()// anyone can access /quests/**
 	        .anyRequest().authenticated()//any other request just need authentication
 	        .and()
