@@ -1,6 +1,6 @@
 package com.example.hibernate;
 
-import java.util.List;
+// import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

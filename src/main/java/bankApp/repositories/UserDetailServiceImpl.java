@@ -1,12 +1,12 @@
 package bankApp.repositories;
 
 
-import java.awt.List;
 import java.util.Arrays;
 import java.util.Collection;
 
+import javax.persistence.NoResultException;
+
 import org.hibernate.Session;
-import org.hibernate.query.Query;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,8 +22,13 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Session s = SessionManager.getSession("");
-		User u = s.createQuery("FROM User WHERE username = :username", User.class)
-				.setParameter("username", username).getSingleResult();
+		User u = null;
+		try {
+			u = s.createQuery("FROM User WHERE username = :username", User.class)
+					.setParameter("username", username).getSingleResult();
+		} catch (NoResultException e) {
+			throw new UsernameNotFoundException("Invalid username or password.");
+		}
 
 		if(u == null){
 			throw new UsernameNotFoundException("Invalid username or password.");
