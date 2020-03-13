@@ -9,8 +9,10 @@ import javax.servlet.http.HttpSession;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +33,9 @@ import com.example.hibernate.UserDetailsId;
 
 @Controller
 public class LoginController {
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	@RequestMapping("/login")
     public String hello(final HttpServletRequest request, Model model) {
 	    HttpSession session = request.getSession(false);
@@ -69,7 +74,7 @@ public class LoginController {
 		Transaction tx = null;
 		try {
 			tx = s.beginTransaction();
-			User user = new User(username, password, userType);
+			User user = new User(username, passwordEncoder.encode(password), userType);
 			s.save(user);
 			UserDetailsId userDetailIds;
 			UserDetails userDetail;
