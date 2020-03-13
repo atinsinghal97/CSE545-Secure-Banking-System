@@ -31,20 +31,6 @@ public class LoginController {
         return "Login";
     }
 
-	@PostMapping(path = "/process_login")
-    public ModelAndView login(@RequestParam("username") final String username, @RequestParam("password") final String password, final HttpServletRequest request) {
-        UsernamePasswordAuthenticationToken authReq =
-            new UsernamePasswordAuthenticationToken(username, password);
-        System.out.println(username + ", " + password);
-        Authentication auth = authManager.authenticate(authReq);
-        SecurityContext sc = SecurityContextHolder.getContext();
-        sc.setAuthentication(auth);
-        HttpSession session = request.getSession(true);
-        session.setAttribute("SPRING_SECURITY_CONTEXT", sc);
-        
-        return new ModelAndView("redirect:/homepage");
-	}
-
 	@RequestMapping("/homepage")
     public String process(Model model,
     		@RequestParam(value="username", required=false, defaultValue="") String username,

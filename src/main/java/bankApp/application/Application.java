@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 
-@ComponentScan(basePackages = {"web"})
+@ComponentScan(basePackages = {"web", "bankApp.repositories"})
 @SpringBootApplication
 public class Application {
 
