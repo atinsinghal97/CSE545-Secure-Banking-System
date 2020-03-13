@@ -16,7 +16,7 @@
 				<h3 class="panel-title">Login Page</h3>
 			</div>
 			<div class="panel-body">
-				<form id="LoginPage" action="/login" method="post">
+				<form id="LoginPage" action="/process_login" method="post">
 					<a href="#" style="padding-left: 20px"> <img
 						src="img/av1.png" style="vertical-align: top;" width="35px"
 						height="65px" alt="avatar"></a>
@@ -26,13 +26,13 @@
 						</div>
 						<div class="form-group">
 							<label for="uname"><b>Username</b></label> <input type="text"
-								placeholder="Enter Username" id="userName" name="uname"  
+								placeholder="Enter Username" id="userName" name="username"  
 								maxlength="30" minlength="2"
 								required>
 						</div>
 						<div class="form-group">
 							<label for="psw"><b>Password</b></label> <input type="password"
-								placeholder="Enter Password" id="password" name="psw" 
+								placeholder="Enter Password" id="password" name="password" 
 								maxlength="50" minlength="2"
 								required>
 						</div>
