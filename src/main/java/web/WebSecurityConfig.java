@@ -14,6 +14,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 class PlainText implements PasswordEncoder {
 
@@ -52,6 +54,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //        .and()
 //        .withUser("admin").password(passwordEncoder().encode("adminPass")).roles("ADMIN");
     }
+
+    
+    @Bean
+    public AuthenticationSuccessHandler myAuthenticationSuccessHandler(){
+        return new AuthSuccess();
+    }
+ 
+    @Bean
+    public AuthenticationFailureHandler customAuthenticationFailureHandler() {
+        return new AuthFail();
+    }
  
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
@@ -59,13 +72,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	        .antMatchers("/users/**").hasRole("USER")//USER role can access /users/**
 	        .antMatchers("/admin/**").hasRole("ADMIN")//ADMIN role can access /admin/**
 	        .antMatchers("/login").permitAll()// anyone can access /quests/**
+	        .antMatchers("/register").permitAll()// anyone can access /quests/**
 	        .anyRequest().authenticated()//any other request just need authentication
 	        .and()
 	        .formLogin()
 	        .loginPage("/login")
 	        .loginProcessingUrl("/process_login")
-		    .defaultSuccessUrl("/homepage", true)
-	        .failureUrl("/login?error=true")
+	        .successHandler(myAuthenticationSuccessHandler())
+	        .failureHandler(customAuthenticationFailureHandler())
+		//    .defaultSuccessUrl("/homepage", true)
+	    //    .failureUrl("/login?error=true")
 		    .and()
 		    .logout()
 		    .logoutUrl("/logout");//enable form login

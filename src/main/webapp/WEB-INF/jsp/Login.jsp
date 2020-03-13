@@ -43,7 +43,7 @@
 								value="${_csrf.token}" />
 							<div class="form-group"
 								style="background-color: #f1f1f1; height: 30px">
-								<span><a href="/NewCustomerRegister">New Customer?</a></span>
+								<span><a href="/register">New Customer?</a></span>
 							</div>
 						</div>
 					</fieldset>

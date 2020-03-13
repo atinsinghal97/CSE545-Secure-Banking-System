@@ -24,10 +24,9 @@ public class LoginController {
     private AuthenticationManager authManager;
 	
 	@RequestMapping("/login")
-    public String hello(Model model,
-    		@RequestParam(value="username", required=false, defaultValue="") String username,
-    		@RequestParam(value="password", required=false, defaultValue="") String password) {
-        model.addAttribute("message", "");
+    public String hello(final HttpServletRequest request, Model model) {
+	    HttpSession session = request.getSession(false);
+        model.addAttribute("message", session.getAttribute("msg"));
         return "Login";
     }
 
