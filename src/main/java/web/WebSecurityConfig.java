@@ -25,23 +25,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
  
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-        http
-          .csrf().disable()
-          .authorizeRequests()
-          .antMatchers("/admin/**").hasRole("ADMIN")
-          .antMatchers("/anonymous*").anonymous()
-          .antMatchers("/login*").permitAll()
-          .anyRequest().authenticated()
-          .and()
-          .formLogin()
-          .loginPage("/login")
-          .loginProcessingUrl("/perform_login")
-          .defaultSuccessUrl("/homepage", true)
-          .failureUrl("/login?error=true")
-          .and()
-          .logout()
-          .logoutUrl("/perform_logout")
-          .deleteCookies("JSESSIONID");
+        http.authorizeRequests()
+	        .antMatchers("/users/**").hasRole("USER")//USER role can access /users/**
+	        .antMatchers("/admin/**").hasRole("ADMIN")//ADMIN role can access /admin/**
+	        .antMatchers("/login").permitAll()// anyone can access /quests/**
+	        .anyRequest().authenticated()//any other request just need authentication
+	        .and()
+	        .formLogin()
+		    .defaultSuccessUrl("/homepage", true)
+	        .failureUrl("/login?error=true")
+		    .and()
+		    .logout()
+		    .logoutUrl("/logout");//enable form login
     }
      
     @Bean

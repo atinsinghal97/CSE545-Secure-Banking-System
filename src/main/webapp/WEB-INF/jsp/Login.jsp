@@ -16,7 +16,7 @@
 				<h3 class="panel-title">Login Page</h3>
 			</div>
 			<div class="panel-body">
-				<form id="LoginPage" action="/perform_login" method="post">
+				<form id="LoginPage" action="/login" method="post">
 					<a href="#" style="padding-left: 20px"> <img
 						src="img/av1.png" style="vertical-align: top;" width="35px"
 						height="65px" alt="avatar"></a>

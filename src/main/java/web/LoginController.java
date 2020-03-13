@@ -19,10 +19,10 @@ public class LoginController {
         return "Login";
     }
 
-	@RequestMapping("/perform_login")
-    public boolean process(Model model,
+	@RequestMapping("/homepage")
+    public String process(Model model,
     		@RequestParam(value="username", required=false, defaultValue="") String username,
     		@RequestParam(value="password", required=false, defaultValue="") String password) {
-		return true;
+		return "CustomerDashboard";
     }
 }
