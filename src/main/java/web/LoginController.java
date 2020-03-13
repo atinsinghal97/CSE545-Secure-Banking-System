@@ -49,6 +49,9 @@ public class LoginController {
     public String process(Model model,
     		@RequestParam(value="username", required=false, defaultValue="") String username,
     		@RequestParam(value="password", required=false, defaultValue="") String password) {
+		
+		Authentication x = SecurityContextHolder.getContext().getAuthentication();
+		System.out.println(x.getName());
 		return "CustomerDashboard";
     }
 }
