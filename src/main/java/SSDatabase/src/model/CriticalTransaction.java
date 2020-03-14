@@ -49,7 +49,7 @@ public class CriticalTransaction implements Serializable {
 	private int toAccount;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.TABLE)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="transaction_id", nullable=false)
 	private int transactionId;
 

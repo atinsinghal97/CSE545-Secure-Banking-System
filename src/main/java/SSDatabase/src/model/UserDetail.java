@@ -16,7 +16,7 @@ public class UserDetail implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.TABLE)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(unique=true, nullable=false)
 	private int id;
 
@@ -67,7 +67,8 @@ public class UserDetail implements Serializable {
 	private int zip;
 
 	//bi-directional one-to-one association to User
-	@OneToOne(mappedBy="userDetail", fetch=FetchType.LAZY)
+	@OneToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="user_id", nullable=false)
 	private User user;
 
 	public UserDetail() {

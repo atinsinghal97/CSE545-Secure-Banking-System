@@ -33,7 +33,7 @@ public class Customer implements Serializable {
 	private int status;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.TABLE)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="user_id", nullable=false)
 	private int userId;
 

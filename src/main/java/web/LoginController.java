@@ -20,6 +20,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import database.SessionManager;
+import model.User;
+import model.UserDetail;
+
 @Controller
 public class LoginController {
 	@Autowired
@@ -59,33 +63,52 @@ public class LoginController {
     		@RequestParam(required = false, name="secquestion1") String secquestion1,
     		@RequestParam(required = false, name="secquestion2") String secquestion2) {
 		
-//		Session s = SessionManager.getSession("");
-//		Transaction tx = null;
-//		try {
-//			tx = s.beginTransaction();
-//			User user = new User(username, passwordEncoder.encode(password), userType);
-//			s.save(user);
-//			UserDetailsId userDetailIds;
-//			UserDetails userDetail;
-//			Date date = new SimpleDateFormat("mm-dd-yyyy").parse(dateOfBirth);
-//
-//			Integer uid = user.getUserId();
-//			System.out.println("UID AFTER SAVE: " + uid);
-//			userDetailIds = new UserDetailsId(uid, firstname, middlename, lastname, email, phone, "", address, "", "", "", 100, date, ssn, secquestion1, secquestion2);
-//			//s.save(userDetailIds);
-//			userDetail = new UserDetails(userDetailIds, user);
-//			s.save(userDetail);
-//			if (tx.isActive())
-//			    tx.commit();
-//			s.close();
-//		
-//		} catch (ParseException e) {
-//			// TODO Auto-generated catch block
-//			if (tx != null) tx.rollback();
-//			e.printStackTrace();
-//		} finally {
-//			s.close();
-//		}
+		Session s = SessionManager.getSession("");
+		Transaction tx = null;
+		try {
+			tx = s.beginTransaction();
+			User user = new User();
+			user.setUsername(username);
+			user.setPassword(passwordEncoder.encode(password));
+			user.setUserType(userType);
+			s.save(user);
+			UserDetail userDetail;
+			Date date = new SimpleDateFormat("mm-dd-yyyy").parse(dateOfBirth);
+
+			Integer uid = user.getUserId();
+			System.out.println("UID AFTER SAVE: " + uid);
+			userDetail = new UserDetail();
+			userDetail.setUser(user);
+			userDetail.setFirstName(firstname);
+			userDetail.setMiddleName(middlename);
+			userDetail.setLastName(lastname);
+			userDetail.setEmail(email);
+			userDetail.setPhone(phone);
+			userDetail.setAddress1(address);
+			userDetail.setAddress2("");
+			userDetail.setCity("");
+			userDetail.setDateOfBirth(date);
+			userDetail.setProvince("");
+			userDetail.setSsn(ssn);
+			userDetail.setTier("");
+			userDetail.setZip(100);
+			userDetail.setQuestion1(secquestion1);
+			userDetail.setQuestion2(secquestion2);
+			s.save(userDetail);
+			if (tx.isActive())
+			    tx.commit();
+			s.close();
+		
+		} catch (ParseException e) {
+			if (tx != null) tx.rollback();
+			e.printStackTrace();
+		} catch (Exception e) {
+			if (tx != null) tx.rollback();
+			e.printStackTrace();
+		}
+		finally {
+			s.close();
+		}
 		
 		return new ModelAndView("redirect:/login");
     }

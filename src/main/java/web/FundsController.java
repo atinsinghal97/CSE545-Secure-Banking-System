@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.hibernate.SessionManager;
-import com.example.hibernate.User;
+import database.SessionManager;
+import model.User;
 
 @Controller
 public class FundsController {

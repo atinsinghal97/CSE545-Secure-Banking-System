@@ -1,4 +1,4 @@
-package com.example.hibernate;
+package database;
 
 // import java.util.List;
 

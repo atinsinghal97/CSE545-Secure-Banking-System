@@ -15,7 +15,7 @@ public class Request implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.TABLE)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="request_id", unique=true, nullable=false)
 	private int requestId;
 

@@ -17,7 +17,7 @@ public class Transaction implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.TABLE)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="transaction_id", unique=true, nullable=false)
 	private int transactionId;
 
