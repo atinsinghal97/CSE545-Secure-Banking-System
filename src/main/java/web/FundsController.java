@@ -82,6 +82,8 @@ public class FundsController {
 		try {
 			tx = s.beginTransaction();
 			ProcedureCall call = s.createStoredProcedureCall("create_user_transaction");
+			call.registerParameter("transfer_type", String.class, ParameterMode.IN).bindValue("transfer");
+			call.registerParameter("from_username", String.class, ParameterMode.IN).bindValue(x.getName());
 			call.registerParameter("from_account", Integer.class, ParameterMode.IN).bindValue(fromAccount);
 			call.registerParameter("to_account", Integer.class, ParameterMode.IN).bindValue(toAccount);
 			call.registerParameter("amount", Double.class, ParameterMode.IN).bindValue(amount);

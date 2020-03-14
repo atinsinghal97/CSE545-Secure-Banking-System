@@ -58,10 +58,10 @@ CREATE TABLE `secure_banking_system`.`transaction` (
   amount DECIMAL(10, 5),
   is_critical_transaction BOOLEAN NOT NULL,
   requested_date DATETIME NOT NULL DEFAULT NOW(),
-  decision_date DATETIME NOT NULL DEFAULT NOW(),
+  decision_date DATETIME DEFAULT NULL,
   from_account INT NOT NULL,
   to_account INT NOT NULL,
-  approver INT NOT NULL, /* final approval which should trigger transfer. Tier 2 can directly approve critical transactions no problem. */
+  approver INT DEFAULT NULL, /* final approval which should trigger transfer. Tier 2 can directly approve critical transactions no problem. */
   level_1_approval BOOLEAN DEFAULT NULL, /* Customer approval */
   level_2_approval BOOLEAN DEFAULT NULL, /* Tier 2 employee approval */
   FOREIGN KEY (from_account) REFERENCES `secure_banking_system`.`account`(account_id),
@@ -121,30 +121,38 @@ CREATE VIEW `secure_banking_system`.`non_critical_transaction` AS SELECT * FROM 
 DELIMITER $$
 
 CREATE PROCEDURE `secure_banking_system`.`create_user_transaction` (
+	IN transfer_type ENUM('cc', 'debit', 'transfer'),
+	IN from_username VARCHAR(255),
 	IN from_account INT,
 	IN to_account INT,
 	IN amount DECIMAL,
 	OUT status INT)
 BEGIN
-	DECLARE total_amount_transferred_today DECIMAL(10, 5) DEFAULT 0;
+	DECLARE total_amount_transferred_today DECIMAL(30, 5) DEFAULT 0;
+	DECLARE user_count INT;
+			
 	SELECT SUM(amount) 
 		INTO total_amount_transferred_today 
 		FROM `secure_banking_system`.`transaction` AS t 
-		WHERE t.transaction_type = "transfer" 
+		WHERE t.transaction_type = transfer_type 
 			AND t.from_account = from_account
-			AND t.decision_date >= CURDATE() AND t.decision_date < CURDATE() + INTERVAL 1 DAY;
-	
-	IF (SELECT COUNT(*) FROM `secure_banking_system`.`user` WHERE user_id = to_account OR user_id = from_account) != 2 THEN
+			AND DATE(t.requested_date) = CURDATE();
+
+	SELECT COUNT(*) INTO user_count
+		FROM `secure_banking_system`.`user` AS u
+		WHERE (u.user_id = from_account AND u.username = from_username AND u.status = 1) OR (u.user_id = to_account AND u.status = 1);
+
+	IF user_count != 2 THEN
 		SET status = 3;
-	ELSEIF total_amount_transferred_today > 1000.0 THEN
+	ELSEIF (total_amount_transferred_today >= 1000.0 OR amount >= 1000.0) THEN
 		INSERT INTO `secure_banking_system`.`transaction` (transaction_type, approval_status, amount, is_critical_transaction, from_account, to_account, level_1_approval, level_2_approval)
-			VALUES("transfer", FALSE, amount, TRUE, from_account, to_account, FALSE, FALSE);
+			VALUES(transfer_type, FALSE, amount, TRUE, from_account, to_account, FALSE, FALSE);
 		SET status = 1;
 	ELSEIF (SELECT IFNULL(current_balance, 0) FROM `secure_banking_system`.`account` WHERE user_id = from_account) < amount THEN
 		SET status = 2;
 	ELSE
 		INSERT INTO `secure_banking_system`.`transaction` (transaction_type, approval_status, amount, is_critical_transaction, from_account, to_account, level_1_approval, level_2_approval)
-			VALUES("transfer", FALSE, amount, FALSE, from_account, to_account, FALSE, FALSE);
+			VALUES(transfer_type, FALSE, amount, FALSE, from_account, to_account, FALSE, FALSE);
 		SET status = 0;
 	END IF;
 END$$
