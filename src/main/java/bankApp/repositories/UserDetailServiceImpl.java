@@ -15,7 +15,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import com.example.hibernate.SessionManager;
-import com.example.hibernate.User;
+
+import model.User;
 
 @Component(value = "userDetailService")
 public class UserDetailServiceImpl implements UserDetailsService {

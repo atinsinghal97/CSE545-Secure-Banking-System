@@ -20,17 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.example.hibernate.AdminId;
-import com.example.hibernate.Customer;
-import com.example.hibernate.CustomerId;
-import com.example.hibernate.MerchantId;
-import com.example.hibernate.SessionManager;
-import com.example.hibernate.Tier1Id;
-import com.example.hibernate.Tier2Id;
-import com.example.hibernate.User;
-import com.example.hibernate.UserDetails;
-import com.example.hibernate.UserDetailsId;
-
 @Controller
 public class LoginController {
 	@Autowired
@@ -70,33 +59,33 @@ public class LoginController {
     		@RequestParam(required = false, name="secquestion1") String secquestion1,
     		@RequestParam(required = false, name="secquestion2") String secquestion2) {
 		
-		Session s = SessionManager.getSession("");
-		Transaction tx = null;
-		try {
-			tx = s.beginTransaction();
-			User user = new User(username, passwordEncoder.encode(password), userType);
-			s.save(user);
-			UserDetailsId userDetailIds;
-			UserDetails userDetail;
-			Date date = new SimpleDateFormat("mm-dd-yyyy").parse(dateOfBirth);
-
-			Integer uid = user.getUserId();
-			System.out.println("UID AFTER SAVE: " + uid);
-			userDetailIds = new UserDetailsId(uid, firstname, middlename, lastname, email, phone, "", address, "", "", "", 100, date, ssn, secquestion1, secquestion2);
-			//s.save(userDetailIds);
-			userDetail = new UserDetails(userDetailIds, user);
-			s.save(userDetail);
-			if (tx.isActive())
-			    tx.commit();
-			s.close();
-		
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			if (tx != null) tx.rollback();
-			e.printStackTrace();
-		} finally {
-			s.close();
-		}
+//		Session s = SessionManager.getSession("");
+//		Transaction tx = null;
+//		try {
+//			tx = s.beginTransaction();
+//			User user = new User(username, passwordEncoder.encode(password), userType);
+//			s.save(user);
+//			UserDetailsId userDetailIds;
+//			UserDetails userDetail;
+//			Date date = new SimpleDateFormat("mm-dd-yyyy").parse(dateOfBirth);
+//
+//			Integer uid = user.getUserId();
+//			System.out.println("UID AFTER SAVE: " + uid);
+//			userDetailIds = new UserDetailsId(uid, firstname, middlename, lastname, email, phone, "", address, "", "", "", 100, date, ssn, secquestion1, secquestion2);
+//			//s.save(userDetailIds);
+//			userDetail = new UserDetails(userDetailIds, user);
+//			s.save(userDetail);
+//			if (tx.isActive())
+//			    tx.commit();
+//			s.close();
+//		
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			if (tx != null) tx.rollback();
+//			e.printStackTrace();
+//		} finally {
+//			s.close();
+//		}
 		
 		return new ModelAndView("redirect:/login");
     }

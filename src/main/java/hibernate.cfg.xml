@@ -10,25 +10,26 @@
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="hibernate.search.autoregister_listeners">true</property>
         <property name="hibernate.validator.apply_to_ddl">false</property>
-        <mapping resource="com/example/hibernate/User.hbm.xml"/>
-        <mapping resource="com/example/hibernate/CriticalTransaction.hbm.xml"/>
-        <mapping resource="com/example/hibernate/Customer.hbm.xml"/>
-        <mapping resource="com/example/hibernate/TransferTransaction.hbm.xml"/>
-        <mapping resource="com/example/hibernate/UserDetails.hbm.xml"/>
-        <mapping resource="com/example/hibernate/Admin.hbm.xml"/>
-        <mapping resource="com/example/hibernate/ChequeTransaction.hbm.xml"/>
-        <mapping resource="com/example/hibernate/Appointment.hbm.xml"/>
-        <mapping resource="com/example/hibernate/CheckingAccount.hbm.xml"/>
-        <mapping resource="com/example/hibernate/Request.hbm.xml"/>
-        <mapping resource="com/example/hibernate/SavingsAccount.hbm.xml"/>
-        <mapping resource="com/example/hibernate/CreditAccount.hbm.xml"/>
-        <mapping resource="com/example/hibernate/Account.hbm.xml"/>
-        <mapping resource="com/example/hibernate/DebitTransaction.hbm.xml"/>
-        <mapping resource="com/example/hibernate/Tier2.hbm.xml"/>
-        <mapping resource="com/example/hibernate/NonCriticalTransaction.hbm.xml"/>
-        <mapping resource="com/example/hibernate/Tier1.hbm.xml"/>
-        <mapping resource="com/example/hibernate/Merchant.hbm.xml"/>
-        <mapping resource="com/example/hibernate/Transaction.hbm.xml"/>
-        <mapping resource="com/example/hibernate/LoginHistory.hbm.xml"/>
+        
+        <mapping class="model.User" />
+        <mapping class="model.Account" />
+        <mapping class="model.Admin" />
+        <mapping class="model.Appointment" />
+        <mapping class="model.CheckingAccount" />
+        <mapping class="model.ChequeTransaction" />
+        <mapping class="model.CreditAccount" />
+        <mapping class="model.CriticalTransaction" />
+        <mapping class="model.Customer" />
+        <mapping class="model.DebitTransaction" />
+        <mapping class="model.LoginHistory" />
+        <mapping class="model.Merchant" />
+        <mapping class="model.NonCriticalTransaction" />
+        <mapping class="model.Request" />
+        <mapping class="model.SavingsAccount" />
+        <mapping class="model.Tier1" />
+        <mapping class="model.Tier2" />
+        <mapping class="model.Transaction" />
+        <mapping class="model.TransferTransaction" />
+        <mapping class="model.UserDetail" />
     </session-factory>
 </hibernate-configuration>
