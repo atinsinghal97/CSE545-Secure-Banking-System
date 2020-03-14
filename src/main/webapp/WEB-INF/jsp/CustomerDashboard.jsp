@@ -12,5 +12,11 @@
 <body onload="loadError()">
 
 <h1>HELLO</h1>
+
+<form method="post" action="/perform_logout" id="form-logout">
+	<button type="submit">Logout</button>
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>         
+</form>
+
 </body>
 </html>
