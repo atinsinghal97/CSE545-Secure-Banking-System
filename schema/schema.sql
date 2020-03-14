@@ -16,6 +16,7 @@ CREATE TABLE `secure_banking_system`.`user` (
 );
 
 CREATE TABLE `secure_banking_system`.`user_details` (
+  id INT PRIMARY KEY AUTO_INCREMENT,
   user_id INT NOT NULL,
   first_name VARCHAR(255) NOT NULL,
   middle_name VARCHAR(255) DEFAULT NULL,
@@ -40,7 +41,7 @@ CREATE TABLE `secure_banking_system`.`account` (
   user_id INT NOT NULL,
   account_number VARCHAR(255) NOT NULL,
   account_type ENUM('savings', 'checking', 'credit') NOT NULL,
-  current_balance DECIMAL(10, 5) DEFAULT 0.0,
+  current_balance DECIMAL(30, 5) DEFAULT 0.0,
   created_date DATETIME NOT NULL DEFAULT NOW(),
   approval_status BOOLEAN NOT NULL,
   interest DECIMAL(10, 5) DEFAULT 0.0,
@@ -90,6 +91,7 @@ CREATE TABLE `secure_banking_system`.`request` (
 );
 
 CREATE TABLE `secure_banking_system`.`login_history` (
+  id INT PRIMARY KEY AUTO_INCREMENT, 
   user_id INT NOT NULL,
   logged_in DATETIME NOT NULL DEFAULT NOW(),
   logged_out DATETIME DEFAULT NULL,
@@ -135,10 +137,14 @@ BEGIN
 	IF (SELECT COUNT(*) FROM `secure_banking_system`.`user` WHERE user_id = to_account OR user_id = from_account) != 2 THEN
 		SET status = 3;
 	ELSEIF total_amount_transferred_today > 1000.0 THEN
+		INSERT INTO `secure_banking_system`.`transaction` (transaction_type, approval_status, amount, is_critical_transaction, from_account, to_account, level_1_approval, level_2_approval)
+			VALUES("transfer", FALSE, amount, TRUE, from_account, to_account, FALSE, FALSE);
 		SET status = 1;
-	ELSEIF (SELECT current_balance FROM `secure_banking_system`.`account` WHERE user_id = from_account) < amount THEN
+	ELSEIF (SELECT IFNULL(current_balance, 0) FROM `secure_banking_system`.`account` WHERE user_id = from_account) < amount THEN
 		SET status = 2;
 	ELSE
+		INSERT INTO `secure_banking_system`.`transaction` (transaction_type, approval_status, amount, is_critical_transaction, from_account, to_account, level_1_approval, level_2_approval)
+			VALUES("transfer", FALSE, amount, FALSE, from_account, to_account, FALSE, FALSE);
 		SET status = 0;
 	END IF;
 END$$

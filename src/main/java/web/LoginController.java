@@ -1,7 +1,9 @@
 package web;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import database.SessionManager;
+import model.Account;
+import model.Request;
 import model.User;
 import model.UserDetail;
 
@@ -50,18 +54,18 @@ public class LoginController {
 	@RequestMapping(value = "/externalregister", method = RequestMethod.POST)
     public ModelAndView register(
     		@RequestParam(required = true, name="designation") String userType,
-    		@RequestParam(required = false, name="firstname") String firstname,
-    		@RequestParam(required = false, name="middlename") String middlename,
-    		@RequestParam(required = false, name="lastname") String lastname,
-    		@RequestParam(required = false, name="username") String username,
-    		@RequestParam(required = false, name="password") String password,
-    		@RequestParam(required = false, name="email") String email,
-    		@RequestParam(required = false, name="address") String address,
-    		@RequestParam(required = false, name="phone") String phone,
-    		@RequestParam(required = false, name="date_of_birth") String dateOfBirth,
-    		@RequestParam(required = false, name="ssn") String ssn,
-    		@RequestParam(required = false, name="secquestion1") String secquestion1,
-    		@RequestParam(required = false, name="secquestion2") String secquestion2) {
+    		@RequestParam(required = true, name="firstname") String firstname,
+    		@RequestParam(required = true, name="middlename") String middlename,
+    		@RequestParam(required = true, name="lastname") String lastname,
+    		@RequestParam(required = true, name="username") String username,
+    		@RequestParam(required = true, name="password") String password,
+    		@RequestParam(required = true, name="email") String email,
+    		@RequestParam(required = true, name="address") String address,
+    		@RequestParam(required = true, name="phone") String phone,
+    		@RequestParam(required = true, name="date_of_birth") String dateOfBirth,
+    		@RequestParam(required = true, name="ssn") String ssn,
+    		@RequestParam(required = true, name="secquestion1") String secquestion1,
+    		@RequestParam(required = true, name="secquestion2") String secquestion2) {
 		
 		Session s = SessionManager.getSession("");
 		Transaction tx = null;
@@ -95,6 +99,23 @@ public class LoginController {
 			userDetail.setQuestion1(secquestion1);
 			userDetail.setQuestion2(secquestion2);
 			s.save(userDetail);
+			
+			Request r = new Request();
+			r.setUser2(user);
+			r.setTypeOfRequest(0);
+			r.setTypeOfAccount("savings");
+			s.save(r);
+			
+			Account a = new Account();
+			a.setUser2(user);
+			a.setAccountNumber("1234");
+			a.setAccountType("savings");
+			a.setApprovalStatus(false);
+			a.setInterest(new BigDecimal(0.8));
+			a.setCreatedDate(new Date());
+			a.setCurrentBalance(new BigDecimal(100000));
+			s.save(a);
+			
 			if (tx.isActive())
 			    tx.commit();
 			s.close();

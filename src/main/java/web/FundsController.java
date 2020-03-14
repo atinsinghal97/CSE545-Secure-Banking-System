@@ -22,8 +22,8 @@ public class FundsController {
 	@RequestMapping(value = "/transfer", method = RequestMethod.POST)
     public String transfer(
     		@RequestParam(required = true, name="from_account") Integer fromAccount,
-    		@RequestParam(required = false, name="to_account") Integer toAccount,
-    		@RequestParam(required = false, name="amount") Double amount) {
+    		@RequestParam(required = true, name="to_account") Integer toAccount,
+    		@RequestParam(required = true, name="amount") Double amount) {
 		Authentication x = SecurityContextHolder.getContext().getAuthentication();
 		if (x == null || !x.isAuthenticated()) {
 			return "";
