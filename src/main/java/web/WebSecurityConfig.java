@@ -73,6 +73,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	        .antMatchers("/login").permitAll()// anyone can access /quests/**
 	        .antMatchers("/externalregister").permitAll()// anyone can access /quests/**
 	        .antMatchers("/register").permitAll()// anyone can access /quests/**
+	        .antMatchers("/transfer").permitAll()// anyone can access /quests/**
 	        .anyRequest().authenticated()//any other request just need authentication
 	        .and()
 	        .formLogin()

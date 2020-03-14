@@ -115,3 +115,32 @@ CREATE VIEW `secure_banking_system`.`debit_transaction` AS SELECT * FROM `secure
 
 CREATE VIEW `secure_banking_system`.`critical_transaction` AS SELECT * FROM `secure_banking_system`.`transaction` WHERE is_critical_transaction = TRUE;
 CREATE VIEW `secure_banking_system`.`non_critical_transaction` AS SELECT * FROM `secure_banking_system`.`transaction` WHERE is_critical_transaction = FALSE;
+
+DELIMITER $$
+
+CREATE PROCEDURE `secure_banking_system`.`create_user_transaction` (
+	IN from_account INT,
+	IN to_account INT,
+	IN amount DECIMAL,
+	OUT status INT)
+BEGIN
+	DECLARE total_amount_transferred_today DECIMAL(10, 5) DEFAULT 0;
+	SELECT SUM(amount) 
+		INTO total_amount_transferred_today 
+		FROM `secure_banking_system`.`transaction` AS t 
+		WHERE t.transaction_type = "transfer" 
+			AND t.from_account = from_account
+			AND t.decision_date >= CURDATE() AND t.decision_date < CURDATE() + INTERVAL 1 DAY;
+	
+	IF (SELECT COUNT(*) FROM `secure_banking_system`.`user` WHERE user_id = to_account OR user_id = from_account) != 2 THEN
+		SET status = 3;
+	ELSEIF total_amount_transferred_today > 1000.0 THEN
+		SET status = 1;
+	ELSEIF (SELECT current_balance FROM `secure_banking_system`.`account` WHERE user_id = from_account) < amount THEN
+		SET status = 2;
+	ELSE
+		SET status = 0;
+	END IF;
+END$$
+
+DELIMITER ;
