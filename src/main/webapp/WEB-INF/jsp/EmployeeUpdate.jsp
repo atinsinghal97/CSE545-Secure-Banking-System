@@ -16,13 +16,13 @@
 	  			 <div class="form-group">
 						      <label for="username_search" class="col-lg-2 control-label">User Name</label>
 						      <div class="col-lg-5">
-						        <input type="text" class="form-control" id="username_search" name="username_search" placeholder="User Name" required>
+						        <input type="text" class="form-control" id="username_search" name="username_search" placeholder="User Name" required value=<%=request.getAttribute("empusernamesearch")%> >
 						      </div>
 						    </div>
 						    <div class="form-group">
 						      <div class="col-lg-7 col-lg-offset-2">
 						      	<button type="reset" class="btn btn-default">Reset</button>
-						        <button id="emp_update_search" name="action" value="emp_update_search">Search</button>
+						        <button id="emp_update_search" name="action" value="emp_update_search" href="/search">Search</button>
 						        <input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 						      </div>
 						      <div>
