@@ -79,6 +79,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	        .antMatchers("/ChangeValue").permitAll()
 	        .antMatchers("/Appointment").permitAll()
 	        .antMatchers("/AppointmentCreate").permitAll()
+	        .antMatchers("/Download").permitAll()
 	        .anyRequest().authenticated()//any other request just need authentication
 	        .and()
 	        .formLogin()
