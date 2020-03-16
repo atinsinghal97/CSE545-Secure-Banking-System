@@ -46,17 +46,18 @@ public class EmployeeUpdate {
 //	        if (msg != null)
 //	        	session.removeAttribute("msg");
 //	    }
+	   
 	    
 	    Session s = SessionManager.getSession("");
 		User u = null;
 	
 			u = s.createQuery("FROM User WHERE username = :username", User.class)
 					.setParameter("username", "test").getSingleResult();
-		
+//		
 		System.out.println("USER: " + u.getUsername());
 		
 		Integer uid = u.getUserId();
-		System.out.println(uid);
+		//System.out.println(uid);
 		
 		UserDetail ud = new UserDetail();
 		ud = s.createQuery("FROM UserDetail WHERE user_id = :uid", UserDetail.class)
@@ -71,6 +72,127 @@ public class EmployeeUpdate {
 		
 		
         return "EmployeeUpdate";
+    }
+	
+	@RequestMapping(value = "/Search", method = RequestMethod.POST)
+    public String updateSearch(final HttpServletRequest request, Model model) {
+		String username=request.getParameter("username_search");
+//	    HttpSession session = request.getSession(false);
+//	    String h=request.getParameter("emp_update_search");
+
+//	    if (session != null) {
+//		    Object msg = session.getAttribute("username");
+//	        model.addAttribute("empusername", session.getAttribute("username"));
+//	        if (msg != null)
+//	        	session.removeAttribute("msg");
+//	    }
+
+//	    
+	    Session s = SessionManager.getSession("");
+		User u = null;
+	
+		
+			u=s.createQuery("FROM User WHERE username = :username", User.class)
+					.setParameter("username", username).getSingleResult();
+			
+		System.out.println("USER: " + u.getUsername());
+	
+			Integer uid = u.getUserId();
+		
+		System.out.println(uid);
+		
+		UserDetail ud = new UserDetail();
+		ud = s.createQuery("FROM UserDetail WHERE user_id = :uid", UserDetail.class)
+				.setParameter("uid", uid).getSingleResult();
+		model.addAttribute("empusername", username);
+		model.addAttribute("Email",ud.getEmail());
+		model.addAttribute("FirstName",ud.getFirstName());
+		model.addAttribute("LastName",ud.getLastName());
+		model.addAttribute("MiddleName",ud.getMiddleName());
+		model.addAttribute("Phone",ud.getPhone());
+		model.addAttribute("DOB",ud.getDateOfBirth());
+		
+		
+		
+		
+		
+		
+		
+        return "EmployeeUpdate";
+    }
+	
+	@RequestMapping(value = "/ChangeValue", method = RequestMethod.POST)
+    public ModelAndView changeValue(final HttpServletRequest request, Model model)  {
+		System.out.println(request);
+		String username=request.getParameter("empusername");
+		String email=request.getParameter("email");
+		String firstName=request.getParameter("firstname");
+		String lastName=request.getParameter("lastname");
+		String middleName=request.getParameter("middlename");
+		String phone=request.getParameter("phone");
+		//String dateOfBirth=request.getParameter("DOB");
+		
+		System.out.println(username);
+		System.out.println(email);
+		System.out.println(firstName);
+		System.out.println(lastName);
+		System.out.println(middleName);
+		System.out.println(phone);
+		//System.out.println(dateOfBirth);
+		
+		
+		//Date date = new SimpleDateFormat("mm-dd-yyyy").parse(dateOfBirth);
+		
+		 Session s = SessionManager.getSession("");
+		 
+		 User u = null;
+		
+			u=s.createQuery("FROM User WHERE username = :username", User.class)
+					.setParameter("username", username).getSingleResult();
+			
+			System.out.println("USER: " + u.getUsername());
+			
+			
+	
+		
+			Integer uid = u.getUserId();
+		
+		System.out.println(uid);
+		Transaction tx = null;
+		tx = s.beginTransaction();
+		UserDetail ud = new UserDetail();
+		ud = s.createQuery("FROM UserDetail WHERE user_id = :uid", UserDetail.class)
+		.setParameter("uid", uid).getSingleResult();
+		
+		ud.setEmail(email);
+		ud.setFirstName(firstName);
+		ud.setLastName(lastName);
+		ud.setMiddleName(middleName);
+		ud.setPhone(phone);
+		//ud.setDateOfBirth(date);
+		System.out.println(ud.getEmail());
+	
+		
+		s.saveOrUpdate(ud);
+		
+		
+		
+
+		if (tx.isActive())
+		    tx.commit();
+		s.close();
+    
+		
+	   
+			
+
+		
+		
+		
+		
+		
+		
+		return new ModelAndView("redirect:/homepage");
     }
 	
 	

@@ -75,6 +75,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	        .antMatchers("/externalregister").permitAll()// anyone can access /quests/**
 	        .antMatchers("/register").permitAll()// anyone can access /quests/**
 	        .antMatchers("/Update").permitAll()
+	        .antMatchers("/Search").permitAll()
+	        .antMatchers("/ChangeValue").permitAll()
 	        .anyRequest().authenticated()//any other request just need authentication
 	        .and()
 	        .formLogin()
