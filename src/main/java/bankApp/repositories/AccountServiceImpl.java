@@ -3,8 +3,7 @@ package bankApp.repositories;
 import java.util.Date;
 import java.util.Optional;
 
-import bankApp.model.Account;
-import bankApp.model.User;
+import bankApp.model.*;
 
 public class AccountServiceImpl {
 	

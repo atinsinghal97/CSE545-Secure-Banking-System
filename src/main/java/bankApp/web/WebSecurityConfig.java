@@ -1,4 +1,4 @@
-package web;
+package bankApp.web;
 
 import javax.annotation.Resource;
 
