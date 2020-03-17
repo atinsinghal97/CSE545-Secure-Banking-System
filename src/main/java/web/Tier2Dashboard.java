@@ -44,6 +44,14 @@ public class Tier2Dashboard {
         
     }
 	
+	@RequestMapping("/Tier2SearchAccount")
+    public String tier2SearchAccount(final HttpServletRequest request, Model model) {
+		
+        return "Tier2SearchAccount";
+  
+        
+    }
+	
 	
 	
 	
