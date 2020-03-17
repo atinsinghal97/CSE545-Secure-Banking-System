@@ -36,6 +36,15 @@ public class Tier2Dashboard {
     }
 	
 	
+	@RequestMapping("/Tier2PendingAccounts")
+    public String tier2PendingAccounts(final HttpServletRequest request, Model model) {
+		
+        return "Tier2PendingAccounts";
+  
+        
+    }
+	
+	
 	
 	
 	
