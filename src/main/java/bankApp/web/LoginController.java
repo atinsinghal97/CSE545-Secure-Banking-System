@@ -11,8 +11,6 @@ import javax.servlet.http.HttpSession;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -133,11 +131,4 @@ public class LoginController {
 		return new ModelAndView("redirect:/login");
     }
 
-	@RequestMapping("/homepage")
-    public String home(final HttpServletRequest request, Model model) {
-		
-		Authentication x = SecurityContextHolder.getContext().getAuthentication();
-		System.out.println(x.getName());
-		return "CustomerDashboard";
-    }
 }
