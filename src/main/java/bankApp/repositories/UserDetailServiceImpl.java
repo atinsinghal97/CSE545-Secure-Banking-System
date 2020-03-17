@@ -14,9 +14,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import database.SessionManager;
-
-import model.User;
+import bankApp.model.User;
+import bankApp.session.SessionManager;
 
 @Component(value = "userDetailService")
 public class UserDetailServiceImpl implements UserDetailsService {

@@ -1,4 +1,4 @@
-package web;
+package bankApp.web;
 
 import javax.annotation.Resource;
 
@@ -74,12 +74,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	        .antMatchers("/login").permitAll()// anyone can access /quests/**
 	        .antMatchers("/externalregister").permitAll()// anyone can access /quests/**
 	        .antMatchers("/register").permitAll()// anyone can access /quests/**
+<<<<<<< HEAD:src/main/java/web/WebSecurityConfig.java
 	        .antMatchers("/Update").permitAll()
 	        .antMatchers("/Search").permitAll()
 	        .antMatchers("/ChangeValue").permitAll()
 	        .antMatchers("/Appointment").permitAll()
 	        .antMatchers("/AppointmentCreate").permitAll()
 	        .antMatchers("/Download").permitAll()
+=======
+	        .antMatchers("/Tier1Dashboard").permitAll()
+	        .antMatchers("/Tier1PendingTransactions").permitAll()
+	        .antMatchers("/Tier1UpdatePassword").permitAll()
+	        .antMatchers("/Tier1DepositMoney").permitAll()
+	        .antMatchers("/Tier1WithdrawMoney").permitAll()
+	        .antMatchers("/IssueCheque").permitAll()
+>>>>>>> 1351654b0bb3ddd5fa37423cde212f14d68eae66:src/main/java/bankApp/web/WebSecurityConfig.java
 	        .anyRequest().authenticated()//any other request just need authentication
 	        .and()
 	        .formLogin()
