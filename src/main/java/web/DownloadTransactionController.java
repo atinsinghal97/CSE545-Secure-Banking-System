@@ -57,7 +57,7 @@ import java.nio.file.Files;
 public class DownloadTransactionController {
 
 	@RequestMapping("/Download")
-    public void home(final HttpServletRequest request, Model model) throws FileNotFoundException, DocumentException {
+    public String home(final HttpServletRequest request, Model model) throws FileNotFoundException, DocumentException {
 		ArrayList<User> u=new ArrayList<>();
 		
 		Session s = SessionManager.getSession("");
@@ -94,73 +94,10 @@ public class DownloadTransactionController {
         my_pdf_report.close();
         
         s.close();
+        return "CutomerDashBoard";
         
       }
-	
-	
-	
 
-	
-//	@RequestMapping(value = "/AppointmentCreate", method = RequestMethod.POST)
-//    public ModelAndView changeValue(final HttpServletRequest request, Model model) throws ParseException  {
-//		System.out.println(request);
-//		String username="test";
-//		String status=request.getParameter("appointment");
-//		String dateapp=request.getParameter("schedule_date");
-//		//String dateOfBirth=request.getParameter("DOB");
-//		
-//	
-//		System.out.println(dateapp);
-//		
-//		
-//		Date date = new SimpleDateFormat("mm-dd-yyyy").parse(dateapp);
-//		
-//		 Session s = SessionManager.getSession("");
-//		 
-//		 User u = null;
-//		
-//			u=s.createQuery("FROM User WHERE username = :username", User.class)
-//					.setParameter("username", username).getSingleResult();
-//			
-//			System.out.println("USER: " + u.getUsername());
-//			
-//			
-//	
-//		
-//			Integer uid = u.getUserId();
-//		
-//		System.out.println(uid);
-//		Transaction tx = null;
-//		
-//		tx = s.beginTransaction();
-//		Appointment app=new Appointment(); 
-//		app.setUser1(u);
-//		app.setUser2(u);
-//		app.setCreatedDate(date);
-//		app.setAppointmentStatus(status);
-//	
-//		
-//		s.saveOrUpdate(app);
-//		
-//		
-//		
-//
-//		if (tx.isActive())
-//		    tx.commit();
-//		s.close();
-//    
-//		
-//	   
-//			
-//
-//		
-//		
-//		
-//		
-//		
-//		
-//		return new ModelAndView("redirect:/homepage");
-//    }
 	
 	
 	

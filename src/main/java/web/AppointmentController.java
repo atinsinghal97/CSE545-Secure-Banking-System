@@ -48,8 +48,10 @@ public class AppointmentController {
 	
 	@RequestMapping(value = "/AppointmentCreate", method = RequestMethod.POST)
     public ModelAndView changeValue(final HttpServletRequest request, Model model) throws ParseException  {
-		System.out.println(request);
-		String username="test";
+		
+		
+		
+		String username="test";//Have harcoded test now.Username should be got from the httpsession
 		String status=request.getParameter("appointment");
 		String dateapp=request.getParameter("schedule_date");
 		//String dateOfBirth=request.getParameter("DOB");
