@@ -27,6 +27,14 @@ public class Tier2Dashboard {
         
     }
 	
+	@RequestMapping("/Tier2UpdatePassword")
+    public String tier2UpdatePassword(final HttpServletRequest request, Model model) {
+		
+        return "Tier2UpdatePassword";
+  
+        
+    }
+	
 	
 	
 	
