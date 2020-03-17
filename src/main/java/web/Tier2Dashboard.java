@@ -53,6 +53,16 @@ public class Tier2Dashboard {
     }
 	
 	
+	@RequestMapping("/Tier2DeleteAccount")
+    public String tier2DeleteAccount(final HttpServletRequest request, Model model) {
+		
+        return "/Tier2DeleteAccount";
+  
+        
+    }
+	
+	
+	
 	
 	
 	
