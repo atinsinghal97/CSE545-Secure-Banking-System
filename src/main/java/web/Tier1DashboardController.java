@@ -1,4 +1,4 @@
-package bankApp.web;
+package web;
 
 import java.util.List;
 
@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import bankApp.model.Tier1;
-import bankApp.model.Transaction;
-import bankApp.session.SessionManager;
+import model.Tier1;
+import model.Transaction;
+import database.SessionManager;
 
 @Controller
 public class Tier1DashboardController {

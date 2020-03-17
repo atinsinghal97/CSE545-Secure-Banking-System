@@ -1,4 +1,4 @@
-package bankApp.web;
+package web;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -11,6 +11,8 @@ import javax.servlet.http.HttpSession;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,11 +21,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import bankApp.model.Account;
-import bankApp.model.Request;
-import bankApp.model.User;
-import bankApp.model.UserDetail;
-import bankApp.session.SessionManager;
+import database.SessionManager;
+import model.Account;
+import model.Request;
+import model.User;
+import model.UserDetail;
 
 @Controller
 public class LoginController {
@@ -131,4 +133,11 @@ public class LoginController {
 		return new ModelAndView("redirect:/login");
     }
 
+	@RequestMapping("/homepage")
+    public String home(final HttpServletRequest request, Model model) {
+		
+		Authentication x = SecurityContextHolder.getContext().getAuthentication();
+		System.out.println(x.getName());
+		return "CustomerDashboard";
+    }
 }

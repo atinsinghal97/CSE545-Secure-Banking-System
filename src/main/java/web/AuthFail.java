@@ -1,4 +1,4 @@
-package bankApp.web;
+package web;
 
 import java.io.IOException;
 

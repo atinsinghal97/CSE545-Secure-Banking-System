@@ -1,4 +1,4 @@
-package bankApp.web;
+package web;
 
 import java.math.BigDecimal;
 
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import bankApp.model.Account;
-import bankApp.session.SessionManager;
+import model.Account;
+import database.SessionManager;
 
 public class TransactionController {
 	@RequestMapping(value = "/debit_transfer", method = RequestMethod.POST)

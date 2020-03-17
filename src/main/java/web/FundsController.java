@@ -1,4 +1,4 @@
-package bankApp.web;
+package web;
 
 import javax.persistence.ParameterMode;
 
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import bankApp.model.Account;
-import bankApp.session.SessionManager;
+import database.SessionManager;
+import model.Account;
 
 @Controller
 public class FundsController {
@@ -40,7 +40,7 @@ public class FundsController {
 		Transaction tx = null;
 		try {
 			tx = s.beginTransaction();
-			bankApp.model.Transaction txn = s.get(bankApp.model.Transaction.class, txnId);
+			model.Transaction txn = s.get(model.Transaction.class, txnId);
 			txn.setApprovalStatus(approval);
 			s.update(txn);
 			
