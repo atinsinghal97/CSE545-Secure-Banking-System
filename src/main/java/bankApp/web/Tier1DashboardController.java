@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,6 +22,45 @@ import bankApp.session.SessionManager;
 
 @Controller
 public class Tier1DashboardController {
+	
+	@RequestMapping(value = "/tier1_dashboard", method = RequestMethod.POST)
+	public String dashboard(HttpServletRequest request, HttpSession session, Model model) {
+		return "Tier1Dashboard";
+		
+	}
+	
+	@RequestMapping(value = "/pending_transaction", method = RequestMethod.POST)
+	public String pendingTransactions(HttpServletRequest request, HttpSession session, Model model) {
+		return "Tier1PendingTransactions";
+		
+	}
+	
+	@RequestMapping(value = "/issue_cheque", method = RequestMethod.POST)
+	public String issueCheque(HttpServletRequest request, HttpSession session, Model model) {
+		return "Tier1IssueCheque";
+		
+	}
+	
+	@RequestMapping(value = "/deposit_money", method = RequestMethod.POST)
+	public String depositAmount(HttpServletRequest request, HttpSession session, Model model) {
+		return "Tier1DepositAmount";
+		
+	}
+	
+	@RequestMapping(value = "/withdraw_money", method = RequestMethod.POST)
+	public String withdrawAmount(HttpServletRequest request, HttpSession session, Model model) {
+		return "Tier1WithdrawAmount";
+		
+	}
+	
+	@RequestMapping(value = "/update_password", method = RequestMethod.POST)
+	public String updatePassword(HttpServletRequest request, HttpSession session, Model model) {
+		return "Tier1UpdatePassword";
+		
+	}
+	
+	
+	/*
 	@Autowired
 	@RequestMapping(value = "/tier1_dashboard", method = RequestMethod.POST)
 	public ModelAndView Dashboard(HttpServletRequest request, HttpSession session){
@@ -102,5 +142,7 @@ public class Tier1DashboardController {
 			return new ModelAndView("redirect:/login");
 		}
 	}
+	
+	*/
 	
 }
