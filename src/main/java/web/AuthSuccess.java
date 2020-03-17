@@ -53,7 +53,10 @@ public class AuthSuccess implements AuthenticationSuccessHandler {
           } else if (grantedAuthority.getAuthority().equals("ROLE_ADMIN")) {
               isAdmin = true;
               break;
+          }else if(grantedAuthority.getAuthority().equals("tier1")){
+        	  return "Tier1Dashboard";
           }
+          
       }
 
       if (isUser) {
