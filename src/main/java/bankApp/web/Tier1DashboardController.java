@@ -23,42 +23,42 @@ import bankApp.session.SessionManager;
 @Controller
 public class Tier1DashboardController {
 	
-	@RequestMapping(value = "/tier1_dashboard", method = RequestMethod.POST)
-	public String dashboard(HttpServletRequest request, HttpSession session, Model model) {
+	@RequestMapping(value = "/Tier1Dashboard")
+	public String dashboard(final HttpServletRequest request, HttpSession session, Model model) {
 		return "Tier1Dashboard";
 		
 	}
 	
-	@RequestMapping(value = "/pending_transaction", method = RequestMethod.POST)
+	@RequestMapping(value = "/Tier1PendingTransactions")
 	public String pendingTransactions(HttpServletRequest request, HttpSession session, Model model) {
 		return "Tier1PendingTransactions";
 		
 	}
 	
-	@RequestMapping(value = "/issue_cheque", method = RequestMethod.POST)
+	@RequestMapping(value = "/IssueCheque")
 	public String issueCheque(HttpServletRequest request, HttpSession session, Model model) {
-		return "Tier1IssueCheque";
+		return "IssueCheque";
 		
 	}
 	
-	@RequestMapping(value = "/deposit_money", method = RequestMethod.POST)
+	@RequestMapping(value = "/Tier1DepositMoney")
 	public String depositAmount(HttpServletRequest request, HttpSession session, Model model) {
-		return "Tier1DepositAmount";
+		return "Tier1DepositMoney";
 		
 	}
 	
-	@RequestMapping(value = "/withdraw_money", method = RequestMethod.POST)
+	@RequestMapping(value = "/Tier1WithdrawMoney")
 	public String withdrawAmount(HttpServletRequest request, HttpSession session, Model model) {
-		return "Tier1WithdrawAmount";
+		return "Tier1WithdrawMoney";
 		
 	}
-	
-	@RequestMapping(value = "/update_password", method = RequestMethod.POST)
+
+	@RequestMapping(value = "/Tier1UpdatePassword")
 	public String updatePassword(HttpServletRequest request, HttpSession session, Model model) {
 		return "Tier1UpdatePassword";
 		
 	}
-	
+
 	
 	/*
 	@Autowired

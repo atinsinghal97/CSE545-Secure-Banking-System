@@ -74,6 +74,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	        .antMatchers("/login").permitAll()// anyone can access /quests/**
 	        .antMatchers("/externalregister").permitAll()// anyone can access /quests/**
 	        .antMatchers("/register").permitAll()// anyone can access /quests/**
+	        .antMatchers("/Tier1Dashboard").permitAll()
+	        .antMatchers("/Tier1PendingTransactions").permitAll()
+	        .antMatchers("/Tier1UpdatePassword").permitAll()
+	        .antMatchers("/Tier1DepositMoney").permitAll()
+	        .antMatchers("/Tier1WithdrawMoney").permitAll()
+	        .antMatchers("/IssueCheque").permitAll()
 	        .anyRequest().authenticated()//any other request just need authentication
 	        .and()
 	        .formLogin()
