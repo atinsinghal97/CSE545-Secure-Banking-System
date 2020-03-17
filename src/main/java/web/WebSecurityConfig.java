@@ -80,6 +80,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	        .antMatchers("/Appointment").permitAll()
 	        .antMatchers("/AppointmentCreate").permitAll()
 	        .antMatchers("/Download").permitAll()
+	        .antMatchers("/Tier2Dashboard").permitAll()
+	        .antMatchers("/Tier2PendingTransaction").permitAll() 
+	        .antMatchers("/Tier2UpdatePassword").permitAll() 
+	        .antMatchers("/Tier2PendingAccounts").permitAll() 
+	        .antMatchers("/Tier2SearchAccount").permitAll()
+	        .antMatchers("/Tier2DeleteAccount").permitAll()
 	        .anyRequest().authenticated()//any other request just need authentication
 	        .and()
 	        .formLogin()
