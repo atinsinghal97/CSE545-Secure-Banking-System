@@ -13,10 +13,21 @@ public class Tier2Dashboard {
 	
 	
 	@RequestMapping("/Tier2Dashboard")
-    public String updatePage(final HttpServletRequest request, Model model) {
+    public String tier2Page(final HttpServletRequest request, Model model) {
 		
         return "Tier2Dashboard";
+        
     }
+	
+	@RequestMapping("/Tier2PendingTransaction")
+    public String tier2PendingTransaction(final HttpServletRequest request, Model model) {
+		
+        return "Tier2PendingTransaction";
+  
+        
+    }
+	
+	
 	
 	
 	
