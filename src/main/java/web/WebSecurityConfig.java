@@ -80,7 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	        .antMatchers("/Appointment").permitAll()
 	        .antMatchers("/AppointmentCreate").permitAll()
 	        .antMatchers("/Download").permitAll()
-	        .antMatchers("/Tier1Dashboard").permitAll()
+	        .antMatchers("/Tier1Dashboard").hasAuthority("tier1")
 	        .antMatchers("/Tier1PendingTransactions").permitAll()
 	        .antMatchers("/Tier1UpdatePassword").permitAll()
 	        .antMatchers("/Tier1DepositMoney").permitAll()
