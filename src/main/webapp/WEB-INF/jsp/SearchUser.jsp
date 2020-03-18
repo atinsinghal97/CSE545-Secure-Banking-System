@@ -49,6 +49,8 @@
 									<label>Username:</label> <label>${entry.username}</label>
 								</div>
 
+								<br>
+
 								<div>
 									<label>First Name: </label> <label> ${entry.firstName}</label>
 								</div>
@@ -59,13 +61,17 @@
 									<label>Last Name: </label> <label>${entry.lastName}</label>
 								</div>
 
-								<div>
-									<label>E-mail: </label> <label>${entry.email}</label>
-								</div>
+								<br>
 
 								<div>
 									<label>Phone: </label> <label>${entry.phoneNumber}</label>
 								</div>
+
+								<br>
+
+								<div>
+									<label>E-mail: </label> <label>${entry.email}</label>
+								</div>								
 							</div>
 						</div>
 					</div>
