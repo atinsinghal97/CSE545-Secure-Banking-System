@@ -108,7 +108,7 @@ public class CreateAccountController {
 			Account a = new Account();
 			a.setUser2(customer);
 			a.setAccountNumber("1234");
-			a.setAccountType("savings");
+			a.setAccountType(accType);
 			a.setApprovalStatus(false);
 			a.setInterest(new BigDecimal(0.8));
 			a.setCreatedDate(new Date());
