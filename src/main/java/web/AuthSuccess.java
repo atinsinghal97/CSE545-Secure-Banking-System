@@ -59,7 +59,7 @@ public class AuthSuccess implements AuthenticationSuccessHandler {
       if (isUser) {
           return "/homepage?user=true";
       } else if (isAdmin) {
-          return "/adminDashboard.html";
+          return "/admin.html";
       } else {
           throw new IllegalStateException();
       }
