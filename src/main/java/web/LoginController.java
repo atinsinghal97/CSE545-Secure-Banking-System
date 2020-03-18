@@ -1,5 +1,6 @@
 package web;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,16 +21,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.example.hibernate.AdminId;
-import com.example.hibernate.Customer;
-import com.example.hibernate.CustomerId;
-import com.example.hibernate.MerchantId;
-import com.example.hibernate.SessionManager;
-import com.example.hibernate.Tier1Id;
-import com.example.hibernate.Tier2Id;
-import com.example.hibernate.User;
-import com.example.hibernate.UserDetails;
-import com.example.hibernate.UserDetailsId;
+import database.SessionManager;
+import model.Account;
+import model.Request;
+import model.User;
+import model.UserDetail;
 
 @Controller
 public class LoginController {
@@ -57,44 +53,80 @@ public class LoginController {
 	@RequestMapping(value = "/externalregister", method = RequestMethod.POST)
     public ModelAndView register(
     		@RequestParam(required = true, name="designation") String userType,
-    		@RequestParam(required = false, name="firstname") String firstname,
-    		@RequestParam(required = false, name="middlename") String middlename,
-    		@RequestParam(required = false, name="lastname") String lastname,
-    		@RequestParam(required = false, name="username") String username,
-    		@RequestParam(required = false, name="password") String password,
-    		@RequestParam(required = false, name="email") String email,
-    		@RequestParam(required = false, name="address") String address,
-    		@RequestParam(required = false, name="phone") String phone,
-    		@RequestParam(required = false, name="date_of_birth") String dateOfBirth,
-    		@RequestParam(required = false, name="ssn") String ssn,
-    		@RequestParam(required = false, name="secquestion1") String secquestion1,
-    		@RequestParam(required = false, name="secquestion2") String secquestion2) {
+    		@RequestParam(required = true, name="firstname") String firstname,
+    		@RequestParam(required = true, name="middlename") String middlename,
+    		@RequestParam(required = true, name="lastname") String lastname,
+    		@RequestParam(required = true, name="username") String username,
+    		@RequestParam(required = true, name="password") String password,
+    		@RequestParam(required = true, name="email") String email,
+    		@RequestParam(required = true, name="address") String address,
+    		@RequestParam(required = true, name="phone") String phone,
+    		@RequestParam(required = true, name="date_of_birth") String dateOfBirth,
+    		@RequestParam(required = true, name="ssn") String ssn,
+    		@RequestParam(required = true, name="secquestion1") String secquestion1,
+    		@RequestParam(required = true, name="secquestion2") String secquestion2) {
 		
 		Session s = SessionManager.getSession("");
 		Transaction tx = null;
 		try {
 			tx = s.beginTransaction();
-			User user = new User(username, passwordEncoder.encode(password), userType);
+			User user = new User();
+			user.setUsername(username);
+			user.setPassword(passwordEncoder.encode(password));
+			user.setUserType(userType);
 			s.save(user);
-			UserDetailsId userDetailIds;
-			UserDetails userDetail;
+			UserDetail userDetail;
 			Date date = new SimpleDateFormat("mm-dd-yyyy").parse(dateOfBirth);
 
 			Integer uid = user.getUserId();
 			System.out.println("UID AFTER SAVE: " + uid);
-			userDetailIds = new UserDetailsId(uid, firstname, middlename, lastname, email, phone, "", address, "", "", "", 100, date, ssn, secquestion1, secquestion2);
-			//s.save(userDetailIds);
-			userDetail = new UserDetails(userDetailIds, user);
+			userDetail = new UserDetail();
+			userDetail.setUser(user);
+			userDetail.setFirstName(firstname);
+			userDetail.setMiddleName(middlename);
+			userDetail.setLastName(lastname);
+			userDetail.setEmail(email);
+			userDetail.setPhone(phone);
+			userDetail.setAddress1(address);
+			userDetail.setAddress2("");
+			userDetail.setCity("");
+			userDetail.setDateOfBirth(date);
+			userDetail.setProvince("");
+			userDetail.setSsn(ssn);
+			userDetail.setTier("");
+			userDetail.setZip(100);
+			userDetail.setQuestion1(secquestion1);
+			userDetail.setQuestion2(secquestion2);
 			s.save(userDetail);
+			
+			Request r = new Request();
+			r.setUser2(user);
+			r.setTypeOfRequest(0);
+			r.setTypeOfAccount("savings");
+			s.save(r);
+			
+			Account a = new Account();
+			a.setUser2(user);
+			a.setAccountNumber("1234");
+			a.setAccountType("savings");
+			a.setApprovalStatus(false);
+			a.setInterest(new BigDecimal(0.8));
+			a.setCreatedDate(new Date());
+			a.setCurrentBalance(new BigDecimal(100000));
+			s.save(a);
+			
 			if (tx.isActive())
 			    tx.commit();
 			s.close();
 		
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			if (tx != null) tx.rollback();
 			e.printStackTrace();
-		} finally {
+		} catch (Exception e) {
+			if (tx != null) tx.rollback();
+			e.printStackTrace();
+		}
+		finally {
 			s.close();
 		}
 		

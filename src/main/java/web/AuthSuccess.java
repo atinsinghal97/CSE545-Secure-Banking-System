@@ -43,6 +43,8 @@ public class AuthSuccess implements AuthenticationSuccessHandler {
   protected String determineTargetUrl(Authentication authentication) {
       boolean isUser = false;
       boolean isAdmin = false;
+      boolean isTier2=false;
+    
       Collection<? extends GrantedAuthority> authorities
        = authentication.getAuthorities();
       for (GrantedAuthority grantedAuthority : authorities) {
@@ -53,14 +55,26 @@ public class AuthSuccess implements AuthenticationSuccessHandler {
           } else if (grantedAuthority.getAuthority().equals("ROLE_ADMIN")) {
               isAdmin = true;
               break;
+          }else if(grantedAuthority.getAuthority().equals("tier1")){
+        	  return "/Tier1Dashboard";
           }
+          else if (grantedAuthority.getAuthority().equals("tier2")) {
+        	  isTier2 = true;
+              break;
+          }
+
       }
 
       if (isUser) {
           return "/homepage?user=true";
       } else if (isAdmin) {
           return "/adminDashboard.html";
-      } else {
+      } 
+      else if(isTier2)
+      {
+    	  return "/Tier2Dashboard";
+      }
+      else {
           throw new IllegalStateException();
       }
   }

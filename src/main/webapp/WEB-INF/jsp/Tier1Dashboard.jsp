@@ -12,13 +12,16 @@
     	<tr>
 	           <td>
                  <h2>TIER-1 Dashboard</h2>
+                  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
+
               </td>
             </tr>
             <tr>
             <td>${message}</td>
             </tr>
     	</table>
- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
  </form>
 </body>
 </html>

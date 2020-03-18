@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
-@ComponentScan(basePackages = {"web", "bankApp.repositories"})
+@ComponentScan(basePackages = {"web", "bankApp.repositories", "model"})
 @SpringBootApplication
 public class Application {
 

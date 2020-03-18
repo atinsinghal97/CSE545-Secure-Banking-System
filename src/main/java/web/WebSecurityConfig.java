@@ -67,12 +67,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
  
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http.csrf().disable()
+        .authorizeRequests()
 	        .antMatchers("/users/**").hasRole("USER")//USER role can access /users/**
-	        .antMatchers("/admin/**").hasRole("ADMIN")//ADMIN role can access /admin/**
+	        .antMatchers("/admin/**").hasRole("ADMIN")
 	        .antMatchers("/login").permitAll()// anyone can access /quests/**
 	        .antMatchers("/externalregister").permitAll()// anyone can access /quests/**
 	        .antMatchers("/register").permitAll()// anyone can access /quests/**
+	        .antMatchers("/Update").permitAll()
+	        .antMatchers("/Search").permitAll()
+	        .antMatchers("/ChangeValue").permitAll()
+	        .antMatchers("/Appointment").permitAll()
+	        .antMatchers("/AppointmentCreate").permitAll()
+	        .antMatchers("/Download").permitAll()
+	        .antMatchers("/Tier1Dashboard").hasAuthority("tier1")
+	        .antMatchers("/Tier1PendingTransactions").hasAuthority("tier1")
+	        .antMatchers("/Tier1UpdatePassword").hasAuthority("tier1")
+	        .antMatchers("/Tier1DepositMoney").hasAuthority("tier1")
+	        .antMatchers("/Tier1WithdrawMoney").hasAuthority("tier1")
+	        .antMatchers("/IssueCheque").hasAuthority("tier1")
+	        .antMatchers("/Tier2Dashboard").hasAuthority("tier2")
+	        .antMatchers("/Tier2PendingTransaction").hasAuthority("tier2")
+	        .antMatchers("/Tier2UpdatePassword").hasAuthority("tier2")
+	        .antMatchers("/Tier2PendingAccounts").hasAuthority("tier2")
+	        .antMatchers("/Tier2SearchAccount").hasAuthority("tier2")
+	        .antMatchers("/Tier2DeleteAccount").hasAuthority("tier2")
 	        .anyRequest().authenticated()//any other request just need authentication
 	        .and()
 	        .formLogin()
