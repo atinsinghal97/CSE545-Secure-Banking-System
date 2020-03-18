@@ -19,6 +19,11 @@
             <td>${message}</td>
             </tr>
     </table>
+    <a href="/adminViewAccounts">View</a>
+    <a href="/adminCreateAccounts">Create</a>
+    <a href="/adminModifyAccounts">Modify</a>
+    <a href="/adminDeleteAccounts">Delete</a>
+    <a href="/systemLogs">Logs</a>
  </form>
 </body>
 </html>
