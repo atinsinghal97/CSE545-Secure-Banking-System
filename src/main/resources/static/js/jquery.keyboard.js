@@ -1,4 +1,4 @@
-/*! jQuery UI Virtual Keyboard v1.28.9 *//*
+/*! jQuery UI Virtual Keyboard v1.30.1 *//*
 Author: Jeremy Satterfield
 Maintained: Rob Garrison (Mottie on github)
 Licensed under the MIT License
@@ -42,7 +42,7 @@ http://www.opensource.org/licenses/mit-license.php
 	var $keyboard = $.keyboard = function (el, options) {
 	var o, base = this;
 
-	base.version = '1.28.9';
+	base.version = '1.30.1';
 
 	// Access to jQuery and DOM versions of element
 	base.$el = $(el);
@@ -53,9 +53,23 @@ http://www.opensource.org/licenses/mit-license.php
 
 	base.init = function () {
 		base.initialized = false;
+		base.isTextArea = base.el.nodeName.toLowerCase() === 'textarea';
+		base.isInput = base.el.nodeName.toLowerCase() === 'input';
+		// detect contenteditable
+		base.isContentEditable = !base.isTextArea &&
+			!base.isInput &&
+			base.el.isContentEditable;
+
 		var k, position, tmp,
 			kbcss = $keyboard.css,
 			kbevents = $keyboard.events;
+		if (
+			base.isInput &&
+			$.inArray((base.el.type || '').toLowerCase(), $keyboard.supportedInputTypes) < 0
+		) {
+			throw new TypeError('Input of type "' + base.el.type + '" is not supported; use type text, search, URL, tel or password');
+		}
+
 		base.settings = options || {};
 		// shallow copy position to prevent performance issues; see #357
 		if (options && options.position) {
@@ -90,15 +104,9 @@ http://www.opensource.org/licenses/mit-license.php
 		// flag indication that a keyboard is open
 		base.isOpen = false;
 		// is mousewheel plugin loaded?
-		base.wheel = $.isFunction($.fn.mousewheel);
+		base.wheel = typeof $.fn.mousewheel === 'function';
 		// special character in regex that need to be escaped
 		base.escapeRegex = /[-\/\\^$*+?.()|[\]{}]/g;
-		base.isTextArea = base.el.nodeName.toLowerCase() === 'textarea';
-		base.isInput = base.el.nodeName.toLowerCase() === 'input';
-		// detect contenteditable
-		base.isContentEditable = !base.isTextArea &&
-			!base.isInput &&
-			base.el.isContentEditable;
 
 		// keyCode of keys always allowed to be typed
 		k = $keyboard.keyCodes;
@@ -154,7 +162,7 @@ http://www.opensource.org/licenses/mit-license.php
 			kbevents.kbBeforeClose,
 			kbevents.inputRestricted
 		], function (i, callback) {
-			if ($.isFunction(o[callback])) {
+			if (typeof o[callback] === 'function') {
 				// bind callback functions within options to triggered events
 				base.$el.bind(callback + base.namespace + 'callbacks', o[callback]);
 			}
@@ -267,6 +275,7 @@ http://www.opensource.org/licenses/mit-license.php
 		$('.' + kbcss.hasFocus).removeClass(kbcss.hasFocus);
 
 		base.$el.addClass(kbcss.isCurrent);
+		base.$preview.focus();
 		base.$keyboard.addClass(kbcss.hasFocus);
 		base.isCurrent(true);
 		base.isOpen = true;
@@ -313,7 +322,7 @@ http://www.opensource.org/licenses/mit-license.php
 	};
 
 	base.focusOn = function () {
-		if (!base && base.el.active) {
+		if (!base || !base.el.active) {
 			// keyboard was destroyed
 			return;
 		}
@@ -503,7 +512,7 @@ http://www.opensource.org/licenses/mit-license.php
 		// some languages include a dash, e.g. 'en-gb' or 'fr-ca'
 		// allow o.language to be a string or array...
 		// array is for future expansion where a layout can be set for multiple languages
-		lang = ($.isArray(lang) ? lang[0] : lang);
+		lang = (Object.prototype.toString.call(lang) === '[object Array]' ? lang[0] : lang);
 		base.language = lang;
 		lang = lang.split('-')[0];
 
@@ -549,7 +558,7 @@ http://www.opensource.org/licenses/mit-license.php
 
 			base.updateLanguage();
 			if (typeof $keyboard.builtLayouts[base.layout] === 'undefined') {
-				if ($.isFunction(o.create)) {
+				if (typeof o.create === 'function') {
 					// create must call buildKeyboard() function; or create it's own keyboard
 					base.$keyboard = o.create(base);
 				} else if (!base.$keyboard.length) {
@@ -625,11 +634,6 @@ http://www.opensource.org/licenses/mit-license.php
 				.attr('tabindex', '-1')
 				.show(); // for hidden inputs
 			base.preview = base.$preview[0];
-
-			// Switch the number input field to text so the caret positioning will work again
-			if (base.preview.type === 'number') {
-				base.preview.type = 'text';
-			}
 
 			// remove extraneous attributes.
 			removedAttr = /^(data-|id|aria-haspopup)/i;
@@ -938,14 +942,14 @@ http://www.opensource.org/licenses/mit-license.php
 
 				// change callback is no longer bound to the input element as the callback could be
 				// called during an external change event with all the necessary parameters (issue #157)
-				if ($.isFunction(o.change)) {
+				if (typeof o.change === 'function') {
 					event.type = $keyboard.events.inputChange;
 					o.change(event, base, base.el);
 					return false;
 				}
 				if (o.acceptValid && o.autoAcceptOnValid) {
 					if (
-						$.isFunction(o.validate) &&
+						typeof o.validate === 'function' &&
 						o.validate(base, base.getValue(base.$preview))
 					) {
 						base.$preview.blur();
@@ -1149,7 +1153,7 @@ http://www.opensource.org/licenses/mit-license.php
 				// keyaction is added as a string, override original action & text
 				if (action === last.key && typeof $keyboard.keyaction[action] === 'string') {
 					last.key = action = $keyboard.keyaction[action];
-				} else if (action in $keyboard.keyaction && $.isFunction($keyboard.keyaction[action])) {
+				} else if (action in $keyboard.keyaction && typeof $keyboard.keyaction[action] === 'function') {
 					// stop processing if action returns false (close & cancel)
 					if ($keyboard.keyaction[action](base, this, e) === false) {
 						return false;
@@ -1178,7 +1182,7 @@ http://www.opensource.org/licenses/mit-license.php
 				last.preVal = '' + last.val;
 				base.saveLastChange();
 
-				if ($.isFunction(o.change)) {
+				if (typeof o.change === 'function') {
 					e.type = $keyboard.events.inputChange;
 					o.change(e, base, base.el);
 					// return false to prevent reopening keyboard if base.accept() was called
@@ -1218,7 +1222,7 @@ http://www.opensource.org/licenses/mit-license.php
 				clearTimeout(base.repeater); // make sure key repeat stops!
 				if (o.acceptValid && o.autoAcceptOnValid) {
 					if (
-						$.isFunction(o.validate) &&
+						typeof o.validate === 'function' &&
 						o.validate(base, base.getValue())
 					) {
 						base.$preview.blur();
@@ -1674,7 +1678,7 @@ http://www.opensource.org/licenses/mit-license.php
 		var kbcss = $keyboard.css,
 			$accept = base.$keyboard.find('.' + kbcss.keyPrefix + 'accept'),
 			valid = true;
-		if ($.isFunction(o.validate)) {
+		if (typeof o.validate === 'function') {
 			valid = o.validate(base, base.getValue(), false);
 		}
 		// toggle accept button classes; defined in the css
@@ -1726,7 +1730,7 @@ http://www.opensource.org/licenses/mit-license.php
 	// goToNext = true, then go to next input; if false go to prev
 	// isAccepted is from autoAccept option or true if user presses shift+enter
 	base.switchInput = function (goToNext, isAccepted) {
-		if ($.isFunction(o.switchInput)) {
+		if (typeof o.switchInput === 'function') {
 			o.switchInput(base, goToNext, isAccepted);
 		} else {
 			// base.$keyboard may be an empty array - see #275 (apod42)
@@ -1775,7 +1779,7 @@ http://www.opensource.org/licenses/mit-license.php
 				kbevents = $keyboard.events,
 				val = accepted ? base.checkCombos() : base.originalContent;
 			// validate input if accepted
-			if (accepted && $.isFunction(o.validate) && !o.validate(base, val, true)) {
+			if (accepted && typeof o.validate === 'function' && !o.validate(base, val, true)) {
 				val = base.originalContent;
 				accepted = false;
 				if (o.cancelClose) {
@@ -1953,21 +1957,21 @@ http://www.opensource.org/licenses/mit-license.php
 	};
 
 	base.processKeys = function (name) {
-		var tmp,
-			// Don't split colons followed by //, e.g. https://; Fixes #555
-			parts = name.split(/:(?!\/\/)/),
+		var tmp, parts,
 			htmlIndex = name.indexOf('</'),
-			colonIndex = name.indexOf(':', name.indexOf('<')),
 			data = {
-				name: null,
+				name: name,
 				map: '',
 				title: ''
 			};
-		if (htmlIndex > -1 && (colonIndex < 0 || colonIndex > htmlIndex)) {
-			// html includes colons; see #701
-			data.name = name;
+		if (htmlIndex > -1) {
+			// If it looks like HTML, skip processing; see #743
+			// html may include colons; see #701
 			return data;
 		}
+		// Don't split colons followed by //, e.g. https://; Fixes #555
+		parts = name.split(/:(?!\/\/)/);
+
 		/* map defined keys
 		format 'key(A):Label_for_key_(ignore_parentheses_here)'
 			'key' = key that is seen (can any character(s); but it might need to be escaped using '\'
@@ -2074,12 +2078,8 @@ http://www.opensource.org/licenses/mit-license.php
 		// add the wide class
 		keyClass += (keys.name.length > 2 ? ' ' + kbcss.keyWide : '') + ' ' + o.css.buttonDefault;
 
-		data.html = '<span class="' + kbcss.keyText + '">' +
-			// this prevents HTML from being added to the key
-			keys.name.replace(/[\u00A0-\u9999]/gim, function (i) {
-				return '&#' + i.charCodeAt(0) + ';';
-			}) +
-			'</span>';
+		// Allow HTML in the key.name
+		data.html = '<span class="' + kbcss.keyText + '">' + keys.name + '</span>';
 
 		data.$key = base.keyBtn
 			.clone()
@@ -2435,6 +2435,9 @@ http://www.opensource.org/licenses/mit-license.php
 		if (base.$keyboard.length) {
 			base.removeKeyboard();
 		}
+		if (base.options.openOn) {
+			base.removeBindings(base.options.openOn);
+		}
 		base.removeBindings(base.namespace);
 		base.removeBindings(base.namespace + 'callbacks');
 		for (index = 0; index < len; index++) {
@@ -2684,7 +2687,8 @@ http://www.opensource.org/licenses/mit-license.php
 			base.showSet();
 		},
 		sign: function (base) {
-			if (/^[+-]?\d*\.?\d*$/.test(base.getValue())) {
+			var signRegex = base.decimal ? /^[+-]?\d*\.?\d*$/ : /^[+-]?\d*,?\d*$/;
+			if (signRegex.test(base.getValue())) {
 				var caret,
 					p = $keyboard.caret(base.$preview),
 					val = base.getValue(),
@@ -3138,6 +3142,14 @@ http://www.opensource.org/licenses/mit-license.php
 		}
 
 	};
+
+	$keyboard.supportedInputTypes = [
+		'text',
+		'search',
+		'url',
+		'tel',
+		'password'
+	];
 
 	// for checking combos
 	$keyboard.comboRegex = /([`\'~\^\"ao])([a-z])/mig;
