@@ -19,41 +19,32 @@ public class Account implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="account_id", unique=true, nullable=false)
-	private int accountId;
+	private Integer id;
 
-	@Column(name="account_number", nullable=false, length=255)
+	@Column(name="account_number")
 	private String accountNumber;
 
-	@Column(name="account_type", nullable=false, length=1)
+	@Column(name="account_type")
 	private String accountType;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="approval_date")
 	private Date approvalDate;
 
-	@Column(name="approval_status", nullable=false)
-	private boolean approvalStatus;
-
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="created_date", nullable=false)
+	@Column(name="created_date")
 	private Date createdDate;
 
-	@Column(name="current_balance", precision=10, scale=5)
+	@Column(name="current_balance")
 	private BigDecimal currentBalance;
 
-	@Column(precision=10, scale=5)
 	private BigDecimal interest;
 
-	//bi-directional many-to-one association to User
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="approver")
-	private User user1;
+	private Integer status;
 
 	//bi-directional many-to-one association to User
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="user_id", nullable=false)
-	private User user2;
+	@ManyToOne
+	private User user;
 
 	//bi-directional many-to-one association to Transaction
 	@OneToMany(mappedBy="account1")
@@ -66,12 +57,12 @@ public class Account implements Serializable {
 	public Account() {
 	}
 
-	public int getAccountId() {
-		return this.accountId;
+	public Integer getId() {
+		return this.id;
 	}
 
-	public void setAccountId(int accountId) {
-		this.accountId = accountId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getAccountNumber() {
@@ -98,14 +89,6 @@ public class Account implements Serializable {
 		this.approvalDate = approvalDate;
 	}
 
-	public boolean getApprovalStatus() {
-		return this.approvalStatus;
-	}
-
-	public void setApprovalStatus(boolean approvalStatus) {
-		this.approvalStatus = approvalStatus;
-	}
-
 	public Date getCreatedDate() {
 		return this.createdDate;
 	}
@@ -130,20 +113,20 @@ public class Account implements Serializable {
 		this.interest = interest;
 	}
 
-	public User getUser1() {
-		return this.user1;
+	public Integer getStatus() {
+		return this.status;
 	}
 
-	public void setUser1(User user1) {
-		this.user1 = user1;
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
-	public User getUser2() {
-		return this.user2;
+	public User getUser() {
+		return this.user;
 	}
 
-	public void setUser2(User user2) {
-		this.user2 = user2;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public List<Transaction> getTransactions1() {

@@ -18,59 +18,46 @@ public class Transaction implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="transaction_id", unique=true, nullable=false)
-	private int transactionId;
+	private Integer id;
 
-	@Column(precision=10, scale=5)
 	private BigDecimal amount;
 
-	@Column(name="approval_status", nullable=false)
-	private boolean approvalStatus;
+	@Column(name="approval_status")
+	private Boolean approvalStatus;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="decision_date", nullable=false)
+	@Column(name="decision_date")
 	private Date decisionDate;
 
-	@Column(name="is_critical_transaction", nullable=false)
-	private boolean isCriticalTransaction;
-
-	@Column(name="level_1_approval")
-	private boolean level1Approval;
-
-	@Column(name="level_2_approval")
-	private boolean level2Approval;
+	@Column(name="is_critical_transaction")
+	private Boolean isCriticalTransaction;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="requested_date", nullable=false)
+	@Column(name="requested_date")
 	private Date requestedDate;
 
-	@Column(name="transaction_type", nullable=false, length=1)
+	@Column(name="transaction_type")
 	private String transactionType;
 
 	//bi-directional many-to-one association to Account
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="from_account", nullable=false)
+	@ManyToOne
+	@JoinColumn(name="from_account")
 	private Account account1;
 
 	//bi-directional many-to-one association to Account
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="to_account", nullable=false)
+	@ManyToOne
+	@JoinColumn(name="to_account")
 	private Account account2;
-
-	//bi-directional many-to-one association to User
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="approver", nullable=false)
-	private User user;
 
 	public Transaction() {
 	}
 
-	public int getTransactionId() {
-		return this.transactionId;
+	public Integer getId() {
+		return this.id;
 	}
 
-	public void setTransactionId(int transactionId) {
-		this.transactionId = transactionId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public BigDecimal getAmount() {
@@ -81,11 +68,11 @@ public class Transaction implements Serializable {
 		this.amount = amount;
 	}
 
-	public boolean getApprovalStatus() {
+	public Boolean getApprovalStatus() {
 		return this.approvalStatus;
 	}
 
-	public void setApprovalStatus(boolean approvalStatus) {
+	public void setApprovalStatus(Boolean approvalStatus) {
 		this.approvalStatus = approvalStatus;
 	}
 
@@ -97,28 +84,12 @@ public class Transaction implements Serializable {
 		this.decisionDate = decisionDate;
 	}
 
-	public boolean getIsCriticalTransaction() {
+	public Boolean getIsCriticalTransaction() {
 		return this.isCriticalTransaction;
 	}
 
-	public void setIsCriticalTransaction(boolean isCriticalTransaction) {
+	public void setIsCriticalTransaction(Boolean isCriticalTransaction) {
 		this.isCriticalTransaction = isCriticalTransaction;
-	}
-
-	public boolean getLevel1Approval() {
-		return this.level1Approval;
-	}
-
-	public void setLevel1Approval(boolean level1Approval) {
-		this.level1Approval = level1Approval;
-	}
-
-	public boolean getLevel2Approval() {
-		return this.level2Approval;
-	}
-
-	public void setLevel2Approval(boolean level2Approval) {
-		this.level2Approval = level2Approval;
 	}
 
 	public Date getRequestedDate() {
@@ -151,14 +122,6 @@ public class Transaction implements Serializable {
 
 	public void setAccount2(Account account2) {
 		this.account2 = account2;
-	}
-
-	public User getUser() {
-		return this.user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
 	}
 
 }

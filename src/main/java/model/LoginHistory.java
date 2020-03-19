@@ -17,17 +17,16 @@ public class LoginHistory implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
-	private int id;
+	private Integer id;
 
-	@Column(name="device_type", nullable=false, length=25)
+	@Column(name="device_type")
 	private String deviceType;
 
-	@Column(name="ip_address", nullable=false, length=25)
+	@Column(name="ip_address")
 	private String ipAddress;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="logged_in", nullable=false)
+	@Column(name="logged_in")
 	private Date loggedIn;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -35,18 +34,17 @@ public class LoginHistory implements Serializable {
 	private Date loggedOut;
 
 	//bi-directional many-to-one association to User
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="user_id", nullable=false)
+	@ManyToOne
 	private User user;
 
 	public LoginHistory() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

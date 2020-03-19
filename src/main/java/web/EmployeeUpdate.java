@@ -92,7 +92,7 @@ public class EmployeeUpdate {
 			
 		System.out.println("USER: " + u.getUsername());
 	
-			Integer uid = u.getUserId();
+			Integer uid = u.getId();
 		
 		System.out.println(uid);
 		
@@ -150,7 +150,7 @@ public class EmployeeUpdate {
 			
 	
 		
-			Integer uid = u.getUserId();
+			Integer uid = u.getId();
 		
 		System.out.println(uid);
 		Transaction tx = null;

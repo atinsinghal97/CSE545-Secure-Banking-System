@@ -17,35 +17,34 @@ public class Appointment implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="appointment_id", unique=true, nullable=false)
-	private int appointmentId;
+	private Integer id;
 
-	@Column(name="appointment_status", nullable=false, length=25)
+	@Column(name="appointment_status")
 	private String appointmentStatus;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="created_date", nullable=false)
+	@Column(name="created_date")
 	private Date createdDate;
 
 	//bi-directional many-to-one association to User
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="appointment_user_id", nullable=false)
+	@ManyToOne
+	@JoinColumn(name="appointment_user_id")
 	private User user1;
 
 	//bi-directional many-to-one association to User
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="assigned_to_user_id", nullable=false)
+	@ManyToOne
+	@JoinColumn(name="assigned_to_user_id")
 	private User user2;
 
 	public Appointment() {
 	}
 
-	public int getAppointmentId() {
-		return this.appointmentId;
+	public Integer getId() {
+		return this.id;
 	}
 
-	public void setAppointmentId(int appointmentId) {
-		this.appointmentId = appointmentId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getAppointmentStatus() {
