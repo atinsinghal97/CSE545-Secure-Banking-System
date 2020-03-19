@@ -46,6 +46,7 @@ public class FundsController {
 			txn.setApprovalStatus(approval);
 			s.update(txn);
 			
+			/* Need to fix this code
 			if (approval && isTier1 && r.getLevel2Approval()) {
 				// Transfer
 				Account from = txn.getAccount1(),
@@ -54,6 +55,7 @@ public class FundsController {
 				to.setCurrentBalance(to.getCurrentBalance().add(txn.getAmount()));
 			}
 			
+			*/
 			if (tx.isActive())
 			    tx.commit();
 			s.close();

@@ -42,12 +42,12 @@ public class Transaction implements Serializable {
 	//bi-directional many-to-one association to Account
 	@ManyToOne
 	@JoinColumn(name="from_account")
-	private Account account1;
+	private String fromAccountNumber;
 
 	//bi-directional many-to-one association to Account
 	@ManyToOne
 	@JoinColumn(name="to_account")
-	private Account account2;
+	private String toAccountNumber;
 
 	public Transaction() {
 	}
@@ -108,20 +108,20 @@ public class Transaction implements Serializable {
 		this.transactionType = transactionType;
 	}
 
-	public Account getAccount1() {
-		return this.account1;
+	public String getFromAccountNumber() {
+		return fromAccountNumber;
 	}
 
-	public void setAccount1(Account account1) {
-		this.account1 = account1;
+	public void setFromAccountNumber(String fromAccountNumber) {
+		this.fromAccountNumber = fromAccountNumber;
 	}
 
-	public Account getAccount2() {
-		return this.account2;
+	public String getToAccountNumber() {
+		return toAccountNumber;
 	}
 
-	public void setAccount2(Account account2) {
-		this.account2 = account2;
+	public void setToAccountNumber(String toAccountNumber) {
+		this.toAccountNumber = toAccountNumber;
 	}
 
 }
