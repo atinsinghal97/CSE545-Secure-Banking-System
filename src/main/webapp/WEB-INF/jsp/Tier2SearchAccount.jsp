@@ -19,7 +19,7 @@
     				<h3 class="panel-title">Search For an Account</h3>
  				 </div>
 	  			 <div class="panel-body">
-					<form class="form-horizontal" id="SearchAccount" action="/searchaccount" method="post">
+					<form class="form-horizontal" id="SearchAccount" action="/Tier2Search" method="post">
 			  			<fieldset>
 			  			<div class="form-group">
 						      <label for="accountnumber" class="col-lg-2 control-label">Account Number</label>
@@ -30,7 +30,7 @@
 						    <div class="form-group">
 						      <div class="col-lg-7 col-lg-offset-2">
 						      	<button type="reset" class="btn btn-default">Reset</button>
-						        <button id="search_account" name="action" value="search_account">Search</button>
+						        <button action="">Search</button>
 						        <input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 						         
 						      </div>
@@ -40,7 +40,7 @@
 						    </div>
 			  			</fieldset>
 			  			</form>
-			  			<c:forEach var="entry" items="${accountinfo}">
+			<c:forEach items="${searchForm.searchs}" var="search" varStatus="status">
 					<div class="account-detail cards">
 					<div>
 						<div class="account-header">
@@ -49,21 +49,17 @@
 						<div class="account-body">
 							<div>
 									<label>Account Number:</label>
-							 		<label>${entry.accountNumber}</label>
-							</div>
-							<div>		
-									<label>Creation Date: </label>
-									<label> ${entry.creationDate}</label>
+							 		<label>${search.accountNumber}</label>
 							</div>
 							<div>
 								<label>Balance: </label>
-								<label>${entry.balance}</label>
+								<label>${search.balance}</label>
 							</div>
 							
 							<div>
 								<label>Approval Status: </label>
 								<label><c:choose>
-		<c:when test="${entry.approvalStatus}">Approved</c:when>
+		<c:when test="${search.approvalStatus}">Approved</c:when>
 		<c:otherwise>
 		Declined/Pending/Deleted
 		</c:otherwise>
@@ -79,8 +75,9 @@
 						</div>
 					</div>
 				</div>
-				</c:forEach>
-						</div>
+				</c:forEach> 
+			
+			</div>
 			  			</div>
 			  			</div>
 			  			
