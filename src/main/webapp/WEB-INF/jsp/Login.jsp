@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link href="css/loginCSS.css" rel="stylesheet">
+<link rel="stylesheet" href="css/loginCSS.css">
 <title>Sparky's Den Bank</title>
 </head>
 
@@ -19,7 +19,7 @@
 	</a>
 </div>
 
-<div class="content-wrapper" style="width:500px; float:right" align="center">
+<div class="content-wrapper" style="width:480px; float:right" align="center">
 	<div id="page-content" class="col-md-12" >
 		<div class="panel panel-primary">
 			
@@ -33,25 +33,20 @@
 							<p>${message}</p>
 						</div>
 						<div class="form-group">
-							<label for="uname"><b>Username</b></label> <input id="userName" type="text"
-								placeholder="User ID"  name="username"  
-								maxlength="28" minlength="2"
-								required>
+							<label for="uname"><b>Username</b></label> 
+							<input id="userName" type="text" placeholder="Enter Username"  name="username" maxlength="28" minlength="2" required>
 						</div>
 						<div class="form-group">
-							<label for="psw"><b>Password</b></label> <input type="password"
-								placeholder="Enter Password" id="password" name="password" 
-								maxlength="50" minlength="2"
-								required>
+							<label for="psw"><b>Password</b></label> 
+							<input type="password" id="password" placeholder="Password"  name="password" maxlength="50" minlength="2" required>
 						</div>
 						<div class="form-group">
-							<button type="submit">Login</button>
+							<button type="submit" style="background-color: #FFD700; color:#8B0000; font-family: 'AlgerianRegular';  font-weight: bold; font-size: 22px; line-height: 24px; margin: 0 0 24px;">Login</button>
 								
-							<input type="hidden" name="${_csrf.parameterName}"
-								value="${_csrf.token}" />
+							<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}" />
 							<div class="form-group"
 								style="background-color: #f1f1f1; height: 30px">
-								<span><a href="/register">New Customer?</a></span>
+								<span><a href="/register" style="color:#685206 ;font-family: 'Helvetica Neue', sans-serif; font-size: 16px; line-height: 24px; margin: 0 0 24px;">Register as new customer</a></span>
 							</div>
 						</div>
 					</fieldset>
