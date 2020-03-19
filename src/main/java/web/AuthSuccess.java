@@ -68,8 +68,8 @@ public class AuthSuccess implements AuthenticationSuccessHandler {
       if (isUser) {
           return "/homepage?user=true";
       } else if (isAdmin) {
-          return "/console.html";
-      }
+          return "/adminDashboard.html";
+      } 
       else if(isTier2)
       {
     	  return "/Tier2Dashboard";
