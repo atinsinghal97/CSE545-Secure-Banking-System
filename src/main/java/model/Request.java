@@ -16,59 +16,91 @@ public class Request implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="request_id", unique=true, nullable=false)
-	private int requestId;
+	private Integer id;
 
-	private boolean approved;
+	@Column(name="approval_level_required")
+	private String approvalLevelRequired;
 
-	@Column(name="type_of_account", nullable=false, length=25)
-	private String typeOfAccount;
+	private Boolean approved;
 
-	@Column(name="type_of_request", nullable=false)
-	private int typeOfRequest;
+	@Column(name="level_1_approval")
+	private Boolean level1Approval;
+
+	@Column(name="level_2_approval")
+	private Boolean level2Approval;
+
+	@Column(name="request_id")
+	private Integer requestId;
+
+	@Column(name="type_of_request")
+	private String typeOfRequest;
 
 	//bi-directional many-to-one association to User
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="request_assigned_to")
 	private User user1;
 
 	//bi-directional many-to-one association to User
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="requested_by", nullable=false)
+	@ManyToOne
+	@JoinColumn(name="requested_by")
 	private User user2;
 
 	public Request() {
 	}
 
-	public int getRequestId() {
-		return this.requestId;
+	public Integer getId() {
+		return this.id;
 	}
 
-	public void setRequestId(int requestId) {
-		this.requestId = requestId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
-	public boolean getApproved() {
+	public String getApprovalLevelRequired() {
+		return this.approvalLevelRequired;
+	}
+
+	public void setApprovalLevelRequired(String approvalLevelRequired) {
+		this.approvalLevelRequired = approvalLevelRequired;
+	}
+
+	public Boolean getApproved() {
 		return this.approved;
 	}
 
-	public void setApproved(boolean approved) {
+	public void setApproved(Boolean approved) {
 		this.approved = approved;
 	}
 
-	public String getTypeOfAccount() {
-		return this.typeOfAccount;
+	public Boolean getLevel1Approval() {
+		return this.level1Approval;
 	}
 
-	public void setTypeOfAccount(String typeOfAccount) {
-		this.typeOfAccount = typeOfAccount;
+	public void setLevel1Approval(Boolean level1Approval) {
+		this.level1Approval = level1Approval;
 	}
 
-	public int getTypeOfRequest() {
+	public Boolean getLevel2Approval() {
+		return this.level2Approval;
+	}
+
+	public void setLevel2Approval(Boolean level2Approval) {
+		this.level2Approval = level2Approval;
+	}
+
+	public Integer getRequestId() {
+		return this.requestId;
+	}
+
+	public void setRequestId(Integer requestId) {
+		this.requestId = requestId;
+	}
+
+	public String getTypeOfRequest() {
 		return this.typeOfRequest;
 	}
 
-	public void setTypeOfRequest(int typeOfRequest) {
+	public void setTypeOfRequest(String typeOfRequest) {
 		this.typeOfRequest = typeOfRequest;
 	}
 

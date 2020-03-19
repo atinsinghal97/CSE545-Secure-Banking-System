@@ -13,23 +13,10 @@
         
         <mapping class="model.User" />
         <mapping class="model.Account" />
-        <mapping class="model.Admin" />
         <mapping class="model.Appointment" />
-        <mapping class="model.CheckingAccount" />
-        <mapping class="model.ChequeTransaction" />
-        <mapping class="model.CreditAccount" />
-        <mapping class="model.CriticalTransaction" />
-        <mapping class="model.Customer" />
-        <mapping class="model.DebitTransaction" />
         <mapping class="model.LoginHistory" />
-        <mapping class="model.Merchant" />
-        <mapping class="model.NonCriticalTransaction" />
         <mapping class="model.Request" />
-        <mapping class="model.SavingsAccount" />
-        <mapping class="model.Tier1" />
-        <mapping class="model.Tier2" />
         <mapping class="model.Transaction" />
-        <mapping class="model.TransferTransaction" />
         <mapping class="model.UserDetail" />
     </session-factory>
 </hibernate-configuration>

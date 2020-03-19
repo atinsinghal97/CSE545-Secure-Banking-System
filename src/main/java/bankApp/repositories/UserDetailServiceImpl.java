@@ -39,7 +39,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 	}
 	
 	private Collection<? extends GrantedAuthority> getAuthority(User u) {
-		return (Collection<? extends GrantedAuthority>) Arrays.asList(new SimpleGrantedAuthority(u.getUserType()));
+		return (Collection<? extends GrantedAuthority>) Arrays.asList(new SimpleGrantedAuthority(u.getRole()));
 	}
 
 }

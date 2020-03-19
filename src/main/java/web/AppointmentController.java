@@ -74,7 +74,7 @@ public class AppointmentController {
 			
 	
 		
-			Integer uid = u.getUserId();
+			Integer uid = u.getId();
 		
 		System.out.println(uid);
 		Transaction tx = null;

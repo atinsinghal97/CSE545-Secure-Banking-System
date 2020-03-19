@@ -18,39 +18,30 @@ public class User implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="user_id", unique=true, nullable=false)
-	private int userId;
+	private Integer id;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="created_date")
 	private Date createdDate;
 
 	@Column(name="incorrect_attempts")
-	private int incorrectAttempts;
+	private Integer incorrectAttempts;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="modified_date")
 	private Date modifiedDate;
 
-	@Column(nullable=false, length=60)
 	private String password;
 
-	@Column(nullable=false)
-	private int status;
+	private String role;
 
-	@Column(name="user_type", length=1)
-	private String userType;
+	private Integer status;
 
-	@Column(nullable=false, length=255)
 	private String username;
 
 	//bi-directional many-to-one association to Account
-	@OneToMany(mappedBy="user1")
-	private List<Account> accounts1;
-
-	//bi-directional many-to-one association to Account
-	@OneToMany(mappedBy="user2")
-	private List<Account> accounts2;
+	@OneToMany(mappedBy="user")
+	private List<Account> accounts;
 
 	//bi-directional many-to-one association to Appointment
 	@OneToMany(mappedBy="user1")
@@ -72,23 +63,19 @@ public class User implements Serializable {
 	@OneToMany(mappedBy="user2")
 	private List<Request> requests2;
 
-	//bi-directional many-to-one association to Transaction
+	//bi-directional many-to-one association to UserDetail
 	@OneToMany(mappedBy="user")
-	private List<Transaction> transactions;
-
-	//bi-directional one-to-one association to UserDetail
-	@OneToOne(mappedBy="user", fetch=FetchType.LAZY)
-	private UserDetail userDetail;
+	private List<UserDetail> userDetails;
 
 	public User() {
 	}
 
-	public int getUserId() {
-		return this.userId;
+	public Integer getId() {
+		return this.id;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public Date getCreatedDate() {
@@ -99,11 +86,11 @@ public class User implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public int getIncorrectAttempts() {
+	public Integer getIncorrectAttempts() {
 		return this.incorrectAttempts;
 	}
 
-	public void setIncorrectAttempts(int incorrectAttempts) {
+	public void setIncorrectAttempts(Integer incorrectAttempts) {
 		this.incorrectAttempts = incorrectAttempts;
 	}
 
@@ -123,20 +110,20 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	public int getStatus() {
+	public String getRole() {
+		return this.role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public Integer getStatus() {
 		return this.status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
-	}
-
-	public String getUserType() {
-		return this.userType;
-	}
-
-	public void setUserType(String userType) {
-		this.userType = userType;
 	}
 
 	public String getUsername() {
@@ -147,48 +134,26 @@ public class User implements Serializable {
 		this.username = username;
 	}
 
-	public List<Account> getAccounts1() {
-		return this.accounts1;
+	public List<Account> getAccounts() {
+		return this.accounts;
 	}
 
-	public void setAccounts1(List<Account> accounts1) {
-		this.accounts1 = accounts1;
+	public void setAccounts(List<Account> accounts) {
+		this.accounts = accounts;
 	}
 
-	public Account addAccounts1(Account accounts1) {
-		getAccounts1().add(accounts1);
-		accounts1.setUser1(this);
+	public Account addAccount(Account account) {
+		getAccounts().add(account);
+		account.setUser(this);
 
-		return accounts1;
+		return account;
 	}
 
-	public Account removeAccounts1(Account accounts1) {
-		getAccounts1().remove(accounts1);
-		accounts1.setUser1(null);
+	public Account removeAccount(Account account) {
+		getAccounts().remove(account);
+		account.setUser(null);
 
-		return accounts1;
-	}
-
-	public List<Account> getAccounts2() {
-		return this.accounts2;
-	}
-
-	public void setAccounts2(List<Account> accounts2) {
-		this.accounts2 = accounts2;
-	}
-
-	public Account addAccounts2(Account accounts2) {
-		getAccounts2().add(accounts2);
-		accounts2.setUser2(this);
-
-		return accounts2;
-	}
-
-	public Account removeAccounts2(Account accounts2) {
-		getAccounts2().remove(accounts2);
-		accounts2.setUser2(null);
-
-		return accounts2;
+		return account;
 	}
 
 	public List<Appointment> getAppointments1() {
@@ -301,34 +266,26 @@ public class User implements Serializable {
 		return requests2;
 	}
 
-	public List<Transaction> getTransactions() {
-		return this.transactions;
+	public List<UserDetail> getUserDetails() {
+		return this.userDetails;
 	}
 
-	public void setTransactions(List<Transaction> transactions) {
-		this.transactions = transactions;
+	public void setUserDetails(List<UserDetail> userDetails) {
+		this.userDetails = userDetails;
 	}
 
-	public Transaction addTransaction(Transaction transaction) {
-		getTransactions().add(transaction);
-		transaction.setUser(this);
+	public UserDetail addUserDetail(UserDetail userDetail) {
+		getUserDetails().add(userDetail);
+		userDetail.setUser(this);
 
-		return transaction;
+		return userDetail;
 	}
 
-	public Transaction removeTransaction(Transaction transaction) {
-		getTransactions().remove(transaction);
-		transaction.setUser(null);
+	public UserDetail removeUserDetail(UserDetail userDetail) {
+		getUserDetails().remove(userDetail);
+		userDetail.setUser(null);
 
-		return transaction;
-	}
-
-	public UserDetail getUserDetail() {
-		return this.userDetail;
-	}
-
-	public void setUserDetail(UserDetail userDetail) {
-		this.userDetail = userDetail;
+		return userDetail;
 	}
 
 }

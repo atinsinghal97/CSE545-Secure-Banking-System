@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import database.SessionManager;
 import model.Account;
+import model.Request;
 
 @Controller
 public class FundsController {
@@ -41,10 +42,11 @@ public class FundsController {
 		try {
 			tx = s.beginTransaction();
 			model.Transaction txn = s.get(model.Transaction.class, txnId);
+			Request r = s.createQuery("FROM Request where request_id = :txn_id", Request.class).setParameter("txn_id", txnId).getSingleResult();
 			txn.setApprovalStatus(approval);
 			s.update(txn);
 			
-			if (approval && isTier1 && txn.getLevel2Approval()) {
+			if (approval && isTier1 && r.getLevel2Approval()) {
 				// Transfer
 				Account from = txn.getAccount1(),
 						to = txn.getAccount2();
@@ -71,19 +73,20 @@ public class FundsController {
     public String transfer(
     		@RequestParam(required = true, name="from_account") Integer fromAccount,
     		@RequestParam(required = true, name="to_account") Integer toAccount,
+    		@RequestParam(required = true, name="username") String username,
     		@RequestParam(required = true, name="amount") Double amount) {
 		Authentication x = SecurityContextHolder.getContext().getAuthentication();
 		if (x == null || !x.isAuthenticated()) {
 			return "";
 		}
 		
-		Session s = SessionManager.getSession(x.getName());
+		Session s = SessionManager.getSession(username);
 		Transaction tx = null;
 		try {
 			tx = s.beginTransaction();
 			ProcedureCall call = s.createStoredProcedureCall("create_user_transaction");
 			call.registerParameter("transfer_type", String.class, ParameterMode.IN).bindValue("transfer");
-			call.registerParameter("from_username", String.class, ParameterMode.IN).bindValue(x.getName());
+			call.registerParameter("from_username", String.class, ParameterMode.IN).bindValue(username);
 			call.registerParameter("from_account", Integer.class, ParameterMode.IN).bindValue(fromAccount);
 			call.registerParameter("to_account", Integer.class, ParameterMode.IN).bindValue(toAccount);
 			call.registerParameter("amount", Double.class, ParameterMode.IN).bindValue(amount);

@@ -30,5 +30,4 @@ build/
 ### VS Code ###
 .vscode/
 
-src/main/java/SSDatabase/build
-src/main/java/SSDatabase/diagrams
+src/main/java/hibernate.cfg.xml

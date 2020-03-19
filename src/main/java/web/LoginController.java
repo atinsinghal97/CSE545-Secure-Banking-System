@@ -73,12 +73,13 @@ public class LoginController {
 			User user = new User();
 			user.setUsername(username);
 			user.setPassword(passwordEncoder.encode(password));
-			user.setUserType(userType);
+			user.setRole(userType);
+			user.setStatus(0);
 			s.save(user);
 			UserDetail userDetail;
 			Date date = new SimpleDateFormat("mm-dd-yyyy").parse(dateOfBirth);
 
-			Integer uid = user.getUserId();
+			Integer uid = user.getId();
 			System.out.println("UID AFTER SAVE: " + uid);
 			userDetail = new UserDetail();
 			userDetail.setUser(user);
@@ -94,22 +95,22 @@ public class LoginController {
 			userDetail.setProvince("");
 			userDetail.setSsn(ssn);
 			userDetail.setTier("");
-			userDetail.setZip(100);
+			userDetail.setZip(100L);
 			userDetail.setQuestion1(secquestion1);
 			userDetail.setQuestion2(secquestion2);
 			s.save(userDetail);
 			
 			Request r = new Request();
 			r.setUser2(user);
-			r.setTypeOfRequest(0);
-			r.setTypeOfAccount("savings");
+			r.setTypeOfRequest("user_create");
+			r.setApprovalLevelRequired("tier2");
 			s.save(r);
 			
 			Account a = new Account();
-			a.setUser2(user);
+			a.setUser(user);
 			a.setAccountNumber("1234");
 			a.setAccountType("savings");
-			a.setApprovalStatus(false);
+			a.setStatus(0);
 			a.setInterest(new BigDecimal(0.8));
 			a.setCreatedDate(new Date());
 			a.setCurrentBalance(new BigDecimal(100000));

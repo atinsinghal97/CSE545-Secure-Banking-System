@@ -17,68 +17,57 @@ public class UserDetail implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
-	private int id;
+	private Integer id;
 
-	@Column(nullable=false, length=255)
 	private String address1;
 
-	@Column(nullable=false, length=255)
 	private String address2;
 
-	@Column(nullable=false, length=255)
 	private String city;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="date_of_birth", nullable=false)
+	@Column(name="date_of_birth")
 	private Date dateOfBirth;
 
-	@Column(nullable=false, length=255)
 	private String email;
 
-	@Column(name="first_name", nullable=false, length=255)
+	@Column(name="first_name")
 	private String firstName;
 
-	@Column(name="last_name", nullable=false, length=255)
+	@Column(name="last_name")
 	private String lastName;
 
-	@Column(name="middle_name", length=255)
+	@Column(name="middle_name")
 	private String middleName;
 
-	@Column(nullable=false, length=15)
 	private String phone;
 
-	@Column(nullable=false, length=255)
 	private String province;
 
-	@Column(name="question_1", nullable=false, length=255)
+	@Column(name="question_1")
 	private String question1;
 
-	@Column(name="question_2", nullable=false, length=255)
+	@Column(name="question_2")
 	private String question2;
 
-	@Column(nullable=false, length=15)
 	private String ssn;
 
-	@Column(length=10)
 	private String tier;
 
-	@Column(nullable=false)
-	private int zip;
+	private Long zip;
 
-	//bi-directional one-to-one association to User
-	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="user_id", nullable=false)
+	//bi-directional many-to-one association to User
+	@ManyToOne
 	private User user;
 
 	public UserDetail() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -194,11 +183,11 @@ public class UserDetail implements Serializable {
 		this.tier = tier;
 	}
 
-	public int getZip() {
+	public Long getZip() {
 		return this.zip;
 	}
 
-	public void setZip(int zip) {
+	public void setZip(Long zip) {
 		this.zip = zip;
 	}
 

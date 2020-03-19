@@ -84,7 +84,7 @@ public class DownloadTransactionController {
         
         for(int i=0;i<u.size();i++)
         {
-            Integer username = u.get(i).getUserId();
+            Integer username = u.get(i).getId();
             System.out.println(username);
             table_cell=new PdfPCell(new Phrase(username+" "));
             my_report_table.addCell(table_cell);
