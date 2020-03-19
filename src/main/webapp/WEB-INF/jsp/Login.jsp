@@ -6,28 +6,36 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link href="css/loginCSS.css" rel="stylesheet">
-<title>Login Page</title>
+<title>Sparky's Den Bank</title>
 </head>
 
-<div class="content-wrapper">
-	<div class="col-md-12" id="page-content" align="center">
+<div class="panel-heading" align="center">
+	<h1 class="panel-title">Welcome to Su Devil Bank!</h1>
+</div>
+
+<div class="sparky-gify" style="float:left; width:550px; height:550px">
+	<a href="#" style="padding-left: 20px"> 
+		<img src="img/bg_sparky.jfif" height="500px" width="620px" alt="sparky" style="opacity:1">
+	</a>
+</div>
+
+<div class="content-wrapper" style="width:500px; float:right" align="center">
+	<div id="page-content" class="col-md-12" >
 		<div class="panel panel-primary">
-			<div class="panel-heading">
-				<h3 class="panel-title">Login Page</h3>
-			</div>
+			
 			<div class="panel-body">
-				<form id="LoginPage" action="/process_login" method="post">
-					<a href="#" style="padding-left: 20px"> <img
-						src="img/av1.png" style="vertical-align: top;" width="35px"
-						height="65px" alt="avatar"></a>
+				<form id="LoginPage" method="post" action="/process_login">
+					<a href="#" style="padding-left: 20px"> 
+						<img src="img/sparky.png" height="120px" width="220px" alt="sparky" style="opacity:0.3">
+					</a>
 					<fieldset>
 						<div class="form-group">
 							<p>${message}</p>
 						</div>
 						<div class="form-group">
-							<label for="uname"><b>Username</b></label> <input type="text"
-								placeholder="Enter Username" id="userName" name="username"  
-								maxlength="30" minlength="2"
+							<label for="uname"><b>Username</b></label> <input id="userName" type="text"
+								placeholder="User ID"  name="username"  
+								maxlength="28" minlength="2"
 								required>
 						</div>
 						<div class="form-group">

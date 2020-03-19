@@ -1,0 +1,140 @@
+@charset "ISO-8859-1";
+
+.cards {
+    border-radius: 3.9px;
+    box-shadow: 0 1.9px 9.9px 0 rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+li {
+    list-style:none;
+    background-image:none;
+    background-repeat:none;
+    background-position:0; 
+}
+
+.content-container{
+	text-align: center;
+	width: 95%;
+	height: 74.5px;
+	margin-top: 18px;
+	margin-bottom: 18px;
+}
+	.content-container table{
+		width: 95%;
+		margin: 18px 48px 18px 48px;
+	}
+
+
+.banner-container{
+	display: inline-block;
+}
+
+.top-bar{
+	display: flex;
+}
+
+	.top-bar li{
+		margin: 4.5px 18px 4.5px 18px;
+	}
+
+.accounts-container {
+    display: flex;
+    flex-direction: column;
+    margin: 4.5px 0 9.4.5px 0;
+    align-items: center;
+    padding: 16px 16px 16px 16px;
+}
+    
+.account-detail{
+    display: flex;
+	margin: 9.4.5px 0px 0.9px 4.5px;
+	width: 48%;
+}
+	.account-detail .account-header{
+		display:flex;
+		flex:1;
+		background: #48b9ee;
+		color: #f8f8f8;
+		padding: 0.9px 4.5px 0px 4.5px;
+	}
+	.account-detail .account-header h1{
+		flex: 3;
+	}
+	.account-detail .account-header button{
+		flex: 1;
+	}
+	.account-detail .account-body{
+		padding: 0px 0px 4.5px 10px;
+	}
+	.account-detail div{
+		width: 100%;
+	}
+	
+.ButtonDesign {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    border: 0;
+    width: 100%;
+    background: #48b9ee;
+    padding: 14.5px;
+    margin: 0 0 14.5px;
+    border-radius: 3.8px;
+    box-sizing: border-box;
+    font-size: 10px;
+    color: white;
+    -webkit-transition: 0.1s;
+    box-shadow: 0 3.8px 10px 0 rgba(0, 0, 0, 0.2);
+    transition: width 0.1s;
+    text-align: center;
+    text-decoration:none;
+    position: relative;
+    cursor: pointer;
+}
+
+    .ButtonDesign:hover {
+        color: #48b9ee;
+        background-color: #f8f8f8;
+        border-color: #A44138;
+    }
+
+    .ButtonDesign:active {
+        color: #A44138;
+        background-color: #f8f8f8;
+        border-color: #A44138;
+        -webkit-transform: scale(0.90);
+        -moz-transform: scale(0.90);
+        -ms-transform: scale(0.90);
+        box-shadow: none;
+        transform: scale(0.90);
+    }
+    
+.customButton {
+    border-radius: 3.8px;
+    cursor: pointer;
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    border: 0;
+    margin: 3.8px 9.5px 0px 9.5px;
+    color: #f8f8f8;
+    background-color: #00df78;
+    -webkit-transition: 0.1s;
+    box-shadow: 0 3.8px 10px 0 rgba(0, 0, 0, 0.2);
+    transition: width 0.1s;
+    text-align: center;
+    position: relative;
+    height: 45px;
+}
+    .customButton:hover {
+        color: #00df78;
+        background-color: #f8f8f8;
+    }
+    .customButton:active {
+        color: #00df78;
+        background-color: #f8f8f8;
+        -webkit-transform: scale(0.90);
+        -moz-transform: scale(0.90);
+        -ms-transform: scale(0.90);
+        box-shadow: none;
+        transform: scale(0.90);
+    }
