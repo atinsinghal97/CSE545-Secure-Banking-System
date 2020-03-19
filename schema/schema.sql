@@ -23,7 +23,6 @@ CREATE TABLE `secure_banking_system`.`user_details` (
   last_name VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL,
   phone VARCHAR(15) NOT NULL,
-  tier VARCHAR(10),
   address1 VARCHAR(255) NOT NULL,
   address2 VARCHAR(255) NOT NULL,
   city VARCHAR(255) NOT NULL,
@@ -59,6 +58,12 @@ CREATE TABLE `secure_banking_system`.`transaction` (
   from_account INT NOT NULL,
   to_account INT NOT NULL,
   transaction_type VARCHAR(100) NOT NULL,
+  request_assigned_to INT DEFAULT NULL,
+  approval_level_required VARCHAR(100) NOT NULL,
+  level_1_approval BOOLEAN DEFAULT NULL,
+  level_2_approval BOOLEAN DEFAULT NULL,
+  approved BOOLEAN DEFAULT NULL, /* Can be approved by merchant or bank employee depending on type of request */
+  FOREIGN KEY (request_assigned_to) REFERENCES `secure_banking_system`.`user`(id),
   FOREIGN KEY (from_account) REFERENCES `secure_banking_system`.`account`(id),
   FOREIGN KEY (to_account) REFERENCES `secure_banking_system`.`account`(id)
 );
@@ -71,20 +76,6 @@ CREATE TABLE `secure_banking_system`.`appointment` (
   appointment_status VARCHAR(25) NOT NULL,
   FOREIGN KEY (appointment_user_id) REFERENCES `secure_banking_system`.`user`(id),
   FOREIGN KEY (assigned_to_user_id) REFERENCES `secure_banking_system`.`user`(id)
-);
-
-CREATE TABLE `secure_banking_system`.`request` (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  request_id INT,
-  requested_by INT NOT NULL,
-  type_of_request VARCHAR(100),
-  request_assigned_to INT DEFAULT NULL,
-  approval_level_required VARCHAR(100) NOT NULL,
-  level_1_approval BOOLEAN DEFAULT NULL, /* Customer approval */
-  level_2_approval BOOLEAN DEFAULT NULL, /* Tier 2 employee approval */
-  approved BOOLEAN DEFAULT NULL, /* Can be approved by merchant or bank employee depending on type of request */
-  FOREIGN KEY (request_assigned_to) REFERENCES `secure_banking_system`.`user`(id),
-  FOREIGN KEY (requested_by) REFERENCES `secure_banking_system`.`user`(id)
 );
 
 CREATE TABLE `secure_banking_system`.`login_history` (
@@ -110,7 +101,7 @@ BEGIN
 	DECLARE total_amount_transferred_today DECIMAL(30, 5) DEFAULT 0;
 	DECLARE user_count INT;
 	DECLARE trigger_user_id INT;
-			
+
 	SELECT IFNULL(SUM(amount), 0) 
 		INTO total_amount_transferred_today 
 		FROM `secure_banking_system`.`transaction` AS t 
@@ -130,7 +121,7 @@ BEGIN
 	ELSEIF (total_amount_transferred_today + amount > 1000.0) THEN
 		INSERT INTO `secure_banking_system`.`transaction` (transaction_type, approval_status, amount, is_critical_transaction, from_account, to_account)
 			VALUES(transfer_type, FALSE, amount, TRUE, from_account, to_account);
-	  
+
 		INSERT INTO `secure_banking_system`.`request` (requested_by, request_id, type_of_request, approval_level_required)
 		  VALUES(trigger_user_id, LAST_INSERT_ID(), "transaction", "tier2");
 		SET status = 1;

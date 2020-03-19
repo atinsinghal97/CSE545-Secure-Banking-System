@@ -51,18 +51,6 @@ public class User implements Serializable {
 	@OneToMany(mappedBy="user2")
 	private List<Appointment> appointments2;
 
-	//bi-directional many-to-one association to LoginHistory
-	@OneToMany(mappedBy="user")
-	private List<LoginHistory> loginHistories;
-
-	//bi-directional many-to-one association to Request
-	@OneToMany(mappedBy="user1")
-	private List<Request> requests1;
-
-	//bi-directional many-to-one association to Request
-	@OneToMany(mappedBy="user2")
-	private List<Request> requests2;
-
 	//bi-directional many-to-one association to UserDetail
 	@OneToMany(mappedBy="user")
 	private List<UserDetail> userDetails;
@@ -198,72 +186,6 @@ public class User implements Serializable {
 		appointments2.setUser2(null);
 
 		return appointments2;
-	}
-
-	public List<LoginHistory> getLoginHistories() {
-		return this.loginHistories;
-	}
-
-	public void setLoginHistories(List<LoginHistory> loginHistories) {
-		this.loginHistories = loginHistories;
-	}
-
-	public LoginHistory addLoginHistory(LoginHistory loginHistory) {
-		getLoginHistories().add(loginHistory);
-		loginHistory.setUser(this);
-
-		return loginHistory;
-	}
-
-	public LoginHistory removeLoginHistory(LoginHistory loginHistory) {
-		getLoginHistories().remove(loginHistory);
-		loginHistory.setUser(null);
-
-		return loginHistory;
-	}
-
-	public List<Request> getRequests1() {
-		return this.requests1;
-	}
-
-	public void setRequests1(List<Request> requests1) {
-		this.requests1 = requests1;
-	}
-
-	public Request addRequests1(Request requests1) {
-		getRequests1().add(requests1);
-		requests1.setUser1(this);
-
-		return requests1;
-	}
-
-	public Request removeRequests1(Request requests1) {
-		getRequests1().remove(requests1);
-		requests1.setUser1(null);
-
-		return requests1;
-	}
-
-	public List<Request> getRequests2() {
-		return this.requests2;
-	}
-
-	public void setRequests2(List<Request> requests2) {
-		this.requests2 = requests2;
-	}
-
-	public Request addRequests2(Request requests2) {
-		getRequests2().add(requests2);
-		requests2.setUser2(this);
-
-		return requests2;
-	}
-
-	public Request removeRequests2(Request requests2) {
-		getRequests2().remove(requests2);
-		requests2.setUser2(null);
-
-		return requests2;
 	}
 
 	public List<UserDetail> getUserDetails() {

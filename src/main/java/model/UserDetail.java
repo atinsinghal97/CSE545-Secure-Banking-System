@@ -52,8 +52,6 @@ public class UserDetail implements Serializable {
 
 	private String ssn;
 
-	private String tier;
-
 	private Long zip;
 
 	//bi-directional many-to-one association to User
@@ -173,14 +171,6 @@ public class UserDetail implements Serializable {
 
 	public void setSsn(String ssn) {
 		this.ssn = ssn;
-	}
-
-	public String getTier() {
-		return this.tier;
-	}
-
-	public void setTier(String tier) {
-		this.tier = tier;
 	}
 
 	public Long getZip() {

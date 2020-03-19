@@ -23,7 +23,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import database.SessionManager;
 import model.Account;
-import model.Request;
 import model.User;
 import model.UserDetail;
 
@@ -94,17 +93,10 @@ public class LoginController {
 			userDetail.setDateOfBirth(date);
 			userDetail.setProvince("");
 			userDetail.setSsn(ssn);
-			userDetail.setTier("");
 			userDetail.setZip(100L);
 			userDetail.setQuestion1(secquestion1);
 			userDetail.setQuestion2(secquestion2);
 			s.save(userDetail);
-			
-			Request r = new Request();
-			r.setUser2(user);
-			r.setTypeOfRequest("user_create");
-			r.setApprovalLevelRequired("tier2");
-			s.save(r);
 			
 			Account a = new Account();
 			a.setUser(user);
