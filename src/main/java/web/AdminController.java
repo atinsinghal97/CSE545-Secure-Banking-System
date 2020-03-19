@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class AdminController {
-	@Autowired
-	private PasswordEncoder passwordEncoder;
 	
 	@RequestMapping("/AdminDashboard")
     public String hello(final HttpServletRequest request, Model model) {
