@@ -40,7 +40,7 @@
 						<div class="col-lg-5 form-group">
 							<label class="control-label col-lg-2" for="middlename">Middle
 								Name: </label> <input id="middlename" class="form-control" type="text"
-								placeholder="Middle Name" name="middlename" required>
+								placeholder="Middle Name" name="middlename">
 						</div>
 
 						<div class="col-lg-5 form-group">
