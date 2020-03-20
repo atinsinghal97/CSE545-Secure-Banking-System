@@ -6,11 +6,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet" href="css/loginCSS.css">
-<title>Sparky's Den Bank</title>
+<title>Sun Devil Bank</title>
+<script src="https://www.google.com/recaptcha/api.js"></script>
 </head>
 
 <div class="panel-heading" align="center">
-	<h1 class="panel-title">Welcome to Su Devil Bank!</h1>
+	<h1 class="panel-title">Welcome to Sun Devil Bank!</h1>
 </div>
 
 <div class="sparky-gify" style="float:left; width:550px; height:550px">
@@ -33,13 +34,16 @@
 							<p>${message}</p>
 						</div>
 						<div class="form-group">
-							<label for="uname"><b>Username</b></label> 
-							<input id="userName" type="text" placeholder="Enter Username"  name="username" maxlength="28" minlength="2" required>
+							<label for="uname"><b>Username: </b></label> 
+							<input id="userName" type="text" placeholder="Username"  name="username" maxlength="28" minlength="2" required>
 						</div>
 						<div class="form-group">
-							<label for="psw"><b>Password</b></label> 
+							<label for="psw"><b>Password: </b></label> 
 							<input type="password" id="password" placeholder="Password"  name="password" maxlength="50" minlength="2" required>
 						</div>
+						<br>
+						<div class="g-recaptcha" data-sitekey="your_site_key: https://developers.google.com/recaptcha/docs/display"></div>
+						<br>
 						<div class="form-group">
 							<button type="submit" style="background-color: #FFD700; color:#8B0000; font-family: 'AlgerianRegular';  font-weight: bold; font-size: 22px; line-height: 24px; margin: 0 0 24px;">Login</button>
 								
