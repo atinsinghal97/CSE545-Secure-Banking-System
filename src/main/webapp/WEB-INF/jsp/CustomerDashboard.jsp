@@ -4,13 +4,13 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Accounts Information</title>
-<link rel="stylesheet" href="css/cssClassess.css" />
+<title>Dashboard (Customer)</title>
+<link href="css/cssClassess.css" rel="stylesheet" />
 <script src="js/customer.js"></script>
 </head>
 <body onload="loadError()">
 
-<h1>HELLO</h1>
+<h1>Welcome to Su Devil Bank</h1>
 
 <form method="post" action="/perform_logout" id="form-logout">
 	<button type="submit">Logout</button>

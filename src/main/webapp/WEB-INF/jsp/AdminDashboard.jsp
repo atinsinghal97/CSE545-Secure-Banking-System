@@ -3,16 +3,16 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Admin Dashboard</title>
+<title>Dashboard (Administrator)</title>
 </head>
 <body>
 <%@include file="HPT3.jsp" %>
-	<form id="Tier3home" method="post">
+	<form method="post" id="Tier3home">
     	<table align="center">
         	<tr>
 	           <td>
-                 <h2>Admin Dashboard</h2> 
-                 <input type="hidden"  name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                 <h2>Welcome admin,</h2> 
+                 <input name="${_csrf.parameterName}" type="hidden"  value="${_csrf.token}"/>
               </td>
             </tr>
             <tr>
