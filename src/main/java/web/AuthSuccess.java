@@ -61,15 +61,17 @@ public class AuthSuccess implements AuthenticationSuccessHandler {
           else if (grantedAuthority.getAuthority().equals("tier2")) {
         	  isTier2 = true;
               break;
+          }else if(grantedAuthority.getAuthority().equals("admin")){
+        	  return "/AdminDashboard";
           }
 
       }
 
       if (isUser) {
-          return "/homepage?user=true";
-      } else if (isAdmin) {
-          return "/console.html";
-      }
+          return "/homepage?user=true";}
+//      } else if (isAdmin) {
+//          return "/AdminDashboard";
+//      } 
       else if(isTier2)
       {
     	  return "/Tier2Dashboard";
