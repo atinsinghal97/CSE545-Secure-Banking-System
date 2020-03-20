@@ -73,8 +73,8 @@ public class TransactionServicesImpl {
 	
 	public Transaction depositMoney(BigDecimal amount, String accountNumber) {
 		Transaction transaction = new Transaction();
-		transaction.setFromAccountNumber("100");	//there needs to be a default bank account
-		transaction.setToAccountNumber(accountNumber);
+		transaction.setFromAccount("100");	//there needs to be a default bank account
+		transaction.setToAccount(accountNumber);
 		transaction.setAmount(amount);
 		transaction.setApprovalStatus(true);
 		transaction.setDecisionDate(new Date());
@@ -89,8 +89,8 @@ public class TransactionServicesImpl {
 	
 	public Transaction withdrawMoney(BigDecimal amount, String accountNumber) {
 		Transaction transaction = new Transaction();
-		transaction.setFromAccountNumber(accountNumber);	
-		transaction.setToAccountNumber("100"); //there needs to be a default bank account
+		transaction.setFromAccount(accountNumber);	
+		transaction.setToAccount("100"); //there needs to be a default bank account
 		transaction.setAmount(amount);
 		transaction.setApprovalStatus(true);
 		transaction.setDecisionDate(new Date());
@@ -106,8 +106,8 @@ public class TransactionServicesImpl {
 	
 	public Transaction createTransaction(BigDecimal amount, String fromAccountNumber, String toAccountNumber) {
 		Transaction transaction = new Transaction();
-		transaction.setFromAccountNumber(fromAccountNumber);	
-		transaction.setToAccountNumber(toAccountNumber);
+		transaction.setFromAccount(fromAccountNumber);	
+		transaction.setToAccount(toAccountNumber);
 		transaction.setAmount(amount);
 		transaction.setApprovalStatus(true);
 		transaction.setDecisionDate(new Date());
@@ -123,8 +123,8 @@ public class TransactionServicesImpl {
 	
 	public Transaction depositCheque(BigDecimal amount, String accountNumber) {
 		Transaction transaction = new Transaction();
-		transaction.setFromAccountNumber("100");	//there needs to be a default bank account
-		transaction.setToAccountNumber(accountNumber);
+		transaction.setFromAccount("100");	//there needs to be a default bank account
+		transaction.setToAccount(accountNumber);
 		transaction.setAmount(amount);
 		transaction.setApprovalStatus(true);
 		transaction.setDecisionDate(new Date());
@@ -139,8 +139,8 @@ public class TransactionServicesImpl {
 	
 	public Transaction issueCheque(BigDecimal amount, String accountNumber) {
 		Transaction transaction = new Transaction();
-		transaction.setFromAccountNumber(accountNumber);	
-		transaction.setToAccountNumber("100"); //there needs to be a default bank account
+		transaction.setFromAccount(accountNumber);	
+		transaction.setToAccount("100"); //there needs to be a default bank account
 		transaction.setAmount(amount);
 		transaction.setApprovalStatus(true);
 		transaction.setDecisionDate(new Date());
