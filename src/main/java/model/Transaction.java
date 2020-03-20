@@ -35,7 +35,7 @@ public class Transaction implements Serializable {
 	private Date decisionDate;
 
 	@Column(name="from_account")
-	private int fromAccount;
+	private String fromAccount;
 
 	@Column(name="is_critical_transaction")
 	private Boolean isCriticalTransaction;
@@ -54,7 +54,7 @@ public class Transaction implements Serializable {
 	private Date requestedDate;
 
 	@Column(name="to_account")
-	private int toAccount;
+	private String toAccount;
 
 	@Column(name="transaction_type")
 	private String transactionType;
@@ -110,12 +110,20 @@ public class Transaction implements Serializable {
 		this.decisionDate = decisionDate;
 	}
 
-	public int getFromAccount() {
-		return this.fromAccount;
+	public String getFromAccount() {
+		return fromAccount;
 	}
 
-	public void setFromAccount(int fromAccount) {
+	public void setFromAccount(String fromAccount) {
 		this.fromAccount = fromAccount;
+	}
+
+	public String getToAccount() {
+		return toAccount;
+	}
+
+	public void setToAccount(String toAccount) {
+		this.toAccount = toAccount;
 	}
 
 	public Boolean getIsCriticalTransaction() {
@@ -156,14 +164,6 @@ public class Transaction implements Serializable {
 
 	public void setRequestedDate(Date requestedDate) {
 		this.requestedDate = requestedDate;
-	}
-
-	public int getToAccount() {
-		return this.toAccount;
-	}
-
-	public void setToAccount(int toAccount) {
-		this.toAccount = toAccount;
 	}
 
 	public String getTransactionType() {

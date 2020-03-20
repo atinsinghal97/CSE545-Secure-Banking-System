@@ -41,17 +41,20 @@ public class FundsController {
 		try {
 			tx = s.beginTransaction();
 			model.Transaction txn = s.get(model.Transaction.class, txnId);
+			//Request r = s.createQuery("FROM Request where request_id = :txn_id", Request.class).setParameter("txn_id", txnId).getSingleResult();
 			txn.setApprovalStatus(approval);
 			s.update(txn);
 			
-			if (approval && isTier1 && txn.getLevel2Approval()) {
+			/* Need to fix this code
+			if (approval && isTier1 && r.getLevel2Approval()) {
 				// Transfer
-				Account from = s.get(Account.class, txn.getFromAccount()),
-						to = s.get(Account.class, txn.getToAccount());
+				Account from = txn.getAccount1(),
+						to = txn.getAccount2();
 				from.setCurrentBalance(from.getCurrentBalance().subtract(txn.getAmount()));
 				to.setCurrentBalance(to.getCurrentBalance().add(txn.getAmount()));
 			}
 			
+			*/
 			if (tx.isActive())
 			    tx.commit();
 			s.close();

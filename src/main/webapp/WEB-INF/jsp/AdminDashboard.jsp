@@ -19,11 +19,6 @@
             <td>${message}</td>
             </tr>
     </table>
-    <a href="/EmployeeView">View</a>
-    <a href="/EmployeeInsert">Create</a>
-    <a href="/EmployeeUpdate">Modify</a>
-    <a href="/EmployeeDelete">Delete</a>
-    <a href="/SystemLogs">Logs</a>
  </form>
 </body>
 </html>
