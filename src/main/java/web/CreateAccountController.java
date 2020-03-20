@@ -26,8 +26,15 @@ import database.SessionManager;
 import model.Account;
 import model.Request;
 import model.Customer;
-import model.CustomerDetail;
-
+import java.util.Optional;
+import java.util.logging.Logger;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.servlet.ModelAndView;
+import database.SessionManager;
 @Controller
 public class CreateAccountController {
 
@@ -55,8 +62,6 @@ public class CreateAccountController {
 		
 		return new ModelAndView("redirect:/login");
     }
-	
-	
 	
 	
 }
