@@ -38,7 +38,7 @@ CREATE TABLE `secure_banking_system`.`user_details` (
 CREATE TABLE `secure_banking_system`.`account` (
   id INT PRIMARY KEY AUTO_INCREMENT,
   user_id INT NOT NULL,
-  account_number VARCHAR(255) NOT NULL,
+  account_number VARCHAR(255) NOT NULL UNIQUE,
   account_type VARCHAR(100) NOT NULL,
   current_balance DECIMAL(30, 5) DEFAULT 0.0,
   created_date DATETIME NOT NULL DEFAULT NOW(),
@@ -55,8 +55,8 @@ CREATE TABLE `secure_banking_system`.`transaction` (
   is_critical_transaction BOOLEAN NOT NULL,
   requested_date DATETIME NOT NULL DEFAULT NOW(),
   decision_date DATETIME DEFAULT NULL,
-  from_account INT NOT NULL,
-  to_account INT NOT NULL,
+  from_account VARCHAR(255) NOT NULL,
+  to_account VARCHAR(255) NOT NULL,
   transaction_type VARCHAR(100) NOT NULL,
   request_assigned_to INT DEFAULT NULL,
   approval_level_required VARCHAR(100) NOT NULL,
@@ -64,8 +64,8 @@ CREATE TABLE `secure_banking_system`.`transaction` (
   level_2_approval BOOLEAN DEFAULT NULL,
   approved BOOLEAN DEFAULT NULL, /* Can be approved by merchant or bank employee depending on type of request */
   FOREIGN KEY (request_assigned_to) REFERENCES `secure_banking_system`.`user`(id),
-  FOREIGN KEY (from_account) REFERENCES `secure_banking_system`.`account`(id),
-  FOREIGN KEY (to_account) REFERENCES `secure_banking_system`.`account`(id)
+  FOREIGN KEY (from_account) REFERENCES `secure_banking_system`.`account`(account_number),
+  FOREIGN KEY (to_account) REFERENCES `secure_banking_system`.`account`(account_number)
 );
 
 CREATE TABLE `secure_banking_system`.`appointment` (

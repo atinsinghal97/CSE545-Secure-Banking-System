@@ -111,7 +111,7 @@ public class Transaction implements Serializable {
 	}
 
 	public String getFromAccount() {
-		return fromAccount;
+		return this.fromAccount;
 	}
 
 	public void setFromAccount(String fromAccount) {
