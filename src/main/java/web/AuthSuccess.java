@@ -74,7 +74,7 @@ public class AuthSuccess implements AuthenticationSuccessHandler {
 //      } 
       else if(isTier2)
       {
-    	  return "/Tier2Dashboard";
+    	  return "/Tier2/Dashboard";
       }
       else {
           throw new IllegalStateException();

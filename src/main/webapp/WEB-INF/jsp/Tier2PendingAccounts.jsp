@@ -16,15 +16,13 @@
 			<table>
 				<thead>
 					<tr>
-						<th>Date</th>
+
 						<th>Account ID</th>
 						<th>Balance</th>
 						<th>Status</th>
 					</tr>
 				</thead>
-				
-				
-				    					
+				 					
 				    		
 				    		
 				<tbody>
@@ -34,31 +32,26 @@
 				</td>
 				</tr>
 				
-				    <c:forEach items="${accounts}" var="account" varStatus="i">
+				    <c:forEach items="${searchForm.searchs}" var="search" varStatus="status">
 				    
 				    	<tr>
-				    	
-				    	
-				    		<td>${account.creationDate}</td>
-				    		<td>${account.accountNumber}</td>
-				    		<td>${account.balance}</td>
+				    
+				    		<td>${search.accountNumber}</td>
+				    		<td>${search.balance}</td>
 				    		<td>
-				    			<c:choose>
-				    				<c:when test="${account.approvalStatus}">Approved</c:when>
-				    				<c:otherwise>Pending</c:otherwise>
-				    			</c:choose>
+				    			Pending
 				    		</td>
 				    		<td>
-				    		<form method="post" action="/approveaccount" id="authorize">
-				    		<input type="hidden" name="accountID" id="accountID" value="${account.accountNumber}">
+				    		<form method="post" action="/Tier2/AuthAcc" id="authorize">
+				    		<input type="hidden" name="accountnumber" id="accountnumber" value="${search.accountNumber}">
 				    		<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 				    		<input type="submit" value="Authorize">
 				    		</form>
 				    		</td>
 				    		
 				    		<td>
-				    		<form method="post" action="/declineaccount" id="decline">
-				    		<input type="hidden" name="accountID" id="accountID" value="${account.accountNumber}">
+				    		<form method="post" action="/Tier2/DecAcc" id="decline">
+				    		<input type="hidden" name="accountnumber" id="accountnumber" value="${search.accountNumber}">
 				    		<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 				    		 
 				    		<input type="submit" value="Decline">

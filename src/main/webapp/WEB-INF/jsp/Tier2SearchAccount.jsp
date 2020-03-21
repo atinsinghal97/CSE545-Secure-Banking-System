@@ -19,7 +19,7 @@
     				<h3 class="panel-title">Search For an Account</h3>
  				 </div>
 	  			 <div class="panel-body">
-					<form class="form-horizontal" id="SearchAccount" action="/Tier2Search" method="post">
+					<form class="form-horizontal" id="SearchAccount" action="/Tier2/Search" method="post">
 			  			<fieldset>
 			  			<div class="form-group">
 						      <label for="accountnumber" class="col-lg-2 control-label">Account Number</label>
@@ -30,7 +30,7 @@
 						    <div class="form-group">
 						      <div class="col-lg-7 col-lg-offset-2">
 						      	<button type="reset" class="btn btn-default">Reset</button>
-						        <button action="">Search</button>
+						        <button action="submit">Search</button>
 						        <input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 						         
 						      </div>

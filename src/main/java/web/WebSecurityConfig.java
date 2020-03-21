@@ -71,6 +71,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .authorizeRequests()
 	        .antMatchers("/users/**").hasRole("USER")//USER role can access /users/**
 	        .antMatchers("/admin/**").hasRole("ADMIN")
+	        .antMatchers("/Tier2/**").hasAuthority("tier2")
 	        .antMatchers("/login").permitAll()// anyone can access /quests/**
 	        .antMatchers("/externalregister").permitAll()// anyone can access /quests/**
 	        .antMatchers("/register").permitAll()// anyone can access /quests/**
@@ -86,13 +87,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	        .antMatchers("/Tier1DepositMoney").hasAuthority("tier1")
 	        .antMatchers("/Tier1WithdrawMoney").hasAuthority("tier1")
 	        .antMatchers("/IssueCheque").hasAuthority("tier1")
-	        .antMatchers("/Tier2Dashboard").hasAuthority("tier2")
-	        .antMatchers("/Tier2PendingTransaction").hasAuthority("tier2")
-	        .antMatchers("/Tier2UpdatePassword").hasAuthority("tier2")
-	        .antMatchers("/Tier2PendingAccounts").hasAuthority("tier2")
-	        .antMatchers("/Tier2SearchAccount").hasAuthority("tier2")
-	        .antMatchers("/Tier2DeleteAccount").hasAuthority("tier2")
-	        .antMatchers("/Tier2Search").hasAuthority("tier2")
 	        .antMatchers("/AdminDashboard").hasAuthority("admin")
 	        .antMatchers("/EmployeeView").hasAuthority("admin")
 	        .antMatchers("/EmployeeInsert").hasAuthority("admin")
