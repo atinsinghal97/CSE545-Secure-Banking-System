@@ -6,23 +6,17 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.NoResultException;
-import javax.persistence.TemporalType;
-
-import org.hibernate.Hibernate;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import constants.Constants;
 import database.SessionManager;
-import forms.Search;
-import forms.SearchForm;
 import forms.TransactionSearch;
 import forms.TransactionSearchForm;
 import model.Account;
 import model.Transaction;
-import model.User;
 
 public class TransactionServicesImpl {
 
@@ -31,7 +25,7 @@ public class TransactionServicesImpl {
 		String currentSessionUser = null;
 		if(auth!=null || auth.isAuthenticated()) {
 			for (GrantedAuthority grantedAuthority : auth.getAuthorities()) {
-				if (grantedAuthority.getAuthority().equals("tier1") || grantedAuthority.getAuthority().equals("tier2")) {
+				if (grantedAuthority.getAuthority().equals(Constants.TIER1) || grantedAuthority.getAuthority().equals(Constants.TIER2)) {
 					currentSessionUser = grantedAuthority.getAuthority();
 				}
 			}
@@ -52,7 +46,7 @@ public class TransactionServicesImpl {
 		
 		int amount = Integer.MAX_VALUE;
 		
-		if(currentSessionUser.equals("tier1"))
+		if(currentSessionUser.equals(Constants.TIER1))
 			amount = 1000;
 		
 		for(Transaction temp : transactions)
@@ -73,7 +67,7 @@ public class TransactionServicesImpl {
 		String currentSessionUser = null;
 		if(auth!=null || auth.isAuthenticated()) {
 			for (GrantedAuthority grantedAuthority : auth.getAuthorities()) {
-				if (grantedAuthority.getAuthority().equals("tier1") || grantedAuthority.getAuthority().equals("tier2")) {
+				if (grantedAuthority.getAuthority().equals(Constants.TIER1) || grantedAuthority.getAuthority().equals(Constants.TIER2)) {
 					currentSessionUser = grantedAuthority.getAuthority();
 				}
 			}
@@ -95,7 +89,7 @@ public class TransactionServicesImpl {
 		String currentSessionUser = null;
 		if(auth!=null || auth.isAuthenticated()) {
 			for (GrantedAuthority grantedAuthority : auth.getAuthorities()) {
-				if (grantedAuthority.getAuthority().equals("tier1") || grantedAuthority.getAuthority().equals("tier2")) {
+				if (grantedAuthority.getAuthority().equals(Constants.TIER1) || grantedAuthority.getAuthority().equals(Constants.TIER2)) {
 					currentSessionUser = grantedAuthority.getAuthority();
 				}
 			}
@@ -119,7 +113,7 @@ public class TransactionServicesImpl {
 		
 		if(auth!=null || auth.isAuthenticated()) {
 			for (GrantedAuthority grantedAuthority : auth.getAuthorities()) {
-				if (grantedAuthority.getAuthority().equals("tier1") || grantedAuthority.getAuthority().equals("tier2")) {
+				if (grantedAuthority.getAuthority().equals(Constants.TIER1) || grantedAuthority.getAuthority().equals(Constants.TIER2)) {
 					currentSessionUser = grantedAuthority.getAuthority();
 				}
 			}
@@ -143,13 +137,13 @@ public class TransactionServicesImpl {
 		transaction.setTransactionType("credit");
 		if(amount.intValue()<=1000) {
 			transaction.setIsCriticalTransaction(false);
-			transaction.setRequestAssignedTo(9);
-			transaction.setApprovalLevelRequired("tier1");
+			transaction.setRequestAssignedTo(Constants.DEFAULT_TIER1);
+			transaction.setApprovalLevelRequired(Constants.TIER1);
 		}
 		else {
 			transaction.setIsCriticalTransaction(true);
-			transaction.setRequestAssignedTo(3);
-			transaction.setApprovalLevelRequired("tier2");
+			transaction.setRequestAssignedTo(Constants.DEFAULT_TIER2);
+			transaction.setApprovalLevelRequired(Constants.TIER2);
 		}
 		if(addMoneyToAccount(accountNumber, amount)) {
 			session.save(transaction);
@@ -172,7 +166,7 @@ public class TransactionServicesImpl {
 		
 		if(auth!=null || auth.isAuthenticated()) {
 			for (GrantedAuthority grantedAuthority : auth.getAuthorities()) {
-				if (grantedAuthority.getAuthority().equals("tier1") || grantedAuthority.getAuthority().equals("tier2")) {
+				if (grantedAuthority.getAuthority().equals(Constants.TIER1) || grantedAuthority.getAuthority().equals(Constants.TIER2)) {
 					currentSessionUser = grantedAuthority.getAuthority();
 				}
 			}
@@ -196,13 +190,13 @@ public class TransactionServicesImpl {
 		transaction.setTransactionType("debit");
 		if(amount.intValue()<=1000) {
 			transaction.setIsCriticalTransaction(false);
-			transaction.setRequestAssignedTo(9);
-			transaction.setApprovalLevelRequired("tier1");
+			transaction.setRequestAssignedTo(Constants.DEFAULT_TIER1);
+			transaction.setApprovalLevelRequired(Constants.TIER1);
 		}
 		else {
 			transaction.setIsCriticalTransaction(true);
-			transaction.setRequestAssignedTo(3);
-			transaction.setApprovalLevelRequired("tier2");
+			transaction.setRequestAssignedTo(Constants.DEFAULT_TIER2);
+			transaction.setApprovalLevelRequired(Constants.TIER2);
 		}
 		
 		if(removeMoneyFromAccount(accountNumber, amount)) {
@@ -227,7 +221,7 @@ public class TransactionServicesImpl {
 		
 		if(auth!=null || auth.isAuthenticated()) {
 			for (GrantedAuthority grantedAuthority : auth.getAuthorities()) {
-				if (grantedAuthority.getAuthority().equals("tier1") || grantedAuthority.getAuthority().equals("tier2")) {
+				if (grantedAuthority.getAuthority().equals(Constants.TIER1) || grantedAuthority.getAuthority().equals(Constants.TIER2)) {
 					currentSessionUser = grantedAuthority.getAuthority();
 				}
 			}
@@ -249,13 +243,13 @@ public class TransactionServicesImpl {
 		transaction.setTransactionType("transfer");
 		if(amount.intValue()<=1000) {
 			transaction.setIsCriticalTransaction(false);
-			transaction.setRequestAssignedTo(9);
-			transaction.setApprovalLevelRequired("tier1");
+			transaction.setRequestAssignedTo(Constants.DEFAULT_TIER1);
+			transaction.setApprovalLevelRequired(Constants.TIER1);
 		}
 		else {
 			transaction.setIsCriticalTransaction(true);
-			transaction.setRequestAssignedTo(3);
-			transaction.setApprovalLevelRequired("tier2");
+			transaction.setRequestAssignedTo(Constants.DEFAULT_TIER2);
+			transaction.setApprovalLevelRequired(Constants.TIER2);
 		}
 		session.save(transaction);
 		if (txn.isActive())
@@ -271,7 +265,7 @@ public class TransactionServicesImpl {
 		String currentSessionUser = null;
 		if(auth!=null || auth.isAuthenticated()) {
 			for (GrantedAuthority grantedAuthority : auth.getAuthorities()) {
-				if (grantedAuthority.getAuthority().equals("tier1") || grantedAuthority.getAuthority().equals("tier2")) {
+				if (grantedAuthority.getAuthority().equals(Constants.TIER1) || grantedAuthority.getAuthority().equals(Constants.TIER2)) {
 					currentSessionUser = grantedAuthority.getAuthority();
 				}
 			}
@@ -317,7 +311,7 @@ public class TransactionServicesImpl {
 		String currentSessionUser = null;
 		if(auth!=null || auth.isAuthenticated()) {
 			for (GrantedAuthority grantedAuthority : auth.getAuthorities()) {
-				if (grantedAuthority.getAuthority().equals("tier1") || grantedAuthority.getAuthority().equals("tier2")) {
+				if (grantedAuthority.getAuthority().equals(Constants.TIER1) || grantedAuthority.getAuthority().equals(Constants.TIER2)) {
 					currentSessionUser = grantedAuthority.getAuthority();
 				}
 			}
@@ -338,13 +332,13 @@ public class TransactionServicesImpl {
 		transaction.setTransactionType("cc");
 		if(amount.intValue()<=1000) {
 			transaction.setIsCriticalTransaction(false);
-			transaction.setRequestAssignedTo(9);
-			transaction.setApprovalLevelRequired("tier1");
+			transaction.setRequestAssignedTo(Constants.DEFAULT_TIER1);
+			transaction.setApprovalLevelRequired(Constants.TIER1);
 		}
 		else {
 			transaction.setIsCriticalTransaction(true);
-			transaction.setRequestAssignedTo(3);
-			transaction.setApprovalLevelRequired("tier2");
+			transaction.setRequestAssignedTo(Constants.DEFAULT_TIER2);
+			transaction.setApprovalLevelRequired(Constants.TIER2);
 		}
 		if(removeMoneyFromAccount(accountNumber, amount)) {
 			session.save(transaction);
@@ -366,7 +360,7 @@ public class TransactionServicesImpl {
 		String currentSessionUser = null;
 		if(auth!=null || auth.isAuthenticated()) {
 			for (GrantedAuthority grantedAuthority : auth.getAuthorities()) {
-				if (grantedAuthority.getAuthority().equals("tier1") || grantedAuthority.getAuthority().equals("tier2")) {
+				if (grantedAuthority.getAuthority().equals(Constants.TIER1) || grantedAuthority.getAuthority().equals(Constants.TIER2)) {
 					currentSessionUser = grantedAuthority.getAuthority();
 				}
 			}
@@ -395,7 +389,7 @@ public class TransactionServicesImpl {
 		
 		if(auth!=null || auth.isAuthenticated()) {
 			for (GrantedAuthority grantedAuthority : auth.getAuthorities()) {
-				if (grantedAuthority.getAuthority().equals("tier1") || grantedAuthority.getAuthority().equals("tier2")) {
+				if (grantedAuthority.getAuthority().equals(Constants.TIER1) || grantedAuthority.getAuthority().equals(Constants.TIER2)) {
 					currentSessionUser = grantedAuthority.getAuthority();
 				}
 			}
@@ -435,7 +429,7 @@ public class TransactionServicesImpl {
 		
 		if(auth!=null || auth.isAuthenticated()) {
 			for (GrantedAuthority grantedAuthority : auth.getAuthorities()) {
-				if (grantedAuthority.getAuthority().equals("tier1") || grantedAuthority.getAuthority().equals("tier2")) {
+				if (grantedAuthority.getAuthority().equals(Constants.TIER1) || grantedAuthority.getAuthority().equals(Constants.TIER2)) {
 					currentSessionUser = grantedAuthority.getAuthority();
 				}
 			}
