@@ -91,8 +91,10 @@ public class Tier1DashboardController {
 		TransactionServicesImpl transactionService = new TransactionServicesImpl();
 		
 		if(amount.intValue() <= 1000) {
-			Transaction transaction = transactionService.issueCheque(amount, accountNumber);
-			return new ModelAndView("Tier1IssueCheque","message","The Cheque was issued successfully");
+			if(transactionService.issueCheque(amount, accountNumber))
+					return new ModelAndView("Tier1IssueCheque","message","The Cheque was issued successfully");
+			else
+				return new ModelAndView("Tier1IssueCheque","message","The Cheque was not issued");
 		}
 		else {
 			return new ModelAndView("Tier1IssueCheque","message","You don't have authority to issue cheque of amount greater than 1000");
@@ -115,8 +117,10 @@ public class Tier1DashboardController {
 		//if account exists pending
 		
 		if(amount.intValue() <= 1000) {
-			Transaction transaction = transactionService.depositCheque(chequeId, amount, accountNumber);
-			return new ModelAndView("Tier1DepositCheque","message","The Cheque was deposited successfully");
+			if(transactionService.depositCheque(chequeId, amount, accountNumber))
+				return new ModelAndView("Tier1DepositCheque","message","The Cheque was deposited successfully");
+			else
+				return new ModelAndView("Tier1DepositCheque","message","The Cheque was not deposited");
 		}
 		else {
 			return new ModelAndView("Tier1DepositCheque","message","You don't have authority to deposit cheque of amount greater than 1000");
@@ -137,8 +141,10 @@ public class Tier1DashboardController {
 		//if account exists pending
 		
 		if(amount.intValue() <= 1000) {
-			Transaction transaction = transactionService.depositMoney(amount, accountNumber);
-			return new ModelAndView("Tier1DepositMoney","message","Amount deposited successfully");
+			if(transactionService.depositMoney(amount, accountNumber))
+				return new ModelAndView("Tier1DepositMoney","message","Amount deposited successfully");
+			else
+				return new ModelAndView("Tier1DepositMoney","message","Amount not deposited");
 		}
 		else {
 			return new ModelAndView("Tier1DepositMoney","message","You don't have authority to deposit amount greater than 1000");
@@ -158,8 +164,10 @@ public class Tier1DashboardController {
 		//if account exists pending
 		
 		if(amount.intValue() <= 1000) {
-			Transaction transaction = transactionService.withdrawMoney(amount, accountNumber);
-			return new ModelAndView("Tier1WithdrawMoney","message","Amount withdrawed successfully");
+			if(transactionService.withdrawMoney(amount, accountNumber))
+				return new ModelAndView("Tier1WithdrawMoney","message","Amount withdrawed successfully");
+			else
+				return new ModelAndView("Tier1WithdrawMoney","message","Amount not withdrawed");
 		}
 		else {
 			return new ModelAndView("Tier1WithdrawMoney","message","You don't have authority to withdraw amount greater than 1000");

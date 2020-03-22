@@ -9,6 +9,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.TemporalType;
 
 import org.hibernate.Hibernate;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -111,44 +112,112 @@ public class TransactionServicesImpl {
 		return true;
 	}
 	
-	public Transaction depositMoney(BigDecimal amount, String accountNumber) {
+	public Boolean depositMoney(BigDecimal amount, String accountNumber) {
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String currentSessionUser = null;
+		
+		if(auth!=null || auth.isAuthenticated()) {
+			for (GrantedAuthority grantedAuthority : auth.getAuthorities()) {
+				if (grantedAuthority.getAuthority().equals("tier1") || grantedAuthority.getAuthority().equals("tier2")) {
+					currentSessionUser = grantedAuthority.getAuthority();
+				}
+			}
+			if(currentSessionUser==null) {
+				return false;
+			}
+		}
+		
+		Session session = SessionManager.getSession(currentSessionUser);
+		
+		org.hibernate.Transaction txn = null;
+		txn = session.beginTransaction();
+		
 		Transaction transaction = new Transaction();
+		transaction.setFromAccount("100");
 		transaction.setToAccount(accountNumber);
 		transaction.setAmount(amount);
 		transaction.setApprovalStatus(true);
 		transaction.setDecisionDate(new Date());
 		transaction.setRequestedDate(new Date());
 		transaction.setTransactionType("credit");
-		if(amount.intValue()<=1000)
+		if(amount.intValue()<=1000) {
 			transaction.setIsCriticalTransaction(false);
-		else
+			transaction.setRequestAssignedTo(9);
+			transaction.setApprovalLevelRequired("tier1");
+		}
+		else {
 			transaction.setIsCriticalTransaction(true);
-		
-		if(addMoneyToAccount(accountNumber, amount))
-			return transaction;
-		
-		else
-			return null;
+			transaction.setRequestAssignedTo(3);
+			transaction.setApprovalLevelRequired("tier2");
+		}
+		if(addMoneyToAccount(accountNumber, amount)) {
+			session.save(transaction);
+			if (txn.isActive())
+			    txn.commit();
+			session.close();
+			return true;
+		}
+		else {
+			if (txn.isActive())
+			    txn.rollback();
+			session.close();
+			return false;
+		}
 	}
 	
-	public Transaction withdrawMoney(BigDecimal amount, String accountNumber) {
+	public Boolean withdrawMoney(BigDecimal amount, String accountNumber) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String currentSessionUser = null;
+		
+		if(auth!=null || auth.isAuthenticated()) {
+			for (GrantedAuthority grantedAuthority : auth.getAuthorities()) {
+				if (grantedAuthority.getAuthority().equals("tier1") || grantedAuthority.getAuthority().equals("tier2")) {
+					currentSessionUser = grantedAuthority.getAuthority();
+				}
+			}
+			if(currentSessionUser==null) {
+				return false;
+			}
+		}
+		
+		Session session = SessionManager.getSession(currentSessionUser);
+		
+		org.hibernate.Transaction txn = null;
+		txn = session.beginTransaction();
+		
 		Transaction transaction = new Transaction();
-		transaction.setFromAccount(accountNumber);	
+		transaction.setFromAccount(accountNumber);
+		transaction.setToAccount("100");
 		transaction.setAmount(amount);
 		transaction.setApprovalStatus(true);
 		transaction.setDecisionDate(new Date());
 		transaction.setRequestedDate(new Date());
 		transaction.setTransactionType("debit");
-		if(amount.intValue()<=1000)
+		if(amount.intValue()<=1000) {
 			transaction.setIsCriticalTransaction(false);
-		else
+			transaction.setRequestAssignedTo(9);
+			transaction.setApprovalLevelRequired("tier1");
+		}
+		else {
 			transaction.setIsCriticalTransaction(true);
+			transaction.setRequestAssignedTo(3);
+			transaction.setApprovalLevelRequired("tier2");
+		}
 		
-		if(removeMoneyFromAccount(accountNumber, amount))
-			return transaction;
-		
-		else
-			return null;
+		if(removeMoneyFromAccount(accountNumber, amount)) {
+			session.save(transaction);
+			if (txn.isActive())
+				txn.commit();
+			session.close();
+			return true;
+		}
+		else {
+			if (txn.isActive())
+				txn.rollback();
+			session.close();
+			return false;
+		}
 	}
 	
 	
@@ -168,6 +237,8 @@ public class TransactionServicesImpl {
 		}
 		
 		Session session = SessionManager.getSession(currentSessionUser);
+		org.hibernate.Transaction txn = null;
+		txn = session.beginTransaction();
 		Transaction transaction = new Transaction();
 		transaction.setFromAccount(fromAccountNumber);	
 		transaction.setToAccount(toAccountNumber);
@@ -176,51 +247,118 @@ public class TransactionServicesImpl {
 		transaction.setDecisionDate(null);
 		transaction.setRequestedDate(new Date());
 		transaction.setTransactionType("transfer");
-		if(amount.intValue()<=1000)
+		if(amount.intValue()<=1000) {
 			transaction.setIsCriticalTransaction(false);
-		else
+			transaction.setRequestAssignedTo(9);
+			transaction.setApprovalLevelRequired("tier1");
+		}
+		else {
 			transaction.setIsCriticalTransaction(true);
-
+			transaction.setRequestAssignedTo(3);
+			transaction.setApprovalLevelRequired("tier2");
+		}
+		session.save(transaction);
+		if (txn.isActive())
+		    txn.commit();
+		session.close();
 		return true;
 	}
 	
 	
-	public Transaction depositCheque(int chequeId, BigDecimal amount, String accountNumber) {
-		Transaction transaction = new Transaction();
+	@SuppressWarnings("null")
+	public Boolean depositCheque(int chequeId, BigDecimal amount, String accountNumber) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String currentSessionUser = null;
+		if(auth!=null || auth.isAuthenticated()) {
+			for (GrantedAuthority grantedAuthority : auth.getAuthorities()) {
+				if (grantedAuthority.getAuthority().equals("tier1") || grantedAuthority.getAuthority().equals("tier2")) {
+					currentSessionUser = grantedAuthority.getAuthority();
+				}
+			}
+			if(currentSessionUser==null) {
+				return false;
+			}
+		}
+		Session session = SessionManager.getSession(currentSessionUser);
+		org.hibernate.Transaction txn = null;
+		txn = session.beginTransaction();
+
+		Transaction transaction = null;
+		try {
+			transaction = session.createQuery("FROM Transaction WHERE id = : id", Transaction.class).setParameter("id", chequeId).getSingleResult();
+		}catch (NoResultException e){
+			return false;
+		}
+		
+		if(transaction.getAmount().intValue()!=amount.intValue())
+			return false;
+			
 		transaction.setToAccount(accountNumber);
-		transaction.setAmount(amount);
 		transaction.setApprovalStatus(true);
 		transaction.setDecisionDate(new Date());
-		//can remove critical transaction flag set as will already be set in issue
-		if(amount.intValue()<=1000)
-			transaction.setIsCriticalTransaction(false);
-		else
-			transaction.setIsCriticalTransaction(true);
 		
-		if(addMoneyToAccount(accountNumber, amount))
-			return transaction;
-		
-		else
-			return null;
+		if(addMoneyToAccount(accountNumber, amount)) {
+			session.save(transaction);
+			if (txn.isActive())
+			    txn.commit();
+			session.close();
+			return true;
+		}
+		else {
+			if(txn.isActive())
+				txn.rollback();
+			session.close();
+			return false;
+		}
 	}
 	
-	public Transaction issueCheque(BigDecimal amount, String accountNumber) {
+	public Boolean issueCheque(BigDecimal amount, String accountNumber) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String currentSessionUser = null;
+		if(auth!=null || auth.isAuthenticated()) {
+			for (GrantedAuthority grantedAuthority : auth.getAuthorities()) {
+				if (grantedAuthority.getAuthority().equals("tier1") || grantedAuthority.getAuthority().equals("tier2")) {
+					currentSessionUser = grantedAuthority.getAuthority();
+				}
+			}
+			if(currentSessionUser==null) {
+				return false;
+			}
+		}
+		Session session = SessionManager.getSession(currentSessionUser);
+		org.hibernate.Transaction txn = null;
+		txn = session.beginTransaction();
 		Transaction transaction = new Transaction();
-		transaction.setFromAccount(accountNumber);	
+		transaction.setFromAccount(accountNumber);
+		transaction.setToAccount("100"); //default bank account
 		transaction.setAmount(amount);
 		transaction.setApprovalStatus(false);
 		transaction.setDecisionDate(null);
 		transaction.setRequestedDate(new Date());
 		transaction.setTransactionType("cc");
-		if(amount.intValue()<=1000)
+		if(amount.intValue()<=1000) {
 			transaction.setIsCriticalTransaction(false);
-		else
+			transaction.setRequestAssignedTo(9);
+			transaction.setApprovalLevelRequired("tier1");
+		}
+		else {
 			transaction.setIsCriticalTransaction(true);
-		
-		if(removeMoneyFromAccount(accountNumber, amount))
-			return transaction;
-		else
-			return null;
+			transaction.setRequestAssignedTo(3);
+			transaction.setApprovalLevelRequired("tier2");
+		}
+		if(removeMoneyFromAccount(accountNumber, amount)) {
+			session.save(transaction);
+			if (txn.isActive())
+			    txn.commit();
+			session.close();
+			return true;
+		}
+		else {
+			if(txn.isActive())
+				txn.rollback();
+			session.close();
+			return false;
+		}
 	}
 	
 	public boolean doesTransactionExists(int transactionId, String transactionType) {
@@ -267,14 +405,25 @@ public class TransactionServicesImpl {
 		}
 		
 		Session session = SessionManager.getSession(currentSessionUser);
+		
+		org.hibernate.Transaction txn = null;
+		txn = session.beginTransaction();
+
 		Account account= session.createQuery("FROM Account WHERE account_number = :accountNumber", Account.class)
 				.setParameter("accountNumber", accountNumber).getSingleResult();
 		
 		if(account==null)
 			return false;
 		
+		
 		BigDecimal cuurentBalance = account.getCurrentBalance();
 		account.setCurrentBalance(cuurentBalance.add(amount));
+		
+		session.save(account);
+		if (txn.isActive())
+		    txn.commit();
+		session.close();
+		
 		return true;
 		
 	}
@@ -302,14 +451,25 @@ public class TransactionServicesImpl {
 		if(account==null)
 			return false;
 		
+		org.hibernate.Transaction txn = null;
+		txn = session.beginTransaction();
+		
 		BigDecimal cuurentBalance = account.getCurrentBalance();
 
-		if(cuurentBalance.intValue() < amount.intValue())
+		if(cuurentBalance.intValue() < amount.intValue()) {
+			if (txn.isActive())
+			    txn.rollback();
+			session.close();
 			return false;
 		
+		}
 		account.setCurrentBalance(cuurentBalance.subtract(amount));
+		session.save(account);
+		if (txn.isActive())
+		    txn.commit();
+		session.close();
 		return true;
 		
 	}
-
+	
 }
