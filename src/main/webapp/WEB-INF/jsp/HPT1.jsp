@@ -12,12 +12,14 @@
 			        <nav role="navigation">
 			            <ul class="top-bar">
 			            	<li class="cta"><a class="ButtonDesign" href="/Tier1Dashboard">Home</a></li>
-			            	 <li class="cta"><a class="ButtonDesign" href="/Tier1PendingTransactions">Approve/Decline Transaction</a></li>
-		 	                <li class="cta"><a class="ButtonDesign" href="/IssueCheque">Issue Cashiers Cheque</a></li>
+			            	<li class="cta"><a class="ButtonDesign" href="/Tier1PendingTransactions">Approve/Decline Transaction</a></li>
+			            	<li class="cta"><a class="ButtonDesign" href="/Tier1CreateTransaction">Create Transaction</a></li>
+		 	                <li class="cta"><a class="ButtonDesign" href="/Tier1IssueCheque">Issue Cashiers Cheque</a></li>
+		 	                <li class="cta"><a class="ButtonDesign" href="/Tier1DepositCheque">Deposit Cashiers Cheque</a></li>
 			                <li class="cta"><a class="ButtonDesign" href="/Tier1DepositMoney">Deposit Money</a></li>
 			                <li class="cta"><a class="ButtonDesign" href="/Tier1WithdrawMoney">Withdraw Money</a></li>
 			                <li class="ctd"><a class="ButtonDesign" href="/Tier1UpdatePassword">Change Password</a></li>
-			                <li class="cta"><a class="ButtonDesign" href="/logout">Log Out</a></li>
+			                <li class="cta"><a class="ButtonDesign" href="/Login">Log Out</a></li>
 
 <input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/> 
 			            </ul>

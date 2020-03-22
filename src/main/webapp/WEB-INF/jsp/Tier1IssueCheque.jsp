@@ -10,21 +10,22 @@
 <div id="page-content" align="center" class="col-md-12">
 			<div>
   				<div>
-    				<h3> <b>Cheque Search</b></h3>
+    				<h3> <b>Issue Cheque</b></h3>
  				 </div>
 	  			 <div>
-					<form id="SearchCheque" class="form-horizontal" action="/searchcheque" method="post">
+					<form id="Tier1IssueCheque" class="form-horizontal" action="/Tier1/IssueCheque" method="post">
 			  			<fieldset>
 			  			<div>
-						      <label for="chequeid" class="col-lg-2 control-label">Cheque Id</label>
+						      <label for="Tier1IssueCheque" class="col-lg-2 control-label">Issue Cheque</label>
 						      <div class="col-lg-5">
-						        <input type="text" class="form-control" id="chequeid" name="chequeid" placeholder="Cheque ID" required>
+						        <input type="text" class="form-control" id="accountNumber" name="accountNumber" placeholder="Account Number" required>
+						        <input type="text" class="form-control" id="amount" name="amount" placeholder="Amount" required>
 						      </div>
 						    </div>
 						    <div>
 						      <div class="col-lg-7 col-lg-offset-2">
 						      	<button type="reset" class="btn btn-default">Reset</button>
-						        <button id="searchcheque" name="action" value="searchcheque">Issue Cheque</button>
+						        <button id="Tier1IssueChequeDone" name="action" value="/Tier1/IssueCheque">Issue Cheque</button>
 						        <input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 						      </div>
 						      <div>
