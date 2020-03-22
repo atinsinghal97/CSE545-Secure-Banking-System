@@ -51,7 +51,6 @@ public class TransactionServicesImpl {
 		
 		for(Transaction temp : transactions)
 		{
-			System.out.println(temp.getId() + "  " + temp.getDecisionDate() + "  " + temp.getTransactionType());
 			if(temp.getTransactionType().equals("transfer") && temp.getDecisionDate()==null && temp.getAmount().intValue()<=amount) {
 				TransactionSearch tempSearch = new TransactionSearch(temp.getId(),temp.getFromAccount(),temp.getToAccount(),temp.getAmount());
 				transactionSearch.add(tempSearch);
@@ -65,6 +64,7 @@ public class TransactionServicesImpl {
 	public Boolean approveTransactions(Integer transactionId) {	
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String currentSessionUser = null;
+		
 		if(auth!=null || auth.isAuthenticated()) {
 			for (GrantedAuthority grantedAuthority : auth.getAuthorities()) {
 				if (grantedAuthority.getAuthority().equals(Constants.TIER1) || grantedAuthority.getAuthority().equals(Constants.TIER2)) {
@@ -75,12 +75,22 @@ public class TransactionServicesImpl {
 				return false;
 			}
 		}
+		
 		Session session = SessionManager.getSession(currentSessionUser);
+
+		org.hibernate.Transaction txn = null;
+		txn = session.beginTransaction();
+		
 		Transaction transaction = session.createQuery("FROM Transaction WHERE id = :id", Transaction.class).setParameter("id", transactionId).getSingleResult();
+		
 		if(transaction==null)
 			return false;
 		transaction.setApprovalStatus(true);
 		transaction.setDecisionDate(new Date());
+		session.save(transaction);
+		if (txn.isActive())
+		    txn.commit();
+		session.close();
 		return true;
 	}
 
@@ -98,11 +108,17 @@ public class TransactionServicesImpl {
 			}
 		}
 		Session session = SessionManager.getSession(currentSessionUser);
+		org.hibernate.Transaction txn = null;
+		txn = session.beginTransaction();
 		Transaction transaction = session.createQuery("FROM Transaction WHERE id = :id", Transaction.class).setParameter("id", transactionId).getSingleResult();
 		if(transaction==null)
 			return false;
 		transaction.setApprovalStatus(false);
 		transaction.setDecisionDate(new Date());
+		session.save(transaction);
+		if (txn.isActive())
+		    txn.commit();
+		session.close();
 		return true;
 	}
 	

@@ -18,6 +18,7 @@
 		 	                <li class="cta"><a class="ButtonDesign" href="/Tier1DepositCheque">Deposit Cashiers Cheque</a></li>
 			                <li class="cta"><a class="ButtonDesign" href="/Tier1DepositMoney">Deposit Money</a></li>
 			                <li class="cta"><a class="ButtonDesign" href="/Tier1WithdrawMoney">Withdraw Money</a></li>
+			                <li class="cta"><a class="ButtonDesign" href="/Tier1ViewAccounts">View Customer Accounts</li>
 			                <li class="ctd"><a class="ButtonDesign" href="/Tier1UpdatePassword">Change Password</a></li>
 			                <li class="cta"><a class="ButtonDesign" href="/Login">Log Out</a></li>
 

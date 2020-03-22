@@ -23,13 +23,6 @@ public class Tier1DashboardController {
 		return "Tier1Dashboard";
 		
 	}
-	/*
-	@RequestMapping(value = "/Tier1PendingTransactions")
-	public String pendingTransactions(HttpServletRequest request, HttpSession session, Model model) {			
-		return "redirect:/Tier1PendingTransactions";
-		
-	}
-	*/
 	
 	@RequestMapping(value = "/Tier1PendingTransactions")
 	public ModelAndView tier1PendingTransactions(HttpServletRequest request, HttpSession session, Model model) {
@@ -200,4 +193,9 @@ public class Tier1DashboardController {
 		}		
 	}
 	
+	@RequestMapping(value = "/Tier1ViewAccounts")
+	public String viewAccounts(HttpServletRequest request, HttpSession session, Model model) {
+		return "Tier1ViewAccounts";
+		
+	}
 }
