@@ -47,7 +47,7 @@ public class TransactionServicesImpl {
 		int amount = Integer.MAX_VALUE;
 		
 		if(currentSessionUser.equals(Constants.TIER1))
-			amount = 1000;
+			amount = Constants.THRESHOLD_AMOUNT.intValue();
 		
 		for(Transaction temp : transactions)
 		{
@@ -128,14 +128,14 @@ public class TransactionServicesImpl {
 		txn = session.beginTransaction();
 		
 		Transaction transaction = new Transaction();
-		transaction.setFromAccount("100");
+		transaction.setFromAccount(Constants.DEFAULT_BANK_ACCOUNT);
 		transaction.setToAccount(accountNumber);
 		transaction.setAmount(amount);
 		transaction.setApprovalStatus(true);
 		transaction.setDecisionDate(new Date());
 		transaction.setRequestedDate(new Date());
-		transaction.setTransactionType("credit");
-		if(amount.intValue()<=1000) {
+		transaction.setTransactionType(Constants.CREDIT);
+		if(amount.intValue()<=Constants.THRESHOLD_AMOUNT.intValue()) {
 			transaction.setIsCriticalTransaction(false);
 			transaction.setRequestAssignedTo(Constants.DEFAULT_TIER1);
 			transaction.setApprovalLevelRequired(Constants.TIER1);
@@ -182,13 +182,13 @@ public class TransactionServicesImpl {
 		
 		Transaction transaction = new Transaction();
 		transaction.setFromAccount(accountNumber);
-		transaction.setToAccount("100");
+		transaction.setToAccount(Constants.DEFAULT_BANK_ACCOUNT);
 		transaction.setAmount(amount);
 		transaction.setApprovalStatus(true);
 		transaction.setDecisionDate(new Date());
 		transaction.setRequestedDate(new Date());
-		transaction.setTransactionType("debit");
-		if(amount.intValue()<=1000) {
+		transaction.setTransactionType(Constants.DEBIT);
+		if(amount.intValue()<=Constants.THRESHOLD_AMOUNT.intValue()) {
 			transaction.setIsCriticalTransaction(false);
 			transaction.setRequestAssignedTo(Constants.DEFAULT_TIER1);
 			transaction.setApprovalLevelRequired(Constants.TIER1);
@@ -240,8 +240,8 @@ public class TransactionServicesImpl {
 		transaction.setApprovalStatus(false);
 		transaction.setDecisionDate(null);
 		transaction.setRequestedDate(new Date());
-		transaction.setTransactionType("transfer");
-		if(amount.intValue()<=1000) {
+		transaction.setTransactionType(Constants.TRANSFER);
+		if(amount.intValue()<=Constants.THRESHOLD_AMOUNT.intValue()) {
 			transaction.setIsCriticalTransaction(false);
 			transaction.setRequestAssignedTo(Constants.DEFAULT_TIER1);
 			transaction.setApprovalLevelRequired(Constants.TIER1);
@@ -324,13 +324,13 @@ public class TransactionServicesImpl {
 		txn = session.beginTransaction();
 		Transaction transaction = new Transaction();
 		transaction.setFromAccount(accountNumber);
-		transaction.setToAccount("100"); //default bank account
+		transaction.setToAccount(Constants.DEFAULT_BANK_ACCOUNT); //default bank account
 		transaction.setAmount(amount);
 		transaction.setApprovalStatus(false);
 		transaction.setDecisionDate(null);
 		transaction.setRequestedDate(new Date());
-		transaction.setTransactionType("cc");
-		if(amount.intValue()<=1000) {
+		transaction.setTransactionType(Constants.CHEQUE);
+		if(amount.intValue()<=Constants.THRESHOLD_AMOUNT.intValue()) {
 			transaction.setIsCriticalTransaction(false);
 			transaction.setRequestAssignedTo(Constants.DEFAULT_TIER1);
 			transaction.setApprovalLevelRequired(Constants.TIER1);

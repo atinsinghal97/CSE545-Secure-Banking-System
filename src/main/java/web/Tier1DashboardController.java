@@ -2,8 +2,6 @@ package web;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -14,9 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import forms.SearchForm;
+import constants.Constants;
 import forms.TransactionSearchForm;
-import model.Transaction;
 
 @Controller
 public class Tier1DashboardController {
@@ -90,7 +87,7 @@ public class Tier1DashboardController {
 	public ModelAndView tier1IssueCheque(HttpServletRequest request, HttpSession session, @RequestParam(required = true, name="accountNumber") String accountNumber, @RequestParam(required = true, name="amount") BigDecimal amount, Model model){
 		TransactionServicesImpl transactionService = new TransactionServicesImpl();
 		
-		if(amount.intValue() <= 1000) {
+		if(amount.intValue() <= Constants.THRESHOLD_AMOUNT.intValue()) {
 			if(transactionService.issueCheque(amount, accountNumber))
 					return new ModelAndView("Tier1IssueCheque","message","The Cheque was issued successfully");
 			else
@@ -116,7 +113,7 @@ public class Tier1DashboardController {
 
 		//if account exists pending
 		
-		if(amount.intValue() <= 1000) {
+		if(amount.intValue() <= Constants.THRESHOLD_AMOUNT.intValue()) {
 			if(transactionService.depositCheque(chequeId, amount, accountNumber))
 				return new ModelAndView("Tier1DepositCheque","message","The Cheque was deposited successfully");
 			else
@@ -140,7 +137,7 @@ public class Tier1DashboardController {
 		
 		//if account exists pending
 		
-		if(amount.intValue() <= 1000) {
+		if(amount.intValue() <= Constants.THRESHOLD_AMOUNT.intValue()) {
 			if(transactionService.depositMoney(amount, accountNumber))
 				return new ModelAndView("Tier1DepositMoney","message","Amount deposited successfully");
 			else
@@ -163,7 +160,7 @@ public class Tier1DashboardController {
 		
 		//if account exists pending
 		
-		if(amount.intValue() <= 1000) {
+		if(amount.intValue() <= Constants.THRESHOLD_AMOUNT.intValue()) {
 			if(transactionService.withdrawMoney(amount, accountNumber))
 				return new ModelAndView("Tier1WithdrawMoney","message","Amount withdrawed successfully");
 			else
@@ -192,7 +189,7 @@ public class Tier1DashboardController {
 		
 		//if account exists pending
 		
-		if(amount.intValue() <= 1000) {
+		if(amount.intValue() <= Constants.THRESHOLD_AMOUNT.intValue()) {
 			if(transactionService.createTransaction(amount, fromAccountNumber, toAccountNumber))
 				return new ModelAndView("Tier1CreateTransaction","message","Transaction created successfully");
 			else

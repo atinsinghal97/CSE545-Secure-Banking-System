@@ -1,5 +1,6 @@
 package constants;
 
+import java.math.BigDecimal;
 
 public final class Constants {
 
@@ -16,6 +17,12 @@ public final class Constants {
     public static final int DEFAULT_TIER1 = 9;
     public static final int DEFAULT_TIER2 = 3;
     public static final int DEFAULT_ADMIN = 4;
+    public static final String DEFAULT_BANK_ACCOUNT = "100";
+    public static final String TRANSFER = "transfer";
+    public static final String DEBIT = "debit";
+    public static final String CREDIT = "credit";
+    public static final String CHEQUE = "cc";
+    public static final BigDecimal THRESHOLD_AMOUNT = BigDecimal.valueOf(1000);
 
 
 
