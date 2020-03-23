@@ -34,8 +34,13 @@ public class TransactionServicesImpl {
 			}
 		}
 		Session session = SessionManager.getSession(currentSessionUser);
+		List<Transaction> transactions = null;
 		
-		List<Transaction> transactions = (List<Transaction>) session.createQuery("FROM Transaction WHERE approval_status = :approval_status", Transaction.class).setParameter("approval_status", 0).getResultList();
+		try{
+			transactions = (List<Transaction>) session.createQuery("FROM Transaction WHERE approval_status = :approval_status", Transaction.class).setParameter("approval_status", 0).getResultList();
+		}catch(NoResultException e){
+			return null;
+		}
 		
 		if(transactions==null)
 			return null;
@@ -81,10 +86,16 @@ public class TransactionServicesImpl {
 		org.hibernate.Transaction txn = null;
 		txn = session.beginTransaction();
 		
-		Transaction transaction = session.createQuery("FROM Transaction WHERE id = :id", Transaction.class).setParameter("id", transactionId).getSingleResult();
+		Transaction transaction = null;
+		try{
+			transaction = session.createQuery("FROM Transaction WHERE id = :id", Transaction.class).setParameter("id", transactionId).getSingleResult();
+		}catch(NoResultException e){
+			return false;
+		}
 		
 		if(transaction==null)
 			return false;
+		
 		transaction.setApprovalStatus(true);
 		transaction.setDecisionDate(new Date());
 		session.save(transaction);
@@ -110,9 +121,17 @@ public class TransactionServicesImpl {
 		Session session = SessionManager.getSession(currentSessionUser);
 		org.hibernate.Transaction txn = null;
 		txn = session.beginTransaction();
-		Transaction transaction = session.createQuery("FROM Transaction WHERE id = :id", Transaction.class).setParameter("id", transactionId).getSingleResult();
+		
+		Transaction transaction = null;
+		try{
+			 transaction = session.createQuery("FROM Transaction WHERE id = :id", Transaction.class).setParameter("id", transactionId).getSingleResult();
+		}catch(NoResultException e){
+			return false;
+		}
+		
 		if(transaction==null)
 			return false;
+		
 		transaction.setApprovalStatus(false);
 		transaction.setDecisionDate(new Date());
 		session.save(transaction);
@@ -415,9 +434,13 @@ public class TransactionServicesImpl {
 		
 		org.hibernate.Transaction txn = null;
 		txn = session.beginTransaction();
-
-		Account account= session.createQuery("FROM Account WHERE account_number = :accountNumber", Account.class)
-				.setParameter("accountNumber", accountNumber).getSingleResult();
+		
+		Account account = null;
+		try{
+			account = session.createQuery("FROM Account WHERE account_number = :accountNumber", Account.class).setParameter("accountNumber", accountNumber).getSingleResult();
+		}catch(NoResultException e) {
+			return false;
+		}
 		
 		if(account==null)
 			return false;
@@ -452,8 +475,13 @@ public class TransactionServicesImpl {
 		}
 		
 		Session session = SessionManager.getSession(currentSessionUser);
-		Account account= session.createQuery("FROM Account WHERE account_number = :accountNumber", Account.class)
-				.setParameter("accountNumber", accountNumber).getSingleResult();
+		
+		Account account = null;
+		try{
+			account = session.createQuery("FROM Account WHERE account_number = :accountNumber", Account.class).setParameter("accountNumber", accountNumber).getSingleResult();
+		}catch(NoResultException e) {
+			return false;
+		}
 		
 		if(account==null)
 			return false;
