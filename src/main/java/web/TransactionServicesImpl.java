@@ -96,9 +96,21 @@ public class TransactionServicesImpl {
 		if(transaction==null)
 			return false;
 		
-		transaction.setApprovalStatus(true);
+		
 		transaction.setDecisionDate(new Date());
+
+		if(!addMoneyToAccount(transaction.getToAccount(), transaction.getAmount()) || !removeMoneyFromAccount(transaction.getFromAccount(), transaction.getAmount())) {
+			transaction.setApprovalStatus(false);
+			session.save(transaction);
+			if (txn.isActive())
+			    txn.commit();
+			session.close();
+			return false;
+		}
+		
+		transaction.setApprovalStatus(true);
 		session.save(transaction);
+
 		if (txn.isActive())
 		    txn.commit();
 		session.close();
@@ -270,8 +282,7 @@ public class TransactionServicesImpl {
 		transaction.setFromAccount(fromAccountNumber);	
 		transaction.setToAccount(toAccountNumber);
 		transaction.setAmount(amount);
-		transaction.setApprovalStatus(false);
-		transaction.setDecisionDate(null);
+		transaction.setDecisionDate(new Date());
 		transaction.setRequestedDate(new Date());
 		transaction.setTransactionType(Constants.TRANSFER);
 		if(amount.intValue()<=Constants.THRESHOLD_AMOUNT.intValue()) {
@@ -284,7 +295,19 @@ public class TransactionServicesImpl {
 			transaction.setRequestAssignedTo(Constants.DEFAULT_TIER2);
 			transaction.setApprovalLevelRequired(Constants.TIER2);
 		}
+		
+		if(!addMoneyToAccount(transaction.getToAccount(), transaction.getAmount()) || !removeMoneyFromAccount(transaction.getFromAccount(), transaction.getAmount())) {
+			transaction.setApprovalStatus(false);
+			session.save(transaction);
+			if (txn.isActive())
+			    txn.commit();
+			session.close();
+			return false;
+		}
+		
+		transaction.setApprovalStatus(true);
 		session.save(transaction);
+
 		if (txn.isActive())
 		    txn.commit();
 		session.close();

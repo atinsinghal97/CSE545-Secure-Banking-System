@@ -1,5 +1,6 @@
 package web;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import forms.SearchForm;
+import forms.TransactionSearchForm;
 
 @Controller
 public class Tier2DashboardController {
@@ -25,11 +27,41 @@ public class Tier2DashboardController {
         
     }
 	
-	@RequestMapping("/Tier2/PendingTransaction")
-    public String tier2PendingTransaction(final HttpServletRequest request, Model model) {
+	@RequestMapping("/Tier2PendingTransaction")
+    public ModelAndView tier2PendingTransaction(final HttpServletRequest request, Model model) {
+		TransactionServicesImpl transactionService = new TransactionServicesImpl();
+		TransactionSearchForm transactionSearchForm = transactionService.getPendingTransactions();
+		if(transactionSearchForm==null)
+			return new ModelAndView("Tier2PendingTransaction","message","No Pending Transactions");
+
+		else {
+			return new ModelAndView("Tier2PendingTransaction", "transactionSearchForm", transactionSearchForm);
+		}  
+        
+    }
+	@RequestMapping(value = "/Tier2/AuthorizeTransaction", method = RequestMethod.POST)
+    public ModelAndView tier2AuthorizeTransaction(@RequestParam(required = true, name="id") int id, @RequestParam(required = true, name="fromAccountNumber") String fromAccountNumber, @RequestParam(required = true, name="toAccountNumber") String toAccountNumber, @RequestParam(required = true, name="id") BigDecimal amount, Model model) throws ParseException {
 		
-        return "Tier2PendingTransaction";
-  
+		TransactionServicesImpl transactionServicesImpl = new TransactionServicesImpl();
+		
+		if(transactionServicesImpl.approveTransactions(id))
+			return new ModelAndView("redirect:/Tier2PendingTransaction");  
+		
+		else
+			return new ModelAndView("/Tier2PendingTransaction","message","Transaction doesn't exist");
+        
+    }
+	
+	@RequestMapping(value = "/Tier2/DeclineTransaction", method = RequestMethod.POST)
+    public ModelAndView tier2DeclineTransaction(@RequestParam(required = true, name="id") int id, @RequestParam(required = true, name="fromAccountNumber") String fromAccountNumber, @RequestParam(required = true, name="toAccountNumber") String toAccountNumber, @RequestParam(required = true, name="id") BigDecimal amount, Model model) throws ParseException {
+		
+		TransactionServicesImpl transactionServicesImpl = new TransactionServicesImpl();
+		
+		if(transactionServicesImpl.declineTransactions(id))
+			return new ModelAndView("redirect:/Tier2PendingTransaction");  
+		
+		else
+			return new ModelAndView("/Tier2PendingTransaction","message","Transaction doesn't exist");
         
     }
 	
