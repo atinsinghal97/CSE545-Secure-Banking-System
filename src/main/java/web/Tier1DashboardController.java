@@ -111,7 +111,7 @@ public class Tier1DashboardController {
 			if(transactionService.depositCheque(chequeId, amount, accountNumber))
 				return new ModelAndView("Tier1DepositCheque","message","The Cheque was deposited successfully");
 			else
-				return new ModelAndView("Tier1DepositCheque","message","The Cheque was not deposited");
+				return new ModelAndView("Tier1DepositCheque","message","The Cheque was not deposited due to incorrect information");
 		}
 		else {
 			return new ModelAndView("Tier1DepositCheque","message","You don't have authority to deposit cheque of amount greater than 1000");

@@ -144,7 +144,6 @@ public class TransactionServicesImpl {
 		txn = session.beginTransaction();
 		
 		Transaction transaction = new Transaction();
-		transaction.setFromAccount(Constants.DEFAULT_BANK_ACCOUNT);
 		transaction.setToAccount(accountNumber);
 		transaction.setAmount(amount);
 		transaction.setApprovalStatus(true);
@@ -198,7 +197,6 @@ public class TransactionServicesImpl {
 		
 		Transaction transaction = new Transaction();
 		transaction.setFromAccount(accountNumber);
-		transaction.setToAccount(Constants.DEFAULT_BANK_ACCOUNT);
 		transaction.setAmount(amount);
 		transaction.setApprovalStatus(true);
 		transaction.setDecisionDate(new Date());
@@ -340,7 +338,6 @@ public class TransactionServicesImpl {
 		txn = session.beginTransaction();
 		Transaction transaction = new Transaction();
 		transaction.setFromAccount(accountNumber);
-		transaction.setToAccount(Constants.DEFAULT_BANK_ACCOUNT); //default bank account
 		transaction.setAmount(amount);
 		transaction.setApprovalStatus(false);
 		transaction.setDecisionDate(null);
