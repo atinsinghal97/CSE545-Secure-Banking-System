@@ -3,7 +3,8 @@
 <html>
 	<head>
 		<meta charset="ISO-8859-1">
-        <link rel="stylesheet" href="css/cssClassess.css"/>     
+        <link rel="stylesheet" href="css/cssClassess.css"/>
+        <script type="text/javascript"> history.forward(); window.history.forward();function noBack() { window.history.forward(); }</script>     
 	</head>
 	<body>
 		<div class="content-container">
@@ -20,9 +21,9 @@
 			                <li class="cta"><a class="ButtonDesign" href="/Tier1WithdrawMoney">Withdraw Money</a></li>
 			                <li class="cta"><a class="ButtonDesign" href="/Tier1ViewAccounts">View Customer Accounts</li>
 			                <li class="ctd"><a class="ButtonDesign" href="/Tier1UpdatePassword">Change Password</a></li>
-			                <li class="cta"><a class="ButtonDesign" href="/Login">Log Out</a></li>
+			                <li class="cta"><a class="ButtonDesign" href="/Logout" onclick="noBack">Log Out</a></li>
 
-<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/> 
+						<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/> 
 			            </ul>
 			        </nav>
 				</header>
