@@ -32,13 +32,6 @@ public class Tier1DashboardController {
 			return new ModelAndView("/Tier1PendingTransactions","message","No Pending Transactions");
 
 		else {
-			/*
-			if(transactionSearchForm.getTransactionSearches()!=null && transactionSearchForm.getTransactionSearches().size()>0)
-				System.out.println(transactionSearchForm.getTransactionSearches().size());
-			else {
-				System.out.println("Empty List");
-			}
-			*/
 			return new ModelAndView("/Tier1PendingTransactions", "transactionSearchForm", transactionSearchForm);
 		}
 		
@@ -80,6 +73,11 @@ public class Tier1DashboardController {
 	public ModelAndView tier1IssueCheque(HttpServletRequest request, HttpSession session, @RequestParam(required = true, name="accountNumber") String accountNumber, @RequestParam(required = true, name="amount") BigDecimal amount, Model model){
 		TransactionServicesImpl transactionService = new TransactionServicesImpl();
 		
+		AccountServicesImpl accountServicesImpl = new AccountServicesImpl();
+		
+		if(!accountServicesImpl.doesAccountExists(accountNumber))
+			return new ModelAndView("Tier1IssueCheque","message","Account doesn't exist");
+
 		if(amount.intValue() <= Constants.THRESHOLD_AMOUNT.intValue()) {
 			if(transactionService.issueCheque(amount, accountNumber))
 					return new ModelAndView("Tier1IssueCheque","message","The Cheque was issued successfully");
@@ -104,8 +102,11 @@ public class Tier1DashboardController {
 		if(!transactionService.doesTransactionExists(chequeId, "cc"))
 			return new ModelAndView("Tier1DepositCheque","message","Cheque doesn't exist");
 
-		//if account exists pending
+		AccountServicesImpl accountServicesImpl = new AccountServicesImpl();
 		
+		if(!accountServicesImpl.doesAccountExists(accountNumber))
+			return new ModelAndView("Tier1DepositCheque","message","Account doesn't exist");
+
 		if(amount.intValue() <= Constants.THRESHOLD_AMOUNT.intValue()) {
 			if(transactionService.depositCheque(chequeId, amount, accountNumber))
 				return new ModelAndView("Tier1DepositCheque","message","The Cheque was deposited successfully");
@@ -128,7 +129,11 @@ public class Tier1DashboardController {
 	public ModelAndView tier1DepositMoney(HttpServletRequest request, HttpSession session, @RequestParam(required = true, name="accountNumber") String accountNumber, @RequestParam(required = true, name="amount") BigDecimal amount, Model model) {
 		TransactionServicesImpl transactionService = new TransactionServicesImpl();
 		
-		//if account exists pending
+		AccountServicesImpl accountServicesImpl = new AccountServicesImpl();
+		
+		if(!accountServicesImpl.doesAccountExists(accountNumber))
+			return new ModelAndView("Tier1DepositMoney","message","Account doesn't exist");
+
 		
 		if(amount.intValue() <= Constants.THRESHOLD_AMOUNT.intValue()) {
 			if(transactionService.depositMoney(amount, accountNumber))
@@ -151,7 +156,11 @@ public class Tier1DashboardController {
 	public ModelAndView tier1WithdrawMoney(HttpServletRequest request, HttpSession session, @RequestParam(required = true, name="accountNumber") String accountNumber, @RequestParam(required = true, name="amount") BigDecimal amount, Model model) {
 		TransactionServicesImpl transactionService = new TransactionServicesImpl();
 		
-		//if account exists pending
+		AccountServicesImpl accountServicesImpl = new AccountServicesImpl();
+		
+		if(!accountServicesImpl.doesAccountExists(accountNumber))
+			return new ModelAndView("Tier1WithdrawMoney","message","Account doesn't exist");
+
 		
 		if(amount.intValue() <= Constants.THRESHOLD_AMOUNT.intValue()) {
 			if(transactionService.withdrawMoney(amount, accountNumber))
@@ -180,7 +189,16 @@ public class Tier1DashboardController {
 	public ModelAndView tier1CreateTransaction(HttpServletRequest request, HttpSession session, @RequestParam(required = true, name="fromAccountNumber") String fromAccountNumber, @RequestParam(required = true, name="toAccountNumber") String toAccountNumber, @RequestParam(required = true, name="amount") BigDecimal amount, Model model) {
 		TransactionServicesImpl transactionService = new TransactionServicesImpl();
 		
-		//if account exists pending
+		AccountServicesImpl accountServicesImpl = new AccountServicesImpl();
+		
+		if(!accountServicesImpl.doesAccountExists(fromAccountNumber))
+			return new ModelAndView("Tier1CreateTransaction","message","From Account doesn't exist");
+
+		if(!accountServicesImpl.doesAccountExists(toAccountNumber))
+			return new ModelAndView("Tier1CreateTransaction","message","To Account doesn't exist");
+
+		if(fromAccountNumber.equals(toAccountNumber))
+			return new ModelAndView("Tier1CreateTransaction","message","From Account and To Account can't be same");
 		
 		if(amount.intValue() <= Constants.THRESHOLD_AMOUNT.intValue()) {
 			if(transactionService.createTransaction(amount, fromAccountNumber, toAccountNumber))

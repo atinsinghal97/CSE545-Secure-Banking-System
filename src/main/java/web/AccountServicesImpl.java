@@ -7,13 +7,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.hibernate.Session;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 
-
+import constants.Constants;
 
 import org.hibernate.Transaction;
 
@@ -265,6 +267,38 @@ public class AccountServicesImpl {
 		
 	}
 	
+	public Boolean doesAccountExists(String accountNumber) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String currentSessionUser = null;
+		if(auth!=null || auth.isAuthenticated()) {
+			for (GrantedAuthority grantedAuthority : auth.getAuthorities()) {
+				if (grantedAuthority.getAuthority().equals(Constants.TIER1) || grantedAuthority.getAuthority().equals(Constants.TIER2)) {
+					currentSessionUser = grantedAuthority.getAuthority();
+				}
+			}
+			if(currentSessionUser==null) {
+				return false;
+			}
+		}
+
+		Session s = SessionManager.getSession("");
+		Transaction tx = null;
+		tx = s.beginTransaction();
+		Account account = null;
+		try {
+			account = s.createQuery("FROM Account WHERE account_number = :accountNumber", Account.class)
+				.setParameter("accountNumber", accountNumber).getSingleResult();
+		}catch (NoResultException e){
+			return false;
+		}
+		if(account == null)
+			return false;
+		
+		if (tx.isActive())
+		    tx.commit();
+		s.close();
+		return true;
+	}
 	
 
 	
