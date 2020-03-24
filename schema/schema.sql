@@ -88,6 +88,23 @@ CREATE TABLE `secure_banking_system`.`login_history` (
   FOREIGN KEY (user_id) REFERENCES `secure_banking_system`.`user`(id)
 );
 
+/*
+ * MODE is the mode of communication
+ * 0 - SMS
+ * 1 - EMail
+ * */
+CREATE TABLE `secure_banking_system`.`otp` (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  otp_key VARCHAR(255) UNIQUE,
+  initator INT NOT NULL,
+  creation_date DATETIME NOT NULL DEFAULT NOW(),
+  expiry_date DATETIME NOT NULL,
+  mode INT NOT NULL,
+  completed BOOLEAN NOT NULL DEFAULT FALSE,
+  ip_address VARCHAR(255) NOT NULL,
+  FOREIGN KEY (initator) REFERENCES `secure_banking_system`.`user`(id)
+);
+
 DELIMITER $$
 
 CREATE PROCEDURE `secure_banking_system`.`create_user_transaction` (

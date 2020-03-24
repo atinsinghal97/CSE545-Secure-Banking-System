@@ -9,7 +9,7 @@
     				<h3 class="panel-title">New Password</h3>
  				 </div>
 	  			 <div class="panel-body">
-					<form id="NewPassword" class="form-horizontal" action="/newpassword" method="post">
+					<form id="NewPassword" class="form-horizontal" action="/change_password" method="post">
 			  			<fieldset>
 			  			<div class="form-group">
 						      <label for="newpassword" class="col-lg-2 control-label">New Password</label>
@@ -25,7 +25,7 @@
 						    </div>
 						    <div class="form-group">
 						      <div class="col-lg-7 col-lg-offset-2">
-						      	<button id="new_password" name="action" value="new_password">ChangePassword</button>
+						      	<button id="new_password" name="action" value="reset_password">Change Password</button>
 						      	<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 						      </div>
 						    </div>

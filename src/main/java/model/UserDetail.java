@@ -54,8 +54,8 @@ public class UserDetail implements Serializable {
 
 	private Long zip;
 
-	//bi-directional many-to-one association to User
-	@ManyToOne
+	//bi-directional one-to-one association to User
+	@OneToOne
 	private User user;
 
 	public UserDetail() {

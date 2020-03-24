@@ -51,9 +51,9 @@ public class User implements Serializable {
 	@OneToMany(mappedBy="user2")
 	private List<Appointment> appointments2;
 
-	//bi-directional many-to-one association to UserDetail
-	@OneToMany(mappedBy="user")
-	private List<UserDetail> userDetails;
+	//bi-directional one-to-one association to UserDetail
+	@OneToOne(mappedBy="user")
+	private UserDetail userDetail;
 
 	public User() {
 	}
@@ -188,26 +188,12 @@ public class User implements Serializable {
 		return appointments2;
 	}
 
-	public List<UserDetail> getUserDetails() {
-		return this.userDetails;
+	public UserDetail getUserDetail() {
+		return this.userDetail;
 	}
 
-	public void setUserDetails(List<UserDetail> userDetails) {
-		this.userDetails = userDetails;
-	}
-
-	public UserDetail addUserDetail(UserDetail userDetail) {
-		getUserDetails().add(userDetail);
-		userDetail.setUser(this);
-
-		return userDetail;
-	}
-
-	public UserDetail removeUserDetail(UserDetail userDetail) {
-		getUserDetails().remove(userDetail);
-		userDetail.setUser(null);
-
-		return userDetail;
+	public void setUserDetail(UserDetail userDetail) {
+		this.userDetail = userDetail;
 	}
 
 }

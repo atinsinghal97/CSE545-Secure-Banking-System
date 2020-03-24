@@ -1,0 +1,28 @@
+{
+  "name": "cse545-ss",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amitab/CSE545-SS.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amitab/CSE545-SS/issues"
+  },
+  "homepage": "https://github.com/amitab/CSE545-SS#readme",
+  "dependencies": {
+    "jquery-keyboard": "^1.0.0",
+    "jquery-mousewheel": "^3.1.13",
+    "jquery-ui": "^1.12.1",
+    "jquery-ui-css": "^1.11.5",
+    "jquery-validation": "^1.19.1",
+    "virtual-keyboard": "^1.30.1",
+    "css-to-pdf": "git://github.com/Xportability/css-to-pdf.git#master"
+  }
+}
