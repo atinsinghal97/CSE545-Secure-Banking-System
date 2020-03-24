@@ -3,7 +3,7 @@ package web;
 import java.math.BigDecimal;
 import java.text.ParseException;
 
-import javax.servlet.http.HttpServlet;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -18,7 +18,9 @@ import constants.Constants;
 import forms.TransactionSearchForm;
 
 @Controller
-public class Tier1DashboardController extends HttpServlet {
+public class Tier1DashboardController {
+	@Resource(name = "transactionServiceImpl")
+	private TransactionServicesImpl transactionServiceImpl;
 	
 	@RequestMapping(value = "/Tier1Dashboard")
 	public String dashboard(final HttpServletRequest request) {
@@ -28,8 +30,7 @@ public class Tier1DashboardController extends HttpServlet {
 	
 	@RequestMapping(value = "/Tier1PendingTransactions")
 	public ModelAndView tier1PendingTransactions(HttpServletRequest request) {
-		TransactionServicesImpl transactionService = new TransactionServicesImpl();
-		TransactionSearchForm transactionSearchForm = transactionService.getPendingTransactions();
+		TransactionSearchForm transactionSearchForm = transactionServiceImpl.getPendingTransactions();
 		if(transactionSearchForm==null)
 			return new ModelAndView("/Tier1PendingTransactions","message","No Pending Transactions");
 
@@ -40,11 +41,8 @@ public class Tier1DashboardController extends HttpServlet {
 	}
 	
 	@RequestMapping(value = "/Tier1/AuthorizeTransaction", method = RequestMethod.POST)
-    public ModelAndView tier1AuthorizeTransaction(HttpServletRequest request, @RequestParam(required = true, name="id") int id, @RequestParam(required = true, name="fromAccountNumber") String fromAccountNumber, @RequestParam(required = true, name="toAccountNumber") String toAccountNumber, @RequestParam(required = true, name="id") BigDecimal amount) throws ParseException {
-		
-		TransactionServicesImpl transactionServicesImpl = new TransactionServicesImpl();
-		
-		if(transactionServicesImpl.approveTransactions(id))
+    public ModelAndView tier1AuthorizeTransaction(HttpServletRequest request, @RequestParam(required = true, name="id") int id, @RequestParam(required = true, name="fromAccountNumber") String fromAccountNumber, @RequestParam(required = true, name="toAccountNumber") String toAccountNumber, @RequestParam(required = true, name="id") BigDecimal amount) throws ParseException {		
+		if(transactionServiceImpl.approveTransactions(id))
 			return new ModelAndView("redirect:/Tier1PendingTransactions");  
 		
 		else
@@ -54,10 +52,7 @@ public class Tier1DashboardController extends HttpServlet {
 	
 	@RequestMapping(value = "/Tier1/DeclineTransaction", method = RequestMethod.POST)
     public ModelAndView tier1DeclineTransaction(HttpServletRequest request, @RequestParam(required = true, name="id") int id, @RequestParam(required = true, name="fromAccountNumber") String fromAccountNumber, @RequestParam(required = true, name="toAccountNumber") String toAccountNumber, @RequestParam(required = true, name="id") BigDecimal amount) throws ParseException {
-		
-		TransactionServicesImpl transactionServicesImpl = new TransactionServicesImpl();
-		
-		if(transactionServicesImpl.declineTransactions(id))
+		if(transactionServiceImpl.declineTransactions(id))
 			return new ModelAndView("redirect:/Tier1PendingTransactions");  
 		
 		else
@@ -73,22 +68,19 @@ public class Tier1DashboardController extends HttpServlet {
 	
 	@RequestMapping(value = "/Tier1/IssueCheque")
 	public ModelAndView tier1IssueCheque(HttpServletRequest request, @RequestParam(required = true, name="accountNumber") String accountNumber, @RequestParam(required = true, name="amount") BigDecimal amount){
-		TransactionServicesImpl transactionService = new TransactionServicesImpl();
-		
 		AccountServicesImpl accountServicesImpl = new AccountServicesImpl();
 		
 		if(!accountServicesImpl.doesAccountExists(accountNumber))
 			return new ModelAndView("Tier1IssueCheque","message","Account doesn't exist");
 
-		if(amount.intValue() <= Constants.THRESHOLD_AMOUNT.intValue()) {
-			if(transactionService.issueCheque(amount, accountNumber))
-					return new ModelAndView("Tier1IssueCheque","message","The Cheque was issued successfully");
+		if(transactionServiceImpl.issueCheque(amount, accountNumber)) {
+			if(amount.intValue() <= Constants.THRESHOLD_AMOUNT.intValue())
+				return new ModelAndView("Tier1IssueCheque","message","The Cheque was issued successfully");
 			else
-				return new ModelAndView("Tier1IssueCheque","message","The Cheque was not issued");
+				return new ModelAndView("Tier1IssueCheque","message","The Cheque pending approval");
 		}
-		else {
-			return new ModelAndView("Tier1IssueCheque","message","You don't have authority to issue cheque of amount greater than 1000");
-		}		
+		else
+			return new ModelAndView("Tier1IssueCheque","message","The Cheque was not issued");	
 	}
 	
 	@RequestMapping(value = "/Tier1DepositCheque")
@@ -100,8 +92,7 @@ public class Tier1DashboardController extends HttpServlet {
 	
 	@RequestMapping(value = "/Tier1/DepositCheque")
 	public ModelAndView tier1DepositCheque(HttpServletRequest request, @RequestParam(required = true, name="chequeId") int chequeId, @RequestParam(required = true, name="accountNumber") String accountNumber, @RequestParam(required = true, name="amount") BigDecimal amount) {
-		TransactionServicesImpl transactionService = new TransactionServicesImpl();
-		if(!transactionService.doesTransactionExists(chequeId, "cc"))
+		if(!transactionServiceImpl.doesTransactionExists(chequeId, "cc"))
 			return new ModelAndView("Tier1DepositCheque","message","Cheque doesn't exist");
 
 		AccountServicesImpl accountServicesImpl = new AccountServicesImpl();
@@ -109,15 +100,14 @@ public class Tier1DashboardController extends HttpServlet {
 		if(!accountServicesImpl.doesAccountExists(accountNumber))
 			return new ModelAndView("Tier1DepositCheque","message","Account doesn't exist");
 
-		if(amount.intValue() <= Constants.THRESHOLD_AMOUNT.intValue()) {
-			if(transactionService.depositCheque(chequeId, amount, accountNumber))
+		if(transactionServiceImpl.depositCheque(chequeId, amount, accountNumber)) {
+			if(amount.intValue() <= Constants.THRESHOLD_AMOUNT.intValue())
 				return new ModelAndView("Tier1DepositCheque","message","The Cheque was deposited successfully");
 			else
-				return new ModelAndView("Tier1DepositCheque","message","The Cheque was not deposited due to incorrect information");
+				return new ModelAndView("Tier1DepositCheque","message","The Cheque pending approval");
 		}
-		else {
-			return new ModelAndView("Tier1DepositCheque","message","You don't have authority to deposit cheque of amount greater than 1000");
-		}		
+		else
+			return new ModelAndView("Tier1DepositCheque","message","The Cheque was not deposited due to incorrect information");
 	}
 	
 	@RequestMapping(value = "/Tier1DepositMoney")
@@ -129,8 +119,6 @@ public class Tier1DashboardController extends HttpServlet {
 	
 	@RequestMapping(value = "/Tier1/DepositMoney")
 	public ModelAndView tier1DepositMoney(HttpServletRequest request,@RequestParam(required = true, name="accountNumber") String accountNumber, @RequestParam(required = true, name="amount") BigDecimal amount) {
-		TransactionServicesImpl transactionService = new TransactionServicesImpl();
-		
 		AccountServicesImpl accountServicesImpl = new AccountServicesImpl();
 		
 		if(!accountServicesImpl.doesAccountExists(accountNumber))
@@ -138,7 +126,7 @@ public class Tier1DashboardController extends HttpServlet {
 
 		
 		if(amount.intValue() <= Constants.THRESHOLD_AMOUNT.intValue()) {
-			if(transactionService.depositMoney(amount, accountNumber))
+			if(transactionServiceImpl.depositMoney(amount, accountNumber))
 				return new ModelAndView("Tier1DepositMoney","message","Amount deposited successfully");
 			else
 				return new ModelAndView("Tier1DepositMoney","message","Amount not deposited");
@@ -156,8 +144,6 @@ public class Tier1DashboardController extends HttpServlet {
 	
 	@RequestMapping(value = "/Tier1/WithdrawMoney")
 	public ModelAndView tier1WithdrawMoney(HttpServletRequest request, @RequestParam(required = true, name="accountNumber") String accountNumber, @RequestParam(required = true, name="amount") BigDecimal amount) {
-		TransactionServicesImpl transactionService = new TransactionServicesImpl();
-		
 		AccountServicesImpl accountServicesImpl = new AccountServicesImpl();
 		
 		if(!accountServicesImpl.doesAccountExists(accountNumber))
@@ -165,7 +151,7 @@ public class Tier1DashboardController extends HttpServlet {
 
 		
 		if(amount.intValue() <= Constants.THRESHOLD_AMOUNT.intValue()) {
-			if(transactionService.withdrawMoney(amount, accountNumber))
+			if(transactionServiceImpl.withdrawMoney(amount, accountNumber))
 				return new ModelAndView("Tier1WithdrawMoney","message","Amount withdrawed successfully");
 			else
 				return new ModelAndView("Tier1WithdrawMoney","message","Amount not withdrawed");
@@ -189,8 +175,6 @@ public class Tier1DashboardController extends HttpServlet {
 	
 	@RequestMapping(value = "/Tier1/CreateTransaction")
 	public ModelAndView tier1CreateTransaction(HttpServletRequest request, @RequestParam(required = true, name="fromAccountNumber") String fromAccountNumber, @RequestParam(required = true, name="toAccountNumber") String toAccountNumber, @RequestParam(required = true, name="amount") BigDecimal amount) {
-		TransactionServicesImpl transactionService = new TransactionServicesImpl();
-		
 		AccountServicesImpl accountServicesImpl = new AccountServicesImpl();
 		
 		if(!accountServicesImpl.doesAccountExists(fromAccountNumber))
@@ -201,32 +185,20 @@ public class Tier1DashboardController extends HttpServlet {
 
 		if(fromAccountNumber.equals(toAccountNumber))
 			return new ModelAndView("Tier1CreateTransaction","message","From Account and To Account can't be same");
-		
-		if(amount.intValue() <= Constants.THRESHOLD_AMOUNT.intValue()) {
-			if(transactionService.createTransaction(amount, fromAccountNumber, toAccountNumber))
+
+		if(transactionServiceImpl.createTransaction(amount, fromAccountNumber, toAccountNumber)) {
+			if(amount.intValue() <= Constants.THRESHOLD_AMOUNT.intValue()) {
 				return new ModelAndView("Tier1CreateTransaction","message","Transaction created successfully");
-			else
-				return new ModelAndView("Tier1CreateTransaction","message","Transaction not created");
-		}
-		else {
-			return new ModelAndView("Tier1CreateTransaction","message","You don't have authority to create transaction having amount greater than 1000");
-		}		
+			} else {
+				return new ModelAndView("Tier1CreateTransaction","message","Transaction pending approval");
+			}
+		} else
+			return new ModelAndView("Tier1CreateTransaction","message","Transaction not created");
 	}
 	
 	@RequestMapping(value = "/Tier1ViewAccounts")
 	public String viewAccounts(HttpServletRequest request) {
 		return "Tier1ViewAccounts";
-		
-	}
-	
-	@RequestMapping(value = "/Logout")
-	public ModelAndView logout(HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		if (session != null) {
-		    session.invalidate();
-		    session.setMaxInactiveInterval(1); 
-		}
-		return new ModelAndView("/Logout");
 		
 	}
 }

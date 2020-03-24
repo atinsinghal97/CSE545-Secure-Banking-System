@@ -26,25 +26,8 @@ public class EmployeeServiceImpl {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
-	private boolean isAdminSession() {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String currentSessionUser = null;
-		if(auth!=null && auth.isAuthenticated()) {
-			for (GrantedAuthority grantedAuthority : auth.getAuthorities()) {
-				if (grantedAuthority.getAuthority().equals("admin")) {
-					currentSessionUser = grantedAuthority.getAuthority();
-				}
-			}
-			if(currentSessionUser==null) {
-				return false;
-			}
-		}
-		
-		return true;
-	}
-	
 	public EmployeeSearchForm getEmployees(String username) {
-		if (!isAdminSession())
+		if (!WebSecurityConfig.currentSessionHasAnyAuthority("admin"))
 			return null;
 		
 		Session s = SessionManager.getSession("");
@@ -72,7 +55,7 @@ public class EmployeeServiceImpl {
 	}
 	
 	public Boolean updateEmployees(String userName,String email,String firstName,String lastName,String middleName,String phoneNumber) {	
-		if (!isAdminSession())
+		if (!WebSecurityConfig.currentSessionHasAnyAuthority("admin"))
 			return null;
 		
 		 Session s = SessionManager.getSession("");
@@ -110,7 +93,7 @@ public class EmployeeServiceImpl {
 	}
 	
 	public Boolean deleteEmployees(String userName,String firstName,String lastName) {
-		if (!isAdminSession())
+		if (!WebSecurityConfig.currentSessionHasAnyAuthority("admin"))
 			return null;
 		
 		
@@ -152,7 +135,7 @@ public class EmployeeServiceImpl {
 	
 	public Boolean createEmployee(String userType,String firstname,String middlename,String lastname,String username,String password,String email,String address,String phone,String dateOfBirth,String ssn,String secquestion1,String secquestion2) throws ParseException
 	{
-		if (!isAdminSession())
+		if (!WebSecurityConfig.currentSessionHasAnyAuthority("admin"))
 			return null;
 		
 		Session s = SessionManager.getSession("");

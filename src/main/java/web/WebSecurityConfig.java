@@ -1,15 +1,21 @@
 package web;
 
+import java.util.stream.Stream;
+
 import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -96,5 +102,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+    
+    public static Stream<String> getCurrentSessionAuthority() {
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	if(auth == null || !auth.isAuthenticated() || (auth instanceof AnonymousAuthenticationToken)) {
+    		return null;
+    	}
+
+    	return auth.getAuthorities().stream().map(GrantedAuthority::getAuthority);
+    }
+    
+    public static Boolean currentSessionHasAnyAuthority(String... authorities) {
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	if(auth == null || !auth.isAuthenticated() || (auth instanceof AnonymousAuthenticationToken)) {
+    	return false;
+    	}
+
+    	for (String authority : authorities) {
+	    	for (GrantedAuthority grantedAuthority : auth.getAuthorities()) {
+		    	if (grantedAuthority.getAuthority().equals(authority)) {
+		    	return true;
+		    	}
+	    	}
+    	}
+
+    	return null;
     }
 }
