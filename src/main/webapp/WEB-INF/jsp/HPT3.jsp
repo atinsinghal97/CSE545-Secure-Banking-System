@@ -11,11 +11,11 @@
 				<header role="banner">
 			        <nav role="navigation">
 			            <ul class="top-bar">
-			            	<li><a href="/EmployeeView">View Employee</a></li>
-		    				<li><a href="/EmployeeInsert">Create Employee</a></li>
-		   					<li><a href="/EmployeeUpdate">Modify Employee</a></li>
-		   					<li><a href="/EmployeeDelete">Delete Employee</a></li>
-		   					<li><a href="/SystemLogs">System Logs</a></li>
+			            	<li><a href="/Admin/SearchEmployee">View Employee</a></li>
+		    				<li><a href="/Admin/CreateEmployee">Create Employee</a></li>
+		   					<li><a href="/Admin/UpdateEmployee">Modify Employee</a></li>
+		   					<li><a href="/Admin/DeleteEmployee">Delete Employee</a></li>
+		   					<li><a href="/Admin/SystemLogs">System Logs</a></li>
 			                <li class="cta"><a class="ButtonDesign" href="/logout">Log Out</a></li>
 <input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/> 
 			            </ul>

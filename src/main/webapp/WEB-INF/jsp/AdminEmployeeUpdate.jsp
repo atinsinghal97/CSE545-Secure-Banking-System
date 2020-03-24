@@ -12,17 +12,17 @@
     				<h3 class="panel-title">Employee Update</h3>
  				 </div>
 	  			 <div class="panel-body">
-	  			 <form class="form-horizontal" id="EmployeeUpdateSearch"   action="/Search" method="post">
+	  			 <form class="form-horizontal" id="EmployeeUpdateSearch" action="/Admin/UpdateSearch" method="post">
 	  			 <div class="form-group">
 						      <label for="username_search" class="col-lg-2 control-label">User Name</label>
 						      <div class="col-lg-5">
-						        <input type="text" class="form-control" id="username_search" name="username_search" placeholder="User Name"  required >
+						        <input type="text" class="form-control" id="username" name="username" placeholder="User Name" required>
 						      </div>
 						    </div>
 						    <div class="form-group">
 						      <div class="col-lg-7 col-lg-offset-2">
 						      	<button type="reset" class="btn btn-default">Reset</button>
-						        <button  type="submit">Search</button>
+						        <button id="emp_update_search" name="action" value="emp_update_search">Search</button>
 						        <input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 						      </div>
 						      <div>
@@ -30,55 +30,49 @@
 						      </div>
 						    </div>
 	  			 </form>
-					<form class="form-horizontal" id="EmployeeUpdate" action="/ChangeValue" method="post">
+					<form class="form-horizontal" id="EmployeeUpdate" action="/Admin/UpdateValues" method="post">
 			  			<fieldset>
 			  				<div class="form-group">
 						      <label for="empusername" class="col-lg-2 control-label">Employee Username</label>
 						      <div class="col-lg-5">
-						        <input type="text" class="form-control" name="empusername" id="empusername" placeholder="Username" value=<%=request.getAttribute("empusername") %> readonly>
+						        <input type="text" class="form-control" name="userName" id="userName" placeholder="Username" value=<%=request.getAttribute("userName") %> readOnly required>
 						      </div>
 						    </div>
 			  				<div class="form-group">
 						      <label for="email" class="col-lg-2 control-label">Email</label>
 						      <div class="col-lg-5">
-						        <input type="email" class="form-control" name="email" id="email" placeholder="Email" value=<%=request.getAttribute("Email") %> >
+						        <input type="email" class="form-control" name="email" id="email" placeholder="Email" value=<%=request.getAttribute("email") %> required>
 						      </div>
 						    </div>
 						    <div class="form-group">
 						      <label for="firstname" class="col-lg-2 control-label">First Name</label>
 						      <div class="col-lg-5">
-						        <input type="text" class="form-control" id="firstname" name="firstname" placeholder="First Name" value=<%=request.getAttribute("FirstName") %> >
+						        <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name" value=<%=request.getAttribute("firstName") %> required>
 						      </div>
 						    </div>
 						    <div class="form-group">
 						      <label for="middlename" class="col-lg-2 control-label">Middle Name</label>
 						      <div class="col-lg-5">
-						        <input type="text" class="form-control" id="middlename" name="middlename" placeholder="Middle Name" value=<%=request.getAttribute("MiddleName") %> >
+						        <input type="text" class="form-control" id="middleName" name="middleName" placeholder="Middle Name" value=<%=request.getAttribute("middleName") %> required>
 						      </div>
 						    </div>
 						    <div class="form-group">
 						      <label for="lastname" class="col-lg-2 control-label">Last Name</label>
 						      <div class="col-lg-5">
-						        <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Last Name" value=<%=request.getAttribute("LastName") %> >
+						        <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name" value=<%=request.getAttribute("lastName") %> required>
 						      </div>
 						    </div>
 						    <div class="form-group">
 						      <label for="phone" class="col-lg-2 control-label">Phone Number</label>
 						      <div class="col-lg-5">
-						        <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone" value=<%=request.getAttribute("Phone") %> >
-						      </div>
-						    </div>
-						    <div class="form-group">
-						      <label for="date_of_birth" class="col-lg-2 control-label">DOB</label>
-						      <div class="col-lg-5">
-						        <input type="date" class="form-control" name="date_of_birth" id="date_of_birth" placeholder="Date of Birth" value=<%=request.getAttribute("DOB") %> readonly >
+						        <input type="text" class="form-control" name="phoneNumber" id="phoneNumber" placeholder="Phone" value=<%=request.getAttribute("phoneNumber") %> required>
 						      </div>
 						    </div>
 						        <br>
 						     <div class="form-group">
 						      <div class="col-lg-7 col-lg-offset-2">
 						      	<button type="reset" class="btn btn-default">Reset</button>
-						        <button type="submit">Submit</button>
+						        <button id="update_internal" name="action" value="update_internal">Submit</button>
 						        <input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 						      </div>
 						    </div>           

@@ -62,7 +62,7 @@ public class AuthSuccess implements AuthenticationSuccessHandler {
         	  isTier2 = true;
               break;
           }else if(grantedAuthority.getAuthority().equals("admin")){
-        	  return "/AdminDashboard";
+        	  return "/Admin/Dashboard";
           }
 
       }

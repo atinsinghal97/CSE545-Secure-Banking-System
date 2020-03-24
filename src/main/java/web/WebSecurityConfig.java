@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
 
 class PlainText implements PasswordEncoder {
 
@@ -71,7 +72,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .authorizeRequests()
 	        .antMatchers("/users/**").hasRole("USER")//USER role can access /users/**
 	        .antMatchers("/admin/**").hasRole("ADMIN")
-	        .antMatchers("/Tier2/**").hasAuthority("tier2")
+	        .antMatchers("/Tier2/**").hasAuthority("tier2") 
+	        .antMatchers("/Admin/**").hasAuthority("admin")
 	        .antMatchers("/login").permitAll()// anyone can access /quests/**
 	        .antMatchers("/externalregister").permitAll()// anyone can access /quests/**
 	        .antMatchers("/register").permitAll()// anyone can access /quests/**
