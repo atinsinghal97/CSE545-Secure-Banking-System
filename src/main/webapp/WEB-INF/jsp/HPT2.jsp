@@ -12,7 +12,7 @@
 			        <nav role="navigation">
 			            <ul class="top-bar">
 			            	<li class="cta"><a class="ButtonDesign" href="/Tier2/Dashboard">Home</a></li>
-			            	 <li class="cta"><a class="ButtonDesign" href="/Tier2/PendingTransaction">Transaction Approval</a></li>
+			            	 <li class="cta"><a class="ButtonDesign" href="/Tier2PendingTransaction">Approve/Decline Transactions</a></li>
 			                <li class="cta"><a class="ButtonDesign" href="/Tier2/UpdatePassword">Change Password</a></li>
 			                 <li class="cta"><a class="ButtonDesign" href="/Tier2/PendingAccounts">Account Approval</a></li>
 			                <li class="cta"><a class="ButtonDesign" href="/Tier2/SearchAccount">Search Customer Account</a></li>

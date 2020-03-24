@@ -20,6 +20,7 @@ public class Transaction implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 
+	@Column(name="amount")
 	private BigDecimal amount;
 
 	@Column(name="approval_level_required")
