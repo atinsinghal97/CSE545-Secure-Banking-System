@@ -3,7 +3,7 @@
     pageEncoding="UTF-8"%>
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="js/EmpValidation.js"></script>
-<script src="js/jquery.validate.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
 	<div class="content-wrapper">
 <%-- 	<c:choose>
 		<c:when test="${role eq 'Individual'}"><%@include file="HeaderPage.jsp" %></c:when>
