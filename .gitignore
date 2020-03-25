@@ -31,3 +31,4 @@ build/
 .vscode/
 
 src/main/java/hibernate.cfg.xml
+logs/

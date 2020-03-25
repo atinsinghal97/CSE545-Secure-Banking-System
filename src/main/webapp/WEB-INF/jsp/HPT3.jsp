@@ -12,14 +12,14 @@
 			        <nav role="navigation">
 			            <ul class="top-bar">
 			            	<li><a href="/Admin/SearchEmployee">View Employee</a></li>
-		        				<li><a href="/Admin/CreateEmployee">Create Employee</a></li>
-		       					<li><a href="/Admin/UpdateEmployee">Modify Employee</a></li>
-		       					<li><a href="/Admin/DeleteEmployee">Delete Employee</a></li>
-		       					<li><a href="/Admin/SystemLogs">System Logs</a></li>
-		                <form method="post" action="/perform_logout" id="form-logout">
-                      <button type="submit">Logout</button>
-                      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>         
-                    </form>
+	        				<li><a href="/Admin/CreateEmployee">Create Employee</a></li>
+	       					<li><a href="/Admin/UpdateEmployee">Modify Employee</a></li>
+	       					<li><a href="/Admin/DeleteEmployee">Delete Employee</a></li>
+	       					<li><a href="/Admin/SystemLogs">System Logs</a></li>
+		                	<form method="post" action="/perform_logout" id="form-logout">
+		                      <input type="submit" value="Logout" />
+		                      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>         
+		                    </form>
 			            </ul>
 			        </nav>
 				</header>

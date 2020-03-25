@@ -40,19 +40,19 @@ public class User implements Serializable {
 	private String username;
 
 	//bi-directional many-to-one association to Account
-	@OneToMany(mappedBy="user")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="user")
 	private List<Account> accounts;
 
 	//bi-directional many-to-one association to Appointment
-	@OneToMany(mappedBy="user1")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="user1")
 	private List<Appointment> appointments1;
 
 	//bi-directional many-to-one association to Appointment
-	@OneToMany(mappedBy="user2")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="user2")
 	private List<Appointment> appointments2;
 
 	//bi-directional one-to-one association to UserDetail
-	@OneToOne(mappedBy="user")
+	@OneToOne(fetch = FetchType.LAZY, mappedBy="user")
 	private UserDetail userDetail;
 
 	public User() {

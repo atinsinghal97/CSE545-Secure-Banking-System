@@ -1,4 +1,4 @@
-package web;
+package bankApp.repositories;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -15,6 +15,7 @@ import forms.TransactionSearch;
 import forms.TransactionSearchForm;
 import model.Account;
 import model.Transaction;
+import security.WebSecurityConfig;
 
 @Component(value = "transactionServiceImpl")
 public class TransactionServicesImpl {
@@ -302,7 +303,11 @@ public class TransactionServicesImpl {
 		return true;
 	}
 	
-	private Transaction createTransaction(String from, String to, BigDecimal amount, String type) {
+	private Transaction createTransaction(String from, String to, BigDecimal amount, String type) throws Exception {
+		if (amount.compareTo(new BigDecimal(0)) <= 0) {
+			throw new Exception("Invalid amount for transaction.");
+		}
+		
 		Transaction transaction = new Transaction();
 		transaction.setFromAccount(from);
 		transaction.setToAccount(to);
@@ -331,7 +336,7 @@ public class TransactionServicesImpl {
 			.getSingleResult();
 	}
 	
-	private Boolean applyTransaction(Account from, Account to, Transaction transaction, String currentSessionUser) throws Exception {
+	private Boolean applyTransaction(Account from, Account to, Transaction transaction, String currentSessionUser) throws Exception {		
 		if (from != null && from.getCurrentBalance().compareTo(transaction.getAmount()) == -1) {
 			throw new Exception("Not enough funds.");
 		}

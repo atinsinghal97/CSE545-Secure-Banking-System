@@ -33,6 +33,7 @@ import forms.SearchForm;
 import model.Account;
 import model.User;
 import model.UserDetail;
+import security.WebSecurityConfig;
 import model.Appointment;
 import forms.AppSearch;
 import forms.AppSearchForm;

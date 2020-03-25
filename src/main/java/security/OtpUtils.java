@@ -69,18 +69,26 @@ public class OtpUtils {
 			    System.out.println(currentDate.after(otp.getExpiryDate()));
 			    System.out.println(otp.getIpAddress());
 			    System.out.println(ipAddress);
+			    
 			} else {
 				u = s.createQuery("FROM User WHERE id = :id AND status = 1", User.class)
 						.setParameter("id", otp.getInitator()).getSingleResult();
 				
-				tx = s.beginTransaction();
-
-				otp.setCompleted(true);
-				s.update(otp);
-
-				if (tx.isActive())
-				    tx.commit();
+//				tx = s.beginTransaction();
+//
+//				otp.setCompleted(true);
+//				s.update(otp);
+//
+//				if (tx.isActive())
+//				    tx.commit();
 			}
+			
+			tx = s.beginTransaction();
+
+			otp.setCompleted(true);
+			s.update(otp);
+
+			if (tx.isActive()) tx.commit();
 
 		} catch (Exception e) {
 			if (tx != null) tx.rollback();

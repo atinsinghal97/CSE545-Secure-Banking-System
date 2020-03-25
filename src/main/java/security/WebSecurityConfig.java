@@ -1,8 +1,9 @@
-package web;
+package security;
 
 import java.util.stream.Stream;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +22,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.stereotype.Component;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -40,7 +41,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     	 auth.userDetailsService(userDetailsService);
     }
 
-    
     @Bean
     public AuthenticationSuccessHandler myAuthenticationSuccessHandler(){
         return new AuthSuccess();
@@ -53,33 +53,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
  
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http
+        .csrf()
+        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+        .and()
         .authorizeRequests()
-	        .antMatchers("/users/**").hasRole("USER")//USER role can access /users/**
-	        .antMatchers("/admin/**").hasRole("ADMIN")
 	        .antMatchers("/Tier2/**").hasAuthority("tier2") 
 	        .antMatchers("/Admin/**").hasAuthority("admin")
-	        .antMatchers("/Tier1**").hasAuthority("tier1")
 	        .antMatchers("/Tier1/**").hasAuthority("tier1")
-	        .antMatchers("/login").permitAll()// anyone can access /quests/**
-	        .antMatchers("/externalregister").permitAll()// anyone can access /quests/**
-	        .antMatchers("/register").permitAll()// anyone can access /quests/**
-	        .antMatchers("/Update").permitAll()
-	        .antMatchers("/Search").permitAll()
-	        .antMatchers("/ChangeValue").permitAll()
-	        .antMatchers("/Appointment").hasAuthority("customer")
-	        .antMatchers("/AppointmentCreate").hasAuthority("customer")
-	        .antMatchers("/ViewAppointments").hasAnyAuthority("tier1","tier2")
-	        .antMatchers("/Download").permitAll()
-	        .antMatchers("/forgot_password").permitAll()
-	        .antMatchers("/reset_password").permitAll()
+	        .antMatchers("/profile/**").hasAnyAuthority("admin", "tier1", "tier2", "customer", "merchant")
+			.antMatchers("/Appointment").hasAuthority("customer")
+			.antMatchers("/AppointmentCreate").hasAuthority("customer")
+			.antMatchers("/ViewAppointments").hasAnyAuthority("tier1","tier2")
+	        .antMatchers("/reset_password", "/forgot_password", "/register", "/externalregister", "/login").permitAll()
 	        .antMatchers("/change_password").hasAuthority("CHANGE_PASSWORD_PRIVILEGE")
-	        .antMatchers("/AdminDashboard").hasAuthority("admin")
-	        .antMatchers("/EmployeeView").hasAuthority("admin")
-	        .antMatchers("/EmployeeInsert").hasAuthority("admin")
-	        .antMatchers("/EmployeeUpdate").hasAuthority("admin")
-	        .antMatchers("/EmployeeDelete").hasAuthority("admin")
-	        .antMatchers("/SystemLogs").hasAuthority("admin")
+	        .antMatchers("/AdminDashboard", "/EmployeeView", "/EmployeeInsert", "/EmployeeUpdate", "/EmployeeDelete", "/SystemLogs").hasAuthority("admin")
 	        .antMatchers("/homepage").hasAuthority("customer")
 	        .anyRequest().authenticated()//any other request just need authentication
 	        .and()
@@ -95,12 +83,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		    .deleteCookies("JSESSIONID")
 		    .logoutSuccessUrl("/login");
     }
-     
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    
+
     public static Stream<String> getCurrentSessionAuthority() {
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     	if(auth == null || !auth.isAuthenticated() || (auth instanceof AnonymousAuthenticationToken)) {
@@ -109,21 +97,37 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     	return auth.getAuthorities().stream().map(GrantedAuthority::getAuthority);
     }
-    
+
     public static Boolean currentSessionHasAnyAuthority(String... authorities) {
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     	if(auth == null || !auth.isAuthenticated() || (auth instanceof AnonymousAuthenticationToken)) {
-    	return false;
+    		return false;
     	}
 
     	for (String authority : authorities) {
 	    	for (GrantedAuthority grantedAuthority : auth.getAuthorities()) {
 		    	if (grantedAuthority.getAuthority().equals(authority)) {
-		    	return true;
+		    		return true;
 		    	}
 	    	}
     	}
 
-    	return null;
+    	return false;
+    }
+    
+    public static void forceLogout() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || auth instanceof AnonymousAuthenticationToken)
+        	return;
+        auth.setAuthenticated(false);
+        SecurityContextHolder.getContext().setAuthentication(null);
+    }
+    
+    public static String getClientIP(HttpServletRequest request) {
+        String xfHeader = request.getHeader("X-Forwarded-For");
+        if (xfHeader == null) {
+            return request.getRemoteAddr();
+        }
+        return xfHeader.split(",")[0];
     }
 }

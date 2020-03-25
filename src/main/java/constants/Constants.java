@@ -1,12 +1,10 @@
 package constants;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.HashSet;
 
 public final class Constants {
-
-    private Constants() {
-            // restrict instantiation
-    }
 
     public static final String TIER1 = "tier1";
     public static final String TIER2 = "tier2";
@@ -22,10 +20,4 @@ public final class Constants {
     public static final String CREDIT = "credit";
     public static final String CHEQUE = "cc";
     public static final BigDecimal THRESHOLD_AMOUNT = BigDecimal.valueOf(1000);
-
-
-
-
-
-
 }

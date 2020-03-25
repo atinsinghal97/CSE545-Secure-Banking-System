@@ -1,4 +1,4 @@
-package web;
+package bankApp.repositories;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,15 +9,13 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import database.SessionManager;
 import model.User;
 import model.UserDetail;
+import security.WebSecurityConfig;
 import forms.EmployeeSearch;
 import forms.EmployeeSearchForm;
 
