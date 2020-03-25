@@ -14,7 +14,11 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import business.SysLogger;
+
 public class AuthSuccess implements AuthenticationSuccessHandler {
+
+  SysLogger logg;
 
   private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
@@ -32,6 +36,9 @@ public class AuthSuccess implements AuthenticationSuccessHandler {
     throws IOException {
 
       String targetUrl = determineTargetUrl(authentication);
+	  
+	  logg = new SysLogger();
+  	  logg.log("Login Attempt from IP: " + request.getRemoteAddr() + " recieved.");
 
       if (response.isCommitted()) {
           return;
@@ -51,17 +58,49 @@ public class AuthSuccess implements AuthenticationSuccessHandler {
     	  System.out.println(grantedAuthority.getAuthority());
           if (grantedAuthority.getAuthority().equals("customer")) {
               isUser = true;
+			  try
+              {
+	              logg = new SysLogger();
+	  	    	  logg.log("Customer login attempted");
+              }
+              catch(Exception e){
+            	  
+              }
               break;
           } else if (grantedAuthority.getAuthority().equals("ROLE_ADMIN")) {
               isAdmin = true;
+			  try
+              {
+	              logg = new SysLogger();
+	  	    	  logg.log("Admin login attempted");
+              }
+              catch(Exception e){}
               break;
           }else if(grantedAuthority.getAuthority().equals("tier1")){
+			  try
+              {
+	              logg = new SysLogger();
+	  	    	  logg.log("Tier 1 login attempted");
+              }
+              catch(Exception e){}
         	  return "/Tier1Dashboard";
           }
           else if (grantedAuthority.getAuthority().equals("tier2")) {
         	  isTier2 = true;
+			  try
+              {
+	              logg = new SysLogger();
+	  	    	  logg.log("Tier 2 login attempted")};
+              }
+              catch(Exception e){}
               break;
           }else if(grantedAuthority.getAuthority().equals("admin")){
+			  try
+              {
+	              logg = new SysLogger();
+	  	    	  logg.log("Admin login attempted");
+              }
+              catch(Exception e){}
         	  return "/Admin/Dashboard";
           }
 
