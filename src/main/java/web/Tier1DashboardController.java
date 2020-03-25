@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import constants.Constants;
+import forms.SearchForm;
 import forms.TransactionSearchForm;
 
 @Controller
@@ -199,6 +200,22 @@ public class Tier1DashboardController {
 	@RequestMapping(value = "/Tier1ViewAccounts")
 	public String viewAccounts(HttpServletRequest request) {
 		return "Tier1ViewAccounts";
+	}
+	
+	@RequestMapping(value = "/Tier1/ViewAccounts")
+	public ModelAndView viewAccounts(HttpServletRequest request, @RequestParam(required = true, name="accountNumber") String accountNumber) {
 		
+		AccountServicesImpl accountServicesImpl = new AccountServicesImpl();
+		
+		SearchForm searchForm = accountServicesImpl.getAccounts(accountNumber);
+		
+		if(searchForm == null)
+			return new ModelAndView("Login");
+		else
+			if(searchForm.getSearchs().size()==0)
+				return new ModelAndView("Tier1ViewAccounts" , "message", "An account not found");
+			else
+				return new ModelAndView("Tier1ViewAccounts" , "searchForm", searchForm);  
+
 	}
 }
