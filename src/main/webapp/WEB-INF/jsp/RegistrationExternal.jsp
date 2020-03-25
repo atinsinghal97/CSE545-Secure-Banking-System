@@ -123,7 +123,10 @@
 		  			</form>
 	 			 </div>
 			</div>
-			
+			<div class="form-group"
+				style="background-color: #f1f1f1; height: 30px">
+				<span><a href="/login">Existing Customer Login</a></span>
+			</div>
 				
 			</div>
 		

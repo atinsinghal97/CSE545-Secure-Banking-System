@@ -59,6 +59,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	        .antMatchers("/admin/**").hasRole("ADMIN")
 	        .antMatchers("/Tier2/**").hasAuthority("tier2") 
 	        .antMatchers("/Admin/**").hasAuthority("admin")
+	        .antMatchers("/Tier1**").hasAuthority("tier1")
+	        .antMatchers("/Tier1/**").hasAuthority("tier1")
 	        .antMatchers("/login").permitAll()// anyone can access /quests/**
 	        .antMatchers("/externalregister").permitAll()// anyone can access /quests/**
 	        .antMatchers("/register").permitAll()// anyone can access /quests/**
@@ -71,12 +73,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	        .antMatchers("/forgot_password").permitAll()
 	        .antMatchers("/reset_password").permitAll()
 	        .antMatchers("/change_password").hasAuthority("CHANGE_PASSWORD_PRIVILEGE")
-	        .antMatchers("/Tier1Dashboard").hasAuthority("tier1")
-	        .antMatchers("/Tier1PendingTransactions").hasAuthority("tier1")
-	        .antMatchers("/Tier1UpdatePassword").hasAuthority("tier1")
-	        .antMatchers("/Tier1DepositMoney").hasAuthority("tier1")
-	        .antMatchers("/Tier1WithdrawMoney").hasAuthority("tier1")
-	        .antMatchers("/IssueCheque").hasAuthority("tier1")
 	        .antMatchers("/AdminDashboard").hasAuthority("admin")
 	        .antMatchers("/EmployeeView").hasAuthority("admin")
 	        .antMatchers("/EmployeeInsert").hasAuthority("admin")
