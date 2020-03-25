@@ -32,3 +32,4 @@ build/
 
 src/main/java/SSDatabase/build
 src/main/java/SSDatabase/diagrams
+.DS_Store
