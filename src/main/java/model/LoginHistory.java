@@ -33,9 +33,8 @@ public class LoginHistory implements Serializable {
 	@Column(name="logged_out")
 	private Date loggedOut;
 
-	//bi-directional many-to-one association to User
-	@ManyToOne
-	private User user;
+	@Column(name="user_id")
+	private int userId;
 
 	public LoginHistory() {
 	}
@@ -80,12 +79,12 @@ public class LoginHistory implements Serializable {
 		this.loggedOut = loggedOut;
 	}
 
-	public User getUser() {
-		return this.user;
+	public int getUserId() {
+		return this.userId;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 }

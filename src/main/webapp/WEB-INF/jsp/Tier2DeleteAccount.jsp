@@ -13,7 +13,7 @@
 				<h3> <b>DELETE</b> Account </h3>
 			</div>
 			<div>
-				<form id="DeleteAccount" action="/deleteaccount" method="post" class="form-horizontal">
+				<form id="DeleteAccount" action="/Tier2/DelAcc" method="post" class="form-horizontal">
 					<fieldset>
 						<div>
 							<label for="accountnumber" class="col-lg-2 control-label"> <b>Account #</b></label>
@@ -24,7 +24,7 @@
 						<div>
 							<div class="col-lg-7 col-lg-offset-2">
 								<button type="reset" class="btn btn-default">Reset</button>
-								<button id="delete_account" name="action" value="delete_account">Delete</button>
+								<button action="submit">Delete</button>
 								<input type="hidden" name="${_csrf.parameterName}"
 									value="${_csrf.token}" />
 							</div>

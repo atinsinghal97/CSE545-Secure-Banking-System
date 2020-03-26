@@ -11,14 +11,16 @@
 				<header role="banner">
 			        <nav role="navigation">
 			            <ul class="top-bar">
-			            	<li class="cta"><a class="ButtonDesign" href="/Tier2Dashboard">Home</a></li>
-			            	 <li class="cta"><a class="ButtonDesign" href="/Tier2PendingTransaction">Transaction Approval</a></li>
-			                <li class="cta"><a class="ButtonDesign" href="/Tier2UpdatePassword">Change Password</a></li>
-			                 <li class="cta"><a class="ButtonDesign" href="/Tier2PendingAccounts">Account Approval</a></li>
-			                <li class="cta"><a class="ButtonDesign" href="/Tier2SearchAccount">Search Customer Account</a></li>
-			                <li class="cta"><a class="ButtonDesign" href="/Tier2DeleteAccount">Delete Customer Account</a></li>
-			                <li class="cta"><a class="ButtonDesign" href="/logout">Log Out</a></li>
-			                <input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
+			            	<li class="cta"><a class="ButtonDesign" href="/Tier2/Dashboard">Home</a></li>
+			            	 <li class="cta"><a class="ButtonDesign" href="/Tier2PendingTransaction">Approve/Decline Transactions</a></li>
+			                <li class="cta"><a class="ButtonDesign" href="/Tier2/UpdatePassword">Change Password</a></li>
+			                 <li class="cta"><a class="ButtonDesign" href="/Tier2/PendingAccounts">Account Approval</a></li>
+			                <li class="cta"><a class="ButtonDesign" href="/Tier2/SearchAccount">Search Customer Account</a></li>
+			                <li class="cta"><a class="ButtonDesign" href="/Tier2/DeleteAccount">Delete Customer Account</a></li>
+			                <form method="post" action="/perform_logout" id="form-logout">
+	                      <button type="submit">Logout</button>
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>         
+                      </form>
 			            </ul>
 			        </nav>
 				</header>

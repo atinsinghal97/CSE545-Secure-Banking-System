@@ -1,36 +1,29 @@
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="ISO-8859-1">
-		<title>Transactions</title>
+		<title>Approve/Decline Transactions</title>
         <link rel="stylesheet" href="css/cssClassess.css"/>   
 	</head>
 	<body>
-		
+		<%@include file="HPT1.jsp" %>
 		<div class="content-container">
-<c:choose>
-		<c:when test="${role eq 'Tier1'}"><%@include file="HPT1.jsp" %></c:when>
-		<c:otherwise><%@include file="HPT1.jsp" %></c:otherwise>
-	</c:choose>		
+		
 			<table>
 				<thead>
 					<tr>
-						<th>Date</th>
-						<th>Transaction ID</th>
-						<th>Sender Account Number</th>
-						<th>Recipient Account Number</th>
+
+						<th>Transaction Id</th>
+						<th>From Account</th>
+						<th>To Account</th>
 						<th>Amount</th>
-						<th>Status</th>
 					</tr>
 				</thead>
-				
-				
-				    					
+				 					
 				    		
 				    		
 				<tbody>
@@ -39,48 +32,36 @@
 				<p>${message}</p>
 				</td>
 				</tr>
-				    <c:forEach items="${transactions}" var="transaction" varStatus="i">
+				
+				    <c:forEach items="${transactionSearchForm.transactionSearches}" var="transactionSearch">
 				    
 				    	<tr>
-				    	
-				    	
-				    		<td>${transaction.date}</td>
-				    		<td>${transaction.transactionID}</td>
-				    		<td>
-				    			${transaction.payer.accountNumber}
-				    		</td>
-				    		<td>
-				    			${transaction.payee.accountNumber}
-				    		</td>
-				    		<td>
-				    		<c:choose>
-				    				<c:when test="${transaction.payee.accountNumber == accountid}">$ ${transaction.amount}</c:when>
-				    				<c:otherwise>-$ ${transaction.amount}</c:otherwise>
-				    			</c:choose>
-				    		</td>
-				    		<td>
-				    			<c:choose>
-				    				<c:when test="${transaction.approvalStatus}">Approved</c:when>
-				    				<c:otherwise>Pending</c:otherwise>
-				    			</c:choose>
-				    		</td>
-				    		<td>
-				    		<form method="post" action="/authorize" id="authorize">
-				    		<input type="hidden" name="transactionID" id="transactionID" value="${transaction.transactionID}">
+				    		<td>${transactionSearch.id}&nbsp&nbsp&nbsp&nbsp</td>
+				    		<td>${transactionSearch.fromAccountNumber}&nbsp&nbsp&nbsp&nbsp</td>
+				    		<td>${transactionSearch.toAccountNumber}&nbsp&nbsp&nbsp&nbsp</td>
+				    		<td>${transactionSearch.amount}&nbsp&nbsp&nbsp&nbsp</td>
+				    		<td>&nbsp&nbsp&nbsp&nbsp
+				    		<form method="post" action="/Tier1/AuthorizeTransaction" id="authorize">
+				    		<input type="hidden" name="id" id="id" value="${transactionSearch.id}">
+				    		<input type="hidden" name="fromAccountNumber" id="fromAccountNumber" value="${transactionSearch.fromAccountNumber}">
+				    		<input type="hidden" name="toAccountNumber" id="toAccountNumber" value="${transactionSearch.toAccountNumber}">
+				    		<input type="hidden" name="amount" id="amount" value="${transactionSearch.amount}">
 				    		<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 				    		<input type="submit" value="Authorize">
 				    		</form>
 				    		</td>
 				    		
-				    		<td>
-				    		<form method="post" action="/declinetransaction" id="decline">
-				    		<input type="hidden" name="transactionID" id="transactionID" value="${transaction.transactionID}">
+				    		<td>&nbsp&nbsp&nbsp&nbsp
+				    		<form method="post" action="/Tier1/DeclineTransaction" id="decline">
+				    		<input type="hidden" name="id" id="id" value="${transactionSearch.id}">
+				    		<input type="hidden" name="fromAccountNumber" id="fromAccountNumber" value="${transactionSearch.fromAccountNumber}">
+				    		<input type="hidden" name="toAccountNumber" id="toAccountNumber" value="${transactionSearch.toAccountNumber}">
+				    		<input type="hidden" name="amount" id="amount" value="${transactionSearch.amount}">
 				    		<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
-				    		 
 				    		<input type="submit" value="Decline">
 				    		</form>
 				    		</td>
-				    						    	</tr>
+				    	</tr>
 				    
 				    </c:forEach>
 				    

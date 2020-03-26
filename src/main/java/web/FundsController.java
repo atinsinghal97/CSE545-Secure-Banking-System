@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import database.SessionManager;
 import model.Account;
-import model.Request;
 
 @Controller
 public class FundsController {
@@ -42,10 +41,11 @@ public class FundsController {
 		try {
 			tx = s.beginTransaction();
 			model.Transaction txn = s.get(model.Transaction.class, txnId);
-			Request r = s.createQuery("FROM Request where request_id = :txn_id", Request.class).setParameter("txn_id", txnId).getSingleResult();
+			//Request r = s.createQuery("FROM Request where request_id = :txn_id", Request.class).setParameter("txn_id", txnId).getSingleResult();
 			txn.setApprovalStatus(approval);
 			s.update(txn);
 			
+			/* Need to fix this code
 			if (approval && isTier1 && r.getLevel2Approval()) {
 				// Transfer
 				Account from = txn.getAccount1(),
@@ -54,6 +54,7 @@ public class FundsController {
 				to.setCurrentBalance(to.getCurrentBalance().add(txn.getAmount()));
 			}
 			
+			*/
 			if (tx.isActive())
 			    tx.commit();
 			s.close();

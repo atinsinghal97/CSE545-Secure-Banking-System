@@ -11,15 +11,15 @@
 				<header role="banner">
 			        <nav role="navigation">
 			            <ul class="top-bar">
-			            	<li class="cta"><a class="ButtonDesign" href="/AdminHome">Home</a></li>
-			                <li class="ctd"><a class="ButtonDesign" href="/signinhistory">Sign-In History</a></li>
-			                <li class="cta"><a class="ButtonDesign" href="/UpdatePassword">Change Password</a></li>
-			                <li class="cta"><a class="ButtonDesign" href="/EmployeeRegister">Add Employee</a></li>
-			                    <li class="cta"><a class="ButtonDesign" href="/EmployeeUpdate">Update Employee Info</a></li>
-			                <li class="ctd"><a class="ButtonDesign" href="/Search">Search Employee</a></li>
-			                <li class="cta"><a class="ButtonDesign" href="/EmployeeDelete">Delete Employee</a></li>
-			                <li class="cta"><a class="ButtonDesign" href="/logout">Log Out</a></li>
-<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/> 
+			            	<li><a href="/Admin/SearchEmployee">View Employee</a></li>
+		        				<li><a href="/Admin/CreateEmployee">Create Employee</a></li>
+		       					<li><a href="/Admin/UpdateEmployee">Modify Employee</a></li>
+		       					<li><a href="/Admin/DeleteEmployee">Delete Employee</a></li>
+		       					<li><a href="/Admin/SystemLogs">System Logs</a></li>
+		                <form method="post" action="/perform_logout" id="form-logout">
+                      <button type="submit">Logout</button>
+                      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>         
+                    </form>
 			            </ul>
 			        </nav>
 				</header>

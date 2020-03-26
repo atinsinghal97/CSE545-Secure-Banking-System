@@ -25,7 +25,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import database.SessionManager;
 import model.Account;
-import model.Request;
 import model.User;
 import model.UserDetail;
 

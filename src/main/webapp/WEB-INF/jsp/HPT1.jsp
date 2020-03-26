@@ -3,7 +3,8 @@
 <html>
 	<head>
 		<meta charset="ISO-8859-1">
-        <link rel="stylesheet" href="css/cssClassess.css"/>     
+        <link rel="stylesheet" href="css/cssClassess.css"/>
+        <script type="text/javascript"> history.forward(); window.history.forward();function noBack() { window.history.forward(); }</script>     
 	</head>
 	<body>
 		<div class="content-container">
@@ -12,14 +13,19 @@
 			        <nav role="navigation">
 			            <ul class="top-bar">
 			            	<li class="cta"><a class="ButtonDesign" href="/Tier1Dashboard">Home</a></li>
-			            	 <li class="cta"><a class="ButtonDesign" href="/Tier1PendingTransactions">Approve/Decline Transaction</a></li>
-		 	                <li class="cta"><a class="ButtonDesign" href="/IssueCheque">Issue Cashiers Cheque</a></li>
-			                <li class="cta"><a class="ButtonDesign" href="/Tier1DepositMoney">Deposit Money</a></li>
-			                <li class="cta"><a class="ButtonDesign" href="/Tier1WithdrawMoney">Withdraw Money</a></li>
-			                <li class="ctd"><a class="ButtonDesign" href="/Tier1UpdatePassword">Change Password</a></li>
-			                <li class="cta"><a class="ButtonDesign" href="/logout">Log Out</a></li>
+			            	<li class="cta"><a class="ButtonDesign" href="/Tier1PendingTransactions">Approve/Decline Transaction</a></li>
+			            	<li class="cta"><a class="ButtonDesign" href="/Tier1CreateTransaction">Create Transaction</a></li>
+	 	                <li class="cta"><a class="ButtonDesign" href="/Tier1IssueCheque">Issue Cashiers Cheque</a></li>
+	 	                <li class="cta"><a class="ButtonDesign" href="/Tier1DepositCheque">Deposit Cashiers Cheque</a></li>
+		                <li class="cta"><a class="ButtonDesign" href="/Tier1DepositMoney">Deposit Money</a></li>
+		                <li class="cta"><a class="ButtonDesign" href="/Tier1WithdrawMoney">Withdraw Money</a></li>
+		                <li class="cta"><a class="ButtonDesign" href="/Tier1ViewAccounts">View Customer Accounts</li>
+		                <li class="ctd"><a class="ButtonDesign" href="/Tier1UpdatePassword">Change Password</a></li>
 
-<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/> 
+		                <form method="post" action="/perform_logout" id="form-logout">
+                      <button type="submit">Logout</button>
+                      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>         
+                    </form>
 			            </ul>
 			        </nav>
 				</header>
