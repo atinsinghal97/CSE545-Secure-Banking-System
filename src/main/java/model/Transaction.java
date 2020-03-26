@@ -11,7 +11,7 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="transaction")
+@Table(name="transaction",schema = "secure_banking_system")
 @NamedQuery(name="Transaction.findAll", query="SELECT t FROM Transaction t")
 public class Transaction implements Serializable {
 	private static final long serialVersionUID = 1L;

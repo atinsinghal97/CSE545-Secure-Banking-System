@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="appointment")
+@Table(name="appointment",schema = "secure_banking_system")
 @NamedQuery(name="Appointment.findAll", query="SELECT a FROM Appointment a")
 public class Appointment implements Serializable {
 	private static final long serialVersionUID = 1L;
