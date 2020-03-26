@@ -1,12 +1,21 @@
 package web;
 
+import org.hibernate.Session;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
+
+import database.SessionManager;
 import model.Account;
 import model.User;
 @Controller
@@ -48,21 +57,21 @@ public class IndividualRequestController {
 		try {
 			Session s = SessionManager.getSession("");
 			List<User> user=null;
-		
+			Authentication x = SecurityContextHolder.getContext().getAuthentication();
 			user=s.createQuery("FROM User WHERE username = :username", User.class)
-				.setParameter("username", username).getResultList();
-			 
-			 List<Accounts> account = user.getAccounts();
-			 List<String> accounts = null;
+					.setParameter("username", x.getName()).getResultList();	
+			
+			 List<Account> account = user.get(0).getAccounts();
+			 List<String> accounts = new ArrayList<>();
 			 for(Account a:account) {
-				 accounts.add(account.getAccountType());
+				 accounts.add(a.getAccountType());
 			 }
 			 model.addAttribute("accounts",accounts);
 		}catch(Exception e) {
+			System.out.print(e);
 			return new ModelAndView("Login");
 		}
 
-		ModelMap model = new ModelMap();
 		return new ModelAndView(("ServiceRequests/CashiersCheckOrder"), model);
 		}
 	
@@ -94,4 +103,19 @@ public class IndividualRequestController {
 		ModelMap model = new ModelMap();
 		return new ModelAndView(("redirect:/accinfo"), model);
 		}
+	
+	@RequestMapping(value= {"/OpenAccount"}, method = RequestMethod.POST)
+	public ModelAndView openAccountAfterOtp(HttpServletRequest request, HttpSession session){
+
+		ModelMap model = new ModelMap();
+		try {
+			if(null==session.getAttribute("OtpValid")) {		
+				return new ModelAndView("redirect:/login");
+			}
+			session.setAttribute("OtpValid", null);
+		return new ModelAndView(("RegistrationExternal"), model);
+		}catch(Exception e) {
+			return new ModelAndView("Login");
+		}
+	}
 }
