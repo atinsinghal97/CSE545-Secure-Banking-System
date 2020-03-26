@@ -1,49 +1,50 @@
 package business;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.HashSet;
+
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserLog {
 
-	private Set<String> loggedInUserNames = new HashSet<String>();
+	private Set<String> usersLogged = new HashSet<String>();
 	
 	public UserLog()
 	{
 		
 	}
 	
-	public boolean addUserLoggedIn(String Username)
+	public boolean addLoggedUser(String user)
 	{
-		if(Username != null && !"".equals(Username) && !loggedInUserNames.contains(Username))
+		if(user != null && !"".equals(user) && !usersLogged.contains(user))
 		{
-			loggedInUserNames.add(Username);
+			usersLogged.add(user);
 			return true;
 		}
 		return false;
 	}	
-	public boolean removeUserLoggedIn(String Username)
+	public boolean removeLoggedUser(String user)
 	{
-		if(Username != null && !"".equals(Username) && loggedInUserNames.contains(Username))
+		if(user != null && !"".equals(user) && usersLogged.contains(user))
 		{
-			loggedInUserNames.remove(Username);
+			usersLogged.remove(user);
 			return true;
 		}
 		return false;
 	}
 	
-	public boolean checkUserLoggedIn(String Username)
+	public boolean checkUserLoggedIn(String user)
 	{
-		if(Username != null && !"".equals(Username) && loggedInUserNames.contains(Username))
+		if(user != null && !"".equals(user) && usersLogged.contains(user))
 			return true;
 		
 		return false;
 	}
 	
-	public void clearAll()
+	public void clearList()
 	{
-		loggedInUserNames.clear();
+		usersLogged.clear();
 	}
-
+	
 }

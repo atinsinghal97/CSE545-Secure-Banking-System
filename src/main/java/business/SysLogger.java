@@ -1,7 +1,5 @@
 package business;
 
-
-
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,24 +12,24 @@ import org.springframework.stereotype.Service;
 @Service
 public class SysLogger{
 	
-	Logger logger;
+	Logger varLogger;
 		
 	public SysLogger() {
-		 logger = LoggerFactory.getLogger(SysLogger.class);
+		 varLogger = LoggerFactory.getLogger(SysLogger.class);
 	}
 	
-	public void log(String message) throws IOException
+	public void log(String msg) throws IOException
 	{
-		System.out.println(message);
-		logger.trace(message);
+		System.out.println(msg);
+		varLogger.trace(msg);
 		FileWriter fileWriter = new FileWriter("C:\\Users\\iayus\\Desktop\\syslog.txt",true);
 		PrintWriter printWriter = new PrintWriter(fileWriter);
-		printWriter.println(message);
+		printWriter.println(msg);
 		printWriter.close();
 	}
 
 	public void info(String string) {
 		// TODO Auto-generated method stub
-		logger.info("info: "+string);
+		varLogger.info("info: "+string);
 	}
 }
