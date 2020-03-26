@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
+import model.Account;
+import model.User;
 @Controller
 public class IndividualRequestController {
 	
@@ -40,8 +42,25 @@ public class IndividualRequestController {
 		return new ModelAndView("redirect:/homepage");
 		
 }
-	@RequestMapping(value="/OrderCCheck", method=RequestMethod.GET)
-	public ModelAndView OrderCCheck(HttpServletRequest request, HttpSession session){
+	@RequestMapping(value="/CashiersCheck", method=RequestMethod.GET)
+	public ModelAndView CashiersCheck(HttpServletRequest request, HttpSession session){
+		ModelMap model = new ModelMap();
+		try {
+			Session s = SessionManager.getSession("");
+			List<User> user=null;
+		
+			user=s.createQuery("FROM User WHERE username = :username", User.class)
+				.setParameter("username", username).getResultList();
+			 
+			 List<Accounts> account = user.getAccounts();
+			 List<String> accounts = null;
+			 for(Account a:account) {
+				 accounts.add(account.getAccountType());
+			 }
+			 model.addAttribute("accounts",accounts);
+		}catch(Exception e) {
+			return new ModelAndView("Login");
+		}
 
 		ModelMap model = new ModelMap();
 		return new ModelAndView(("ServiceRequests/CashiersCheckOrder"), model);
@@ -50,7 +69,7 @@ public class IndividualRequestController {
 	@RequestMapping("/UpdatePasswords")
     public String CustomerUpdatePassword(final HttpServletRequest request) {
 		
-        return "CustomerPasswordUpdate";
+        return "CustomerUpdatePassword";
   
         
     }

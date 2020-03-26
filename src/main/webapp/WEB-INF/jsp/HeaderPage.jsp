@@ -14,7 +14,7 @@
 			            	<input type="hidden"  name="${_csrf.parameterName}"  value="${_csrf.token}"/>
 			            	<li class="cta"><a class="ButtonDesign" href="/accinfo">Home</a></li>
 			            	 <li class="cta"><a class="ButtonDesign" href="/ServiceRequest">Service Requests</a></li>
-			                <li class="cta"><a class="ButtonDesign" href="/UpdatePassword">Change Password</a></li>
+			                <li class="cta"><a class="ButtonDesign" href="/UpdatePasswords">Change Password</a></li>
 			                <li class="cta"><a class="ButtonDesign" href="/login">Log Out</a></li>
 			            </ul>
 			        </nav>
