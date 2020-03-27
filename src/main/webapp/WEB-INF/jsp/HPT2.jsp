@@ -17,6 +17,7 @@
 			                 <li class="cta"><a class="ButtonDesign" href="/Tier2/PendingAccounts">Account Approval</a></li>
 			                <li class="cta"><a class="ButtonDesign" href="/Tier2/SearchAccount">Search Customer Account</a></li>
 			                <li class="cta"><a class="ButtonDesign" href="/Tier2/DeleteAccount">Delete Customer Account</a></li>
+			                <li class="cta"><a class="ButtonDesign" href="/ViewAppointments">View Appointments of the day</a></li>
 			                <form method="post" action="/perform_logout" id="form-logout">
 	                      <button type="submit">Logout</button>
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>         

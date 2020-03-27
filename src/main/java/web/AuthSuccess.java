@@ -64,7 +64,6 @@ public class AuthSuccess implements AuthenticationSuccessHandler {
           }else if(grantedAuthority.getAuthority().equals("admin")){
         	  return "/Admin/Dashboard";
           }
-
       }
 
       if (isUser) {

@@ -21,7 +21,7 @@
 		                <li class="cta"><a class="ButtonDesign" href="/Tier1WithdrawMoney">Withdraw Money</a></li>
 		                <li class="cta"><a class="ButtonDesign" href="/Tier1ViewAccounts">View Customer Accounts</li>
 		                <li class="ctd"><a class="ButtonDesign" href="/Tier1UpdatePassword">Change Password</a></li>
-
+						<li class="cta"><a class="ButtonDesign" href="/ViewAppointments">View Appointments of the day</a></li>
 		                <form method="post" action="/perform_logout" id="form-logout">
                       <button type="submit">Logout</button>
                       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>         
