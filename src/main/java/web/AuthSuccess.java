@@ -15,32 +15,37 @@ import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import business.SysLogger;
+import business.UserLog;
 
 public class AuthSuccess implements AuthenticationSuccessHandler {
-
-  SysLogger logg;
+	
+	SysLogger loginHistoryLogger;
 
   private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
   @Override
   public void onAuthenticationSuccess(HttpServletRequest request, 
     HttpServletResponse response, Authentication authentication)
-    throws IOException {
-
+    throws IOException 
+  {
+	  
       handle(request, response, authentication);
       clearAuthenticationAttributes(request);
   }
 
   protected void handle(HttpServletRequest request, 
     HttpServletResponse response, Authentication authentication)
-    throws IOException {
+    throws IOException 
+  {
 
       String targetUrl = determineTargetUrl(authentication);
-	  
-	  logg = new SysLogger();
-  	  logg.log("Login Attempt from IP: " + request.getRemoteAddr() + " recieved.");
+      
+      loginHistoryLogger = new SysLogger();
+      loginHistoryLogger.log("Login Attempt from IP: " + request.getRemoteAddr() + " recieved.");
+  	  
+  	  
 
-      if (response.isCommitted()) {
+  	  if (response.isCommitted()) {
           return;
       }
 
@@ -58,50 +63,44 @@ public class AuthSuccess implements AuthenticationSuccessHandler {
     	  System.out.println(grantedAuthority.getAuthority());
           if (grantedAuthority.getAuthority().equals("customer")) {
               isUser = true;
-			  try
-              {
-	              logg = new SysLogger();
-	  	    	  logg.log("Customer login attempted");
+              try{
+            	  loginHistoryLogger = new SysLogger();
+            	  loginHistoryLogger.log("Customer login attempted");
               }
-              catch(Exception e){
-            	  
-              }
+              catch(Exception e){}
               break;
+              
           } else if (grantedAuthority.getAuthority().equals("ROLE_ADMIN")) {
               isAdmin = true;
-			  try
-              {
-	              logg = new SysLogger();
-	  	    	  logg.log("Admin login attempted");
+              try{
+            	  loginHistoryLogger = new SysLogger();
+            	  loginHistoryLogger.log("Admin login attempted");
               }
               catch(Exception e){}
               break;
           }else if(grantedAuthority.getAuthority().equals("tier1")){
-			  try
-              {
-	              logg = new SysLogger();
-	  	    	  logg.log("Tier 1 login attempted");
+        	  try{
+        		  loginHistoryLogger = new SysLogger();
+        		  loginHistoryLogger.log("Tier 1 login attempted");
               }
               catch(Exception e){}
         	  return "/Tier1Dashboard";
           }
           else if (grantedAuthority.getAuthority().equals("tier2")) {
-        	  isTier2 = true;
-			  try
-              {
-	              logg = new SysLogger();
-	  	    	  logg.log("Tier 2 login attempted")};
+        	  try{
+        		  loginHistoryLogger = new SysLogger();
+        		  loginHistoryLogger.log("Tier 2 login attempted");
               }
               catch(Exception e){}
+        	  isTier2 = true;
               break;
           }else if(grantedAuthority.getAuthority().equals("admin")){
-			  try
-              {
-	              logg = new SysLogger();
-	  	    	  logg.log("Admin login attempted");
+        	  try{
+        		  loginHistoryLogger = new SysLogger();
+        		  loginHistoryLogger.log("Admin login attempted");
               }
               catch(Exception e){}
-        	  return "/Admin/Dashboard";
+        	  return "/AdminDashboard";
           }
 
       }
@@ -119,7 +118,6 @@ public class AuthSuccess implements AuthenticationSuccessHandler {
           throw new IllegalStateException();
       }
   }
-
   protected void clearAuthenticationAttributes(HttpServletRequest request) {
       HttpSession session = request.getSession(false);
       if (session == null) {
