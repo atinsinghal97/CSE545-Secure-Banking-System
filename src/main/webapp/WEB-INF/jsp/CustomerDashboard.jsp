@@ -14,7 +14,7 @@
 		
 	<div class="content-container">
 		<div class="accounts-container cards">
-			<div>Hello ${user}!</div>
+			<div>Hello ${users}!</div>
 			<label>Accounts</label>
 			<c:forEach var="entry" items="${savings}">
 				<div class="account-detail cards">
@@ -33,7 +33,7 @@
 						<div class="account-body">
 							<div>
 								<h3>
-									<label>Balance: </label> <label>$ ${entry.balance}</label>
+									<label>Balance: </label> <label>$ ${entry.currentBalance}</label>
 								</h3>
 							</div>
 							<div>
@@ -60,7 +60,7 @@
 						<div class="account-body">
 							<div>
 								<h3>
-									<label>Balance: </label> <label>$ ${entry.balance}</label>
+									<label>Balance: </label> <label>$ ${entry.currentBalance}</label>
 								</h3>
 							</div>
 						</div>
@@ -99,17 +99,17 @@
 								<c:choose>
 								<c:when test="${role eq 'Individual'}">
 									<label>Current Balance: </label> <label>$
-										${10000 - entry.balance}</label>
+										${10000 - entry.currentBalance}</label>
 										</c:when>
 										<c:otherwise><label>Balance: </label> <label>$
-										${entry.balance}</label></c:otherwise>
+										${entry.currentBalance}</label></c:otherwise>
 										</c:choose>
 								</h3>
 							</div>
 							<c:choose>
 								<c:when test="${role eq 'Individual'}">
 									<div>
-										<label>Available Balance: </label> <label>$ ${entry.balance}</label>
+										<label>Available Balance: </label> <label>$ ${entry.currentBalance}</label>
 									</div>
 									<div>
 										<label>Next Payment Due: </label> <label>04/29/2019</label>
