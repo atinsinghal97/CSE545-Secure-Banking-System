@@ -35,26 +35,27 @@ public class PaymentsController {
 	@RequestMapping(value= {"/paymentactionacc"}, method = RequestMethod.POST)
     public ModelAndView paymentactionacc(HttpServletRequest request, HttpSession session) {
 		 session = request.getSession(false);
+		 try {
 		ModelMap model = new ModelMap();
+		
 		return new ModelAndView(("redirect:/accinfo"), model);
+		}catch(Exception e) {
+			return new ModelAndView("Login");
+		}
 		}
 	
 	
-	@RequestMapping(value= {"/paymentcc"}, method = RequestMethod.POST)
-    public ModelAndView paymentcc(HttpServletRequest request, HttpSession session){
-		 session = request.getSession(false);
-		ModelMap model = new ModelMap();
-
-		return new ModelAndView(("redirect:/accinfo"), model);
-	}
 	
 	
 
 	@RequestMapping(value= {"/paymentactionemph"}, method = RequestMethod.POST)
     public ModelAndView paymentactionemph(HttpServletRequest request, HttpSession session) {
-		
+		try {
 		ModelMap model = new ModelMap();
 		
 		return new ModelAndView(("redirect:/accinfo"), model);
+		}catch(Exception e) {
+			return new ModelAndView("Login");
+		}
 		}
 }

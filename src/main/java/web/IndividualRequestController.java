@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,15 +41,37 @@ public class IndividualRequestController {
 	public ModelAndView depositwithdrawal(HttpServletRequest request, HttpSession session){
 		 session = request.getSession(false);
 		ModelMap model = new ModelMap();
-	return new ModelAndView(("accounts/DepositWithdrawal"), model);	
+		try {
+			Session s = SessionManager.getSession("");
+			List<User> user=null;
+			Authentication x = SecurityContextHolder.getContext().getAuthentication();
+			user=s.createQuery("FROM User WHERE username = :username", User.class)
+					.setParameter("username", x.getName()).getResultList();	
+			//Account accounts  = user.get(0).getAccounts().stream()
+			//		.filter(a->a.getAccountNumber().equals(request.getParameter("accountid"))).findFirst().get();
+			Account account = new Account();
+			account.setAccountNumber("1111111");
+			account.setInterest(new BigDecimal("1.25"));
+			account.setAccountType("checkings");
+			account.setCurrentBalance(new BigDecimal("10000"));
+			model.addAttribute("balance",account.getCurrentBalance());
+			model.addAttribute("accountid",account.getAccountNumber());
+			session.setAttribute("SelectedAccount", account.getAccountNumber());
+			if(account.getAccountType().equals("checking"))model.addAttribute("accType","checking");
+			if(account.getAccountType().equals("savings"))model.addAttribute("accType","savings");
+			s.close();
+			return new ModelAndView(("accounts/DepositWithdrawal"), model);	
+	}catch(Exception e) {
+		System.out.print(e);
+		return new ModelAndView("Login");
+	}
+		
 	}
 	
 	@RequestMapping(value="/accinfo", method = RequestMethod.GET)
 	public ModelAndView accinfo(HttpServletRequest request, HttpSession session){
-		 session = request.getSession(false);
 		ModelMap model = new ModelMap();
-		
-		return new ModelAndView("redirect:/homepage");
+		return new ModelAndView(("redirect:/homepage"), model);
 		
 }
 	@RequestMapping(value="/CashiersCheck", method=RequestMethod.GET)
@@ -63,10 +86,12 @@ public class IndividualRequestController {
 			
 			 List<Account> account = user.get(0).getAccounts();
 			 List<String> accounts = new ArrayList<>();
+			 accounts.add("Lets go nigga!!");
 			 for(Account a:account) {
 				 accounts.add(a.getAccountType());
 			 }
 			 model.addAttribute("accounts",accounts);
+			 s.close();
 		}catch(Exception e) {
 			System.out.print(e);
 			return new ModelAndView("Login");
@@ -82,7 +107,6 @@ public class IndividualRequestController {
   
         
     }
-	
 	@RequestMapping(value="/updateAccInfo", method = RequestMethod.POST)
 	public ModelAndView transactions(HttpServletRequest request, HttpSession session) {
 		 session = request.getSession(false);
@@ -117,5 +141,17 @@ public class IndividualRequestController {
 		}catch(Exception e) {
 			return new ModelAndView("Login");
 		}
+	}
+	
+	@RequestMapping(value= {"/PrimeAccount"}, method=RequestMethod.GET)
+	public ModelAndView setDefaultAccount(HttpServletRequest request, HttpSession session) {
+		ModelMap model = new ModelMap();
+		try {
+			
+		}catch(Exception e){
+			return new ModelAndView("Login");
+		}
+		return new ModelAndView("ServiceRequests/PrimaryAccount");
+		
 	}
 }
