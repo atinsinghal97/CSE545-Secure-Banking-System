@@ -1,10 +1,13 @@
 package web;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.persistence.NoResultException;
@@ -34,6 +37,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import communication.Mailer;
 import communication.Messager;
 import database.SessionManager;
+import model.Account;
 import model.Otp;
 import model.User;
 import model.UserDetail;
@@ -61,6 +65,8 @@ public class LoginController {
 	    HttpSession session = request.getSession(false);
 	    
 	    if (session != null) {
+			
+			
 		    Object msg = session.getAttribute("msg");
 	        model.addAttribute("message", session.getAttribute("msg"));
 	        if (msg != null)
@@ -310,6 +316,25 @@ public class LoginController {
 		
 		Authentication x = SecurityContextHolder.getContext().getAuthentication();
 		System.out.println(x.getName());
+		Session s = SessionManager.getSession("");
+		List<User> user=null;
+		user=s.createQuery("FROM User WHERE username = :username", User.class)
+				.setParameter("username", x.getName()).getResultList();	
+		List<Account> account = new ArrayList<Account>();
+		Account dummy = new Account();
+		dummy.setAccountNumber("1111111");
+		dummy.setInterest(new BigDecimal("1.25"));
+		dummy.setAccountType("checkings");
+		dummy.setCurrentBalance(new BigDecimal("10000"));
+		
+		account.add(dummy);
+		model.addAttribute("users",x.getName());
+		System.out.print("here we go" + model.getAttribute("users"));
+		model.addAttribute("checking",account);
+		model.addAttribute("savings",account);
+		model.addAttribute("creditcards",account);
+		model.addAttribute("role",user.get(0).getRole());
+		s.close();
 		return "CustomerDashboard";
     }
 }
