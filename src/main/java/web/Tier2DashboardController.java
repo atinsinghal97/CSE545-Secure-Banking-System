@@ -3,6 +3,7 @@ package web;
 import java.math.BigDecimal;
 import java.text.ParseException;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -13,12 +14,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import forms.EmployeeSearchForm;
 import forms.SearchForm;
 import forms.TransactionSearchForm;
 
 @Controller
 public class Tier2DashboardController {
-	
+	@Resource(name = "employeeServiceImpl")
+	EmployeeServiceImpl employeeServiceImpl;
 	
 	@RequestMapping("/Tier2/Dashboard")
     public String tier2Page(final HttpServletRequest request, Model model) {
@@ -94,7 +97,15 @@ public class Tier2DashboardController {
 	@RequestMapping("/Tier2/DeleteAccount")
     public String tier2DeleteAccount(final HttpServletRequest request, Model model) {
 		
-        return "/Tier2DeleteAccount";
+        return "Tier2DeleteAccount";
+  
+        
+    }
+	
+	@RequestMapping("/Tier2/UpdateCustomer")
+    public String tier2UpdateAccount(final HttpServletRequest request, Model model) {
+		
+        return "Tier2CustomerUpdate";
   
         
     }
@@ -175,6 +186,54 @@ public class Tier2DashboardController {
 				return new ModelAndView("Tier2SearchAccount" , "message", "An account not found");
 			else
 				return new ModelAndView("Tier2SearchAccount" , "searchForm", searchForm);  
+    }
+	
+	@RequestMapping(value = "/Tier2/UpdateSearch", method = RequestMethod.POST)
+    public String tier2UpdateSearchPage(@RequestParam(required = true, name="username") String username, Model model) {
+		EmployeeSearchForm employeeSearchForm=employeeServiceImpl.getEmployees(username);
+		if(employeeSearchForm==null)
+			return "Login";
+		else
+			if(employeeSearchForm.getEmployeeSearchs().size()==0)
+			{
+				model.addAttribute("message", "An username not found");
+				return "Tier2CustomerUpdate";
+			}		
+			else
+				{
+				System.out.println("CAME HERE!!!!!!");
+				System.out.println(employeeSearchForm.employeeSearchs.get(0).getEmail());
+				model.addAttribute("userName", username);
+				model.addAttribute("email",employeeSearchForm.employeeSearchs.get(0).getEmail());
+				model.addAttribute("firstName",employeeSearchForm.employeeSearchs.get(0).getFirstName());
+				model.addAttribute("lastName",employeeSearchForm.employeeSearchs.get(0).getLastName());
+				model.addAttribute("middleName",employeeSearchForm.employeeSearchs.get(0).getMiddleName());
+				model.addAttribute("phoneNumber",employeeSearchForm.employeeSearchs.get(0).getPhoneNumber());
+				return "Tier2CustomerUpdate";
+				}
+    }
+	
+	@RequestMapping(value = "/Tier2/UpdateValues", method = RequestMethod.POST)
+    public ModelAndView changeValue(
+    		@RequestParam(required = true, name="userName") String userName,
+    		@RequestParam(required = true, name="email") String email,
+    		@RequestParam(required = true, name="firstName") String firstName,
+    		@RequestParam(required = true, name="lastName") String lastName,
+    		@RequestParam(required = true, name="middleName") String middleName,
+    		@RequestParam(required = true, name="phoneNumber") String phoneNumber,
+    		final HttpServletRequest request, Model model)  {
+		
+
+
+		Boolean flag=employeeServiceImpl.updateEmployees(userName, email, firstName, lastName, middleName, phoneNumber);
+		
+		if(flag==null)
+			return new ModelAndView("Login");
+		else
+			if(flag)
+				return new ModelAndView("Tier2CustomerUpdate" , "message", "The Info username was updated");
+			else
+				return new ModelAndView("Tier2CustomerUpdate" , "message", "An username not found");
     }
 	
 	
