@@ -3,6 +3,7 @@ package web;
 import java.util.stream.Stream;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -50,7 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationFailureHandler customAuthenticationFailureHandler() {
         return new AuthFail();
     }
- 
+    
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http.csrf().disable()
@@ -94,6 +95,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		    .invalidateHttpSession(false)
 		    .deleteCookies("JSESSIONID")
 		    .logoutSuccessUrl("/login");
+        http.requiresChannel().anyRequest().requiresSecure();
     }
      
     @Bean
@@ -124,6 +126,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	    	}
     	}
 
-    	return null;
+    	return false;
+    }
+    
+    public static void forceLogout() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || auth instanceof AnonymousAuthenticationToken)
+        	return;
+        auth.setAuthenticated(false);
+        SecurityContextHolder.getContext().setAuthentication(null);
+    }
+
+    public static String getClientIP(HttpServletRequest request) {
+        String xfHeader = request.getHeader("X-Forwarded-For");
+        if (xfHeader == null) {
+            return request.getRemoteAddr();
+        }
+        return xfHeader.split(",")[0];
     }
 }
