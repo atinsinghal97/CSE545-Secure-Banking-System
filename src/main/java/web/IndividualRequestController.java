@@ -99,14 +99,7 @@ public class IndividualRequestController {
 
 		return new ModelAndView(("ServiceRequests/CashiersCheckOrder"), model);
 		}
-	
-	@RequestMapping("/UpdatePasswords")
-    public String CustomerUpdatePassword(final HttpServletRequest request) {
-		
-        return "CustomerUpdatePassword";
-  
-        
-    }
+
 	@RequestMapping(value="/updateAccInfo", method = RequestMethod.POST)
 	public ModelAndView transactions(HttpServletRequest request, HttpSession session) {
 		 session = request.getSession(false);

@@ -302,7 +302,11 @@ public class TransactionServicesImpl {
 		return true;
 	}
 	
-	private Transaction createTransaction(String from, String to, BigDecimal amount, String type) {
+	private Transaction createTransaction(String from, String to, BigDecimal amount, String type) throws Exception {
+		if (amount.compareTo(new BigDecimal(0)) <= 0) {
+			throw new Exception("Invalid amount for transaction.");
+		}
+		
 		Transaction transaction = new Transaction();
 		transaction.setFromAccount(from);
 		transaction.setToAccount(to);

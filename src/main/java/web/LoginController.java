@@ -14,6 +14,7 @@ import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -25,18 +26,24 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import bankApp.application.Application;
+import bankApp.repositories.UserDetailsImpl;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 import communication.Mailer;
 import communication.Messager;
 import database.SessionManager;
+import forms.NewPassword;
+import forms.PasswordChange;
+import forms.UserForm;
 import model.Account;
 import model.Otp;
 import model.User;
@@ -45,33 +52,31 @@ import security.OtpUtils;
 
 @Controller
 public class LoginController {
-	@Value("${app.url}")
-	private String appUrl;
-	
-	@Resource(name = "otpUtils")
-	private OtpUtils otpUtils;
-	
-	@Resource(name = "mailer")
-	private Mailer mailer;
-	
-	@Resource(name = "messager")
-	private Messager messager;
-	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+    @Value("${app.url}")
+    private String appUrl;
+
+    @Resource(name = "otpUtils")
+    private OtpUtils otpUtils;
+
+    @Resource(name = "mailer")
+    private Mailer mailer;
+
+    @Resource(name = "messager")
+    private Messager messager;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 	
 	@RequestMapping("/login")
     public String hello(final HttpServletRequest request, Model model) {
 	    HttpSession session = request.getSession(false);
 	    
-	    if (session != null) {
-			
-			
-		    Object msg = session.getAttribute("msg");
-	        model.addAttribute("message", session.getAttribute("msg"));
-	        if (msg != null)
-	        	session.removeAttribute("msg");
-	    }
+        if (session != null) {
+            Object msg = session.getAttribute("msg");
+            model.addAttribute("message", session.getAttribute("msg"));
+            if (msg != null)
+                session.removeAttribute("msg");
+        }
         return "Login";
     }
 
@@ -100,6 +105,12 @@ public class LoginController {
 	    HttpSession session = request.getSession(false);
 	    
 	    Session s = null;
+	    
+	    String ipAddress = WebSecurityConfig.getClientIP(request);
+	    if (ipAddress == null || ipAddress.isEmpty()) {
+	    	session.setAttribute("msg", "Please try again later.");
+	    	response.setViewName("redirect:/forgot_password");
+	    }
 	    
 	    try {
 	    	s = SessionManager.getSession("");
@@ -130,7 +141,7 @@ public class LoginController {
 		    		try {
 		    			tx = sess.beginTransaction();
 
-			    		otp = otpUtils.generateOtp(u, request.getRemoteHost(), mode);
+			    		otp = otpUtils.generateOtp(u, ipAddress, mode);
 			    		sess.save(otp);
 			    		
 			    		if (mode == 1) {
@@ -186,129 +197,109 @@ public class LoginController {
     		@RequestParam(required = true, name="token") String otp) {
 		// Close and open link again?
 		// We have to unset the session status
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth != null) {
-			auth.setAuthenticated(false);
-			SecurityContextHolder.getContext().setAuthentication(null);
-		}
+        WebSecurityConfig.forceLogout();
 		
 	    User u = otpUtils.validateOtp(otp, request.getRemoteHost());
 
 	    if (u != null) {
-	        auth = new UsernamePasswordAuthenticationToken(
-	          u, null, Arrays.asList(new SimpleGrantedAuthority("CHANGE_PASSWORD_PRIVILEGE")));
+	    	Authentication auth = new UsernamePasswordAuthenticationToken(
+	          new UserDetailsImpl(u), null, Arrays.asList(new SimpleGrantedAuthority("CHANGE_PASSWORD_PRIVILEGE")));
     	    SecurityContextHolder.getContext().setAuthentication(auth);
 	    	return new ModelAndView("redirect:/change_password");
 	    }
 	    
-	    System.out.println("NULL!");
-		return new ModelAndView("redirect:/login");
+        request.getSession().setAttribute("message", "Please request a new otp");
+        return new ModelAndView("redirect:/login");
+    }
+	
+    @RequestMapping(value = "/change_password", method = RequestMethod.GET)
+    public String changePasswordPage(final HttpServletRequest request, HttpServletResponse response, Map<String, Object> model) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            Object msg = session.getAttribute("msg");
+            model.put("message", session.getAttribute("msg"));
+            if (msg != null)
+                session.removeAttribute("msg");
+        }
+
+        model.put("passwordForm", new PasswordChange());
+        return "NewPassword";
     }
 
-	@RequestMapping("/change_password")
+    @RequestMapping(value = "/change_password", method = RequestMethod.POST)
     public ModelAndView changePassword(final HttpServletRequest request, HttpServletResponse response,
-    		@RequestParam(required = false, name="newpassword") String newpassword,
-    		@RequestParam(required = false, name="confirmpassword") String confirmpassword) {
-		if (newpassword == null || confirmpassword == null) {
-			return new ModelAndView("NewPassword");
-		}
-		
-		User user = (User) SecurityContextHolder
-				.getContext().getAuthentication().getPrincipal();
-		
-		Session s = SessionManager.getSession("");
-		Transaction tx = null;
-		try {
-			tx = s.beginTransaction();
-		    user.setPassword(passwordEncoder.encode(newpassword));
-		    s.update(user);
-			if (tx.isActive())
-			    tx.commit();
-		
-		} catch (Exception e) {
-			if (tx != null) tx.rollback();
-			e.printStackTrace();
-		} finally {
-			s.close();
-		}
+    		@Valid @ModelAttribute("passwordForm") NewPassword passwordForm, BindingResult result,
+            Map<String, Object> model) {
+    	if (result.hasErrors()) {
+    		return new ModelAndView("NewPassword");
+    	}
 
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		auth.setAuthenticated(false);
-		SecurityContextHolder.getContext().setAuthentication(null);
-		return new ModelAndView("redirect:/login");
+        Session s = SessionManager.getSession("");
+        Transaction tx = null;
+
+        try {
+            UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication()
+                    .getPrincipal();
+            User user = userDetails.getUser();
+
+            tx = s.beginTransaction();
+
+            user.setPassword(passwordEncoder.encode(passwordForm.getPassword()));
+            s.update(user);
+
+            if (tx.isActive()) tx.commit();
+
+        	request.getSession().setAttribute("msg", "Password changed successfully!");
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        	request.getSession().setAttribute("msg", "Password not changed!");
+            s.close();
+        } finally {
+            s.close();
+        }
+
+        WebSecurityConfig.forceLogout();
+        return new ModelAndView("redirect:/login");
     }
 	
-	@RequestMapping("/register")
-    public String registration(final HttpServletRequest request, Model model) {
-		return "RegistrationExternal";
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public String registerPage(Map<String, Object> model) {
+        UserForm user = new UserForm();
+        model.put("userForm", user);
+        return "RegistrationExternal";
     }
-	
-	
-	@RequestMapping(value = "/externalregister", method = RequestMethod.POST)
-    public ModelAndView register(
-    		@RequestParam(required = true, name="designation") String userType,
-    		@RequestParam(required = true, name="firstname") String firstname,
-    		@RequestParam(required = true, name="middlename") String middlename,
-    		@RequestParam(required = true, name="lastname") String lastname,
-    		@RequestParam(required = true, name="username") String username,
-    		@RequestParam(required = true, name="password") String password,
-    		@RequestParam(required = true, name="email") String email,
-    		@RequestParam(required = true, name="address") String address,
-    		@RequestParam(required = true, name="phone") String phone,
-    		@RequestParam(required = true, name="date_of_birth") String dateOfBirth,
-    		@RequestParam(required = true, name="ssn") String ssn,
-    		@RequestParam(required = true, name="secquestion1") String secquestion1,
-    		@RequestParam(required = true, name="secquestion2") String secquestion2) {
-		
-		Session s = SessionManager.getSession("");
-		Transaction tx = null;
-		try {
-			tx = s.beginTransaction();
-			User user = new User();
-			user.setUsername(username);
-			user.setPassword(passwordEncoder.encode(password));
-			user.setRole(userType);
-			user.setStatus(0);
-			s.save(user);
-			UserDetail userDetail;
-			
-			// Requires validation
-			Date date = new SimpleDateFormat("mm-dd-yyyy").parse(dateOfBirth);
 
-			userDetail = new UserDetail();
-			userDetail.setUser(user);
-			userDetail.setFirstName(firstname);
-			userDetail.setMiddleName(middlename);
-			userDetail.setLastName(lastname);
-			userDetail.setEmail(email);
-			userDetail.setPhone(phone);
-			userDetail.setAddress1(address);
-			userDetail.setAddress2("");
-			userDetail.setCity("");
-			userDetail.setDateOfBirth(date);
-			userDetail.setProvince("");
-			userDetail.setSsn(ssn);
-			userDetail.setZip(100L);
-			userDetail.setQuestion1(secquestion1);
-			userDetail.setQuestion2(secquestion2);
-			s.save(userDetail);
-			
-			if (tx.isActive())
-			    tx.commit();
-			s.close();
-		
-		} catch (ParseException e) {
-			if (tx != null) tx.rollback();
-			e.printStackTrace();
-		} catch (Exception e) {
-			if (tx != null) tx.rollback();
-			e.printStackTrace();
-		}
-		finally {
-			s.close();
-		}
-		
-		return new ModelAndView("redirect:/login");
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public ModelAndView doRegister(@Valid @ModelAttribute("userForm") UserForm userForm, BindingResult result,
+            Map<String, Object> model) {
+
+        if (result.hasErrors()) {
+            return new ModelAndView("RegistrationExternal");
+        }
+
+        Session session = SessionManager.getSession("");
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+
+            User user = userForm.createUser(passwordEncoder);
+            session.save(user);
+            session.save(user.getUserDetail());
+
+            if (tx.isActive())
+                tx.commit();
+        } catch (Exception e) {
+            if (tx != null)
+                tx.rollback();
+            e.printStackTrace();
+            model.put("message", "Unable to register. Please contact the bank.");
+            return new ModelAndView("RegistrationExternal");
+        } finally {
+            session.close();
+        }
+
+        return new ModelAndView("redirect:/login");
     }
 
 	@RequestMapping("/homepage")
