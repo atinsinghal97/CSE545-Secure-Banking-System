@@ -20,6 +20,9 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/virtual-keyboard/1.30.1/js/jquery.keyboard.extension-typing.min.js">
 	
 </script>
+
+<script src="/js/security.js"></script>
+
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/virtual-keyboard/1.30.1/css/keyboard.min.css">
 <link rel="stylesheet"
@@ -28,6 +31,7 @@
 <body>
 	<div id="page-content" class="col-md-12" align="center">
 		<div>
+
 			<div>
 				<h3>
 					<b>Forgot Password</b>
@@ -38,6 +42,7 @@
 			</div>
 
 			<div>
+
 				<form id="ForgotPassword" action="/forgot_password" method="post">
 					<fieldset>
 						<div>
@@ -84,7 +89,7 @@
 						<div class="col-lg-5">
 							<input type="number" class="form-control input-lg form-control"
 								id="token" name="token" placeholder="OTP" step="1" max="1000000"
-								autofocus="true" required>
+								autofocus="true" required readonly>
 						</div>
 					</div>
 
@@ -100,6 +105,13 @@
 
 				</fieldset>
 			</form>
+		</div>
+
+		<div class="form-group"
+			style="background-color: #f1f1f1; height: 30px">
+			<span><a href="/login"
+				style="color: #685206; font-family: 'Helvetica Neue', sans-serif; font-size: 16px; line-height: 24px; margin: 0 0 24px;">Go
+					Back</a></span>
 		</div>
 
 	</div>

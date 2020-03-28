@@ -22,6 +22,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.header.writers.StaticHeadersWriter;
 import org.springframework.stereotype.Component;
 
 @Configuration
@@ -82,6 +83,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	        .antMatchers("/EmployeeDelete").hasAuthority("admin")
 	        .antMatchers("/SystemLogs").hasAuthority("admin")
 	        .antMatchers("/homepage").hasAuthority("customer")
+	        .antMatchers("/js/**").permitAll()
+	        .antMatchers("/css/**").permitAll()
 	        .anyRequest().authenticated()//any other request just need authentication
 	        .and()
 	        .formLogin()
@@ -96,6 +99,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		    .deleteCookies("JSESSIONID")
 		    .logoutSuccessUrl("/login");
         http.requiresChannel().anyRequest().requiresSecure();
+        http.sessionManagement().maximumSessions(1);
+        http.headers()
+        	.xssProtection()
+            .disable()
+            .httpStrictTransportSecurity();
+//            .addHeaderWriter(new StaticHeadersWriter("X-Content-Security-Policy","script-src 'self'"));
     }
      
     @Bean

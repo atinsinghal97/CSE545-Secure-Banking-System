@@ -17,6 +17,7 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
 <link rel="stylesheet" href="css/index.css">
+<script src="/js/security.js"></script>
 </head>
 
 <body>
@@ -34,7 +35,7 @@
 								<p>
 								<li><span>Account Number: ${accountid}</span> <span>Balance:
 										$ ${balance}</span></li>
-										 
+
 								</p>
 							</div>
 						</div>
@@ -61,10 +62,12 @@
 										<div class="input-group mb-3">
 											<label>Deposit Amount</label> <input type="number"
 												class="form-control" min="1" max="${100000}"
-												placeholder="Deposit Amount" name="Amount" required="required">
+												placeholder="Deposit Amount" name="Amount"
+												required="required">
 										</div>
-										<input type="hidden" name="Deposit" value="sys"/>
-										<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
+										<input type="hidden" name="Deposit" value="sys" /> <input
+											type="hidden" name="${_csrf.parameterName}"
+											value="${_csrf.token}" />
 										<div class="input-group">
 											<input type="submit" class="btn btn-success" value="Deposit">
 										</div>
@@ -88,10 +91,12 @@
 										<div class="input-group mb-3">
 											<label>Withdrawal Amount</label> <input type="number"
 												class="form-control" min="1" max="${balance}"
-												placeholder="Withdrawal Amount" name="Amount" required="required">
+												placeholder="Withdrawal Amount" name="Amount"
+												required="required">
 										</div>
-										<input type="hidden" name="Withdraw" value="sys"/>
-										<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
+										<input type="hidden" name="Withdraw" value="sys" /> <input
+											type="hidden" name="${_csrf.parameterName}"
+											value="${_csrf.token}" />
 										<div class="input-group">
 											<input type="submit" class="btn btn-success" value="Withdraw">
 										</div>

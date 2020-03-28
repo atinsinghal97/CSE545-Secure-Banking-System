@@ -11,6 +11,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>System Logs</title>
+<script src="/js/security.js"></script>
 </head>
 <body>
 	<%@include file="HPT3.jsp"%>

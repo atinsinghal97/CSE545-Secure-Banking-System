@@ -17,6 +17,7 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
 <link rel="stylesheet" href="css/index.css">
+<script src="/js/security.js"></script>
 </head>
 
 <body>
@@ -32,7 +33,6 @@
 							<div class="panel-body">
 								<p contenteditable="false">${acctype}</p>
 								<p>
-								 
 								<li><span>Account Number: ${accountid}</span> <span>Balance:
 										$ ${balance}</span></li>
 								</p>
@@ -101,7 +101,7 @@
 								<div id="request" class="collapse" aria-labelledby="headingTwo"
 									data-parent="#accordion">
 									<form method="post" class="card-body"
-										action="/paymentactionemph" class="card-body" 
+										action="/paymentactionemph" class="card-body"
 										style="text-align: left;">
 										<div class="input-group mb-3">
 											<label>Recipient Email Address</label> <input type="email"
@@ -128,8 +128,9 @@
 
 										<div class="input-group">
 											<input type="hidden" name="${_csrf.parameterName}"
-												value="${_csrf.token}" /> <input type="submit" onclick="return validate();"
-												class="btn btn-success" value="Request">
+												value="${_csrf.token}" /> <input type="submit"
+												onclick="return validate();" class="btn btn-success"
+												value="Request">
 										</div>
 									</form>
 								</div>
@@ -140,25 +141,23 @@
 			</div>
 
 
-			
+
 		</div>
 	</div>
 
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
-		<script type="text/javascript">
-		function validate()
-		{
+	<script type="text/javascript">
+		function validate() {
 			var phone = document.getElementsByName("Recipient Phone Number")[0].value;
 			var email = document.getElementsByName("Recipient Email Address")[0].value;
-			if(phone || email)
-			{
+			if (phone || email) {
 				return true;
 			}
 			alert("Both Email and Phone Number fields cannot be blank! Enter either or both!")
 			return false;
 		}
-		</script>
+	</script>
 </body>
 
 </html>

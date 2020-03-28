@@ -15,8 +15,10 @@
 </head>
 
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="js/cust_validate.js"></script>
-<script src="js/jquery.validate.js"></script>	
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+<script src="/js/cust_validate.js"></script>
+<script src="/js/security.js"></script>
+
 <div class="content-wrapper">
   <div class="col-md-12" id="page-content" align="center">
     <div class="panel panel-primary">

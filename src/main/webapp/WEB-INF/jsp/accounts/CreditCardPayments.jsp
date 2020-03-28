@@ -5,6 +5,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Banking System</title>
+<script src="/js/security.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
@@ -37,7 +38,6 @@
 									</div>
 									<div class="input-group mb-3">
 										<label>Customer CVV Number</label> <input type="number"
-											
 											pattern="[0-9]{3}" class="form-control" step="1"
 											placeholder="Customer CVV Number" name="CVV"
 											aria-describedby="basic-addon2">
@@ -51,7 +51,7 @@
 										<input type="submit" class="btn btn-success" value="Request">
 									</div>
 									<input type="hidden" name="${_csrf.parameterName}"
-											value="${_csrf.token}" />
+										value="${_csrf.token}" />
 								</form>
 							</div>
 						</div>
@@ -76,7 +76,6 @@
 									</div>
 									<div class="input-group mb-3">
 										<label>Enter Your CVV Number</label> <input type="number"
-											
 											pattern="[0-9]{3}" class="form-control" step="1"
 											placeholder="Enter Your CVV Number" name="CVV"
 											aria-describedby="basic-addon2">
@@ -90,7 +89,7 @@
 										<input type="submit" class="btn btn-success" value="Request">
 									</div>
 									<input type="hidden" name="${_csrf.parameterName}"
-											value="${_csrf.token}" />
+										value="${_csrf.token}" />
 								</form>
 							</div>
 						</div>

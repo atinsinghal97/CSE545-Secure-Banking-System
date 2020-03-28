@@ -28,6 +28,7 @@
 <link
 	href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"
 	rel="stylesheet">
+<script src="/js/security.js"></script>
 </head>
 
 <body>
@@ -43,7 +44,7 @@
 					<div class="form-group">
 						<input name="otpnum" type="number" step="1" max="1000000"
 							id="otpnum" class="form-control input-lg" autofocus="true"
-							required />
+							required readonly />
 					</div>
 					<div class="row">
 						<div class="col-md-5 col-sm-5 col-xs-5">

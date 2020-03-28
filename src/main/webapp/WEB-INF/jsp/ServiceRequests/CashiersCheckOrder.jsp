@@ -5,6 +5,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Cashier's Check</title>
+<script src="/js/security.js"></script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
@@ -27,10 +28,10 @@
 					<div class="col-sm-12">
 						<div class="panel panel-default text-left">
 							<div class="panel-body">
-							 
+
 								<p contenteditable="false">Online Cashier's Check Portal</p>
-								<li><span>Order Checks</span>&nbsp;&nbsp; <span>Deposit Check</span>&nbsp;&nbsp;
-									<span>Online</span> </li>
+								<li><span>Order Checks</span>&nbsp;&nbsp; <span>Deposit
+										Check</span>&nbsp;&nbsp; <span>Online</span></li>
 							</div>
 						</div>
 					</div>
@@ -49,10 +50,10 @@
 								</div>
 								<div id="send" class="collapse" aria-labelledby="headingOne"
 									data-parent="#accordion">
-									<form  action="CCheckOrderAction" method="post" class="card-body" style="text-align: left;">
+									<form action="CCheckOrderAction" method="post"
+										class="card-body" style="text-align: left;">
 										<div class="input-group mb-3">
 											<label>Recipient's First Name</label> <input type="text"
-												
 												pattern="[a-zA-Z]{1,30}" class="form-control"
 												placeholder="Recipient's First Name"
 												name="Recipient's First Name"
@@ -94,8 +95,9 @@
 										</div>
 
 										<div class="input-group">
-										<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
-											<input type="submit" class="btn btn-success" value="Order">
+											<input type="hidden" name="${_csrf.parameterName}"
+												value="${_csrf.token}" /> <input type="submit"
+												class="btn btn-success" value="Order">
 										</div>
 									</form>
 								</div>
@@ -110,9 +112,8 @@
 								</div>
 								<div id="request" class="collapse" aria-labelledby="headingTwo"
 									data-parent="#accordion">
-									<form class="card-body"
-										action="ccheckDepositAction" method="post" class="card-body"
-										style="text-align: left;">
+									<form class="card-body" action="ccheckDepositAction"
+										method="post" class="card-body" style="text-align: left;">
 										<div class="input-group mb-3">
 											<label>Cashier's Check Number</label> <input type="text"
 												pattern="[0-9]{3,}\CCX[0-9]{3,}" class="form-control"
@@ -120,10 +121,10 @@
 												name="Cashier's Check Number"
 												aria-describedby="basic-addon1">
 										</div>
-										
+
 										<div class="input-group mb-3">
-											<label>Select Account to Deposit to</label> <select name="Account"
-												class="selectpicker mr-3" id="from-account"
+											<label>Select Account to Deposit to</label> <select
+												name="Account" class="selectpicker mr-3" id="from-account"
 												title="Select Account" data-live-search="false">
 												<c:forEach var="account" items="${accounts}">
 													<option value="${account}">${account}</option>
@@ -132,8 +133,9 @@
 										</div>
 
 										<div class="input-group">
-										<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
-											<input type="submit" class="btn btn-success" value="Deposit">
+											<input type="hidden" name="${_csrf.parameterName}"
+												value="${_csrf.token}" /> <input type="submit"
+												class="btn btn-success" value="Deposit">
 										</div>
 									</form>
 								</div>

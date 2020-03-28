@@ -1,7 +1,11 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
+<head>
+<script src="/js/security.js"></script>
+</head>
 <meta charset="ISO-8859-1">
 <body>
 	<div>
@@ -10,15 +14,21 @@
 	<div id="page-content" class="col-md-12" align="center">
 		<div>
 			<div>
-				<h3> <b>DELETE</b> Account </h3>
+				<h3>
+					<b>DELETE</b> Account
+				</h3>
 			</div>
 			<div>
-				<form id="DeleteAccount" action="/Tier2/DelAcc" method="post" class="form-horizontal">
+				<form id="DeleteAccount" action="/Tier2/DelAcc" method="post"
+					class="form-horizontal">
 					<fieldset>
 						<div>
-							<label for="accountnumber" class="col-lg-2 control-label"> <b>Account #</b></label>
+							<label for="accountnumber" class="col-lg-2 control-label">
+								<b>Account #</b>
+							</label>
 							<div>
-								<input type="text" id="accountnumber" name="accountnumber" placeholder="Account #" class="form-control"  required>
+								<input type="text" id="accountnumber" name="accountnumber"
+									placeholder="Account #" class="form-control" required>
 							</div>
 						</div>
 						<div>
