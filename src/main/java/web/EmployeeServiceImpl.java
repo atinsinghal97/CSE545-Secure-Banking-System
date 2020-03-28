@@ -27,7 +27,7 @@ public class EmployeeServiceImpl {
 	private PasswordEncoder passwordEncoder;
 	
 	public EmployeeSearchForm getEmployees(String username) {
-		if (!WebSecurityConfig.currentSessionHasAnyAuthority("admin"))
+		if (!WebSecurityConfig.currentSessionHasAnyAuthority("admin","tier2"))
 			return null;
 		
 		Session s = SessionManager.getSession("");
@@ -37,9 +37,23 @@ public class EmployeeServiceImpl {
 				.setParameter("username", username).getResultList();	
 		EmployeeSearchForm employeeSearchForm = new EmployeeSearchForm();
 		List<EmployeeSearch> employeeSearch = new ArrayList<EmployeeSearch>();
+		Boolean isAdmin=false;
+		Boolean isTier2=false;
+		
+		Authentication x = SecurityContextHolder.getContext().getAuthentication();
+		for (GrantedAuthority grantedAuthority : x.getAuthorities()) {
+			if (grantedAuthority.getAuthority().equals("tier2"))
+			{
+				isTier2=true;
+			}
+			if (grantedAuthority.getAuthority().equals("admin"))
+			{
+				isAdmin=true;
+			}		
+		}
 		for(User temp : user )
 		{
-			if((temp.getRole().equals("tier2")||temp.getRole().equals("tier1")) && temp.getStatus()!=3)
+			if(((isAdmin&&(temp.getRole().equals("tier2")||temp.getRole().equals("tier1"))) || (isTier2&& temp.getRole().equals("customer"))) && temp.getStatus()!=3)
 			{
 			UserDetail ud = new UserDetail();
 			ud = s.createQuery("FROM UserDetail WHERE user_id = :uid", UserDetail.class)
@@ -55,9 +69,9 @@ public class EmployeeServiceImpl {
 	}
 	
 	public Boolean updateEmployees(String userName,String email,String firstName,String lastName,String middleName,String phoneNumber) {	
-		if (!WebSecurityConfig.currentSessionHasAnyAuthority("admin"))
+		if (!WebSecurityConfig.currentSessionHasAnyAuthority("admin","tier2"))
 			return null;
-		
+			
 		 Session s = SessionManager.getSession("");
 		 List<User> user=null;
 		 user=s.createQuery("FROM User WHERE username = :username", User.class)
@@ -67,9 +81,24 @@ public class EmployeeServiceImpl {
 		tx = s.beginTransaction();
 		 if(user.size()==0)
 			 return false;
+		Boolean isAdmin=false;
+		Boolean isTier2=false;
+		
+		Authentication x = SecurityContextHolder.getContext().getAuthentication();
+		String username=x.getName();
+		for (GrantedAuthority grantedAuthority : x.getAuthorities()) {
+			if (grantedAuthority.getAuthority().equals("tier2"))
+			{
+				isTier2=true;
+			}
+			if (grantedAuthority.getAuthority().equals("admin"))
+			{
+				isAdmin=true;
+			}		
+		}
 		for(User temp : user )
 		{
-			if((temp.getRole().equals("tier2")||temp.getRole().equals("tier1")) && temp.getStatus()!=3)
+			if(((isAdmin&&(temp.getRole().equals("tier2")||temp.getRole().equals("tier1"))) || (isTier2&& temp.getRole().equals("customer"))) && temp.getStatus()!=3)
 			{
 			UserDetail ud = new UserDetail();
 			ud = s.createQuery("FROM UserDetail WHERE user_id = :uid", UserDetail.class)
