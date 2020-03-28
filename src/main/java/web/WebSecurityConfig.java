@@ -50,7 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationFailureHandler customAuthenticationFailureHandler() {
         return new AuthFail();
     }
- 
+    
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http.csrf().disable()
@@ -94,6 +94,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		    .invalidateHttpSession(false)
 		    .deleteCookies("JSESSIONID")
 		    .logoutSuccessUrl("/login");
+        http.requiresChannel().anyRequest().requiresSecure();
     }
      
     @Bean
