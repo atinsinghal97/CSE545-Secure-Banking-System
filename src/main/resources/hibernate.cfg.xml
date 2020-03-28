@@ -14,6 +14,7 @@
         <mapping class="model.User" />
         <mapping class="model.Account" />
         <mapping class="model.Appointment" />
+        <mapping class="model.LoginHistory" />
         <mapping class="model.Transaction" />
         <mapping class="model.UserDetail" />
         <mapping class="model.Otp" />
