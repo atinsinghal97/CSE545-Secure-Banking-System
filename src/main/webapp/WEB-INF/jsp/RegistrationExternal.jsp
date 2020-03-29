@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <title>Registration</title>
 <style>
   .error {
@@ -16,8 +17,10 @@
 
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="/js/cust_validate.js"></script>
 <script src="/js/security.js"></script>
+
 
 <div class="content-wrapper">
   <div class="col-md-12" id="page-content" align="center">
@@ -31,6 +34,7 @@
             <div><p>${message}</p></div>
 
           <form:errors path="isValid" cssClass="error"/>
+          <form:errors path="isValidDate" cssClass="error"/>
           <form:errors path="alreadyExists" cssClass="error"/>
           <div class="form-group">
             <label for="select" class="col-lg-2 control-label">Customer Type</label>
@@ -127,7 +131,7 @@
           <div class="form-group">
             <label for="date_of_birth" class="col-lg-2 control-label">DOB</label>
             <div class="col-lg-5">
-              <form:input type="date" cssClass="form-control" path="dateOfBirth" id="date_of_birth" />
+              <form:input cssClass="form-control" path="dateOfBirth" id="date_of_birth" />
               <form:errors path="dateOfBirth" cssClass="error"/>
             </div>
           </div>
@@ -202,21 +206,9 @@
 </div> <!-- .content-wrapper -->
 
 <script>
-               $(function(){
-               var dtToday = new Date();
-               var month = dtToday.getMonth() + 1;
-               var day = dtToday.getDate();
-               var year = dtToday.getFullYear();
-               if(month < 10)
-               month = '0' + month.toString();
-               if(day < 10)
-               day = '0' + day.toString();
-               var maxDate = year + '-' + month + '-' + day;
-               var minDate = year - 100 + '-' + month + '-' + day;
-               //alert(minDate);
-               $('#date_of_birth').attr('max', maxDate);
-               $('#date_of_birth').attr('min', minDate);
-               });
+$(function() {
+    $("#date_of_birth").datepicker();
+});
 </script>
 
 </body>

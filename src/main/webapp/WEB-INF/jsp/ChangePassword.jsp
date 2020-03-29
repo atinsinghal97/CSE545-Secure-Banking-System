@@ -1,9 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<%@include file="HPM.jsp"%>
+<sec:authorize access="hasAuthority('customer')">
+    <%@include file="HeaderPage.jsp" %>
+</sec:authorize>
+
+<sec:authorize access="hasAuthority('admin')">
+    <%@include file="HPT3.jsp" %>
+</sec:authorize>
+
+<sec:authorize access="hasAuthority('tier2')">
+    <%@include file="HPT2.jsp" %>
+</sec:authorize>
+
+<sec:authorize access="hasAuthority('tier1')">
+    <%@include file="HPT1.jsp" %>
+</sec:authorize>
+
+<sec:authorize access="hasAuthority('merchant')">
+    <%@include file="HPM.jsp" %>
+</sec:authorize>
 
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script

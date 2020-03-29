@@ -16,7 +16,7 @@
 						<li class="cta"><a class="ButtonDesign"
 							href="/ServiceRequest">Service Requests</a></li>
 						<li class="cta"><a class="ButtonDesign"
-							href="/ChangePassword">Change Password</a></li>
+							href="/profile/change_password">Change Password</a></li>
 						<form method="post" action="/perform_logout" id="form-logout">
 							<input type="submit" value="Logout" />
 							<input type="hidden" name="${_csrf.parameterName}"

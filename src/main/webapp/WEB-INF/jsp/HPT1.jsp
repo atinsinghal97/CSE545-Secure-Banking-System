@@ -29,7 +29,7 @@
 						<li class="cta"><a class="ButtonDesign"
 							href="/Tier1ViewAccounts">View Customer Accounts</li>
 						<li class="ctd"><a class="ButtonDesign"
-							href="/Tier1UpdatePassword">Change Password</a></li>
+							href="/profile/change_password">Change Password</a></li>
 						<li class="cta"><a class="ButtonDesign"
 							href="/ViewAppointments">View Appointments of the day</a></li>
 						<form method="post" action="/perform_logout" id="form-logout">

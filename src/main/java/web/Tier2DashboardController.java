@@ -3,20 +3,25 @@ package web;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import forms.EmployeeSearch;
 import database.SessionManager;
 import forms.EmployeeSearchForm;
 import forms.SearchForm;
@@ -110,10 +115,8 @@ public class Tier2DashboardController {
 	
 	@RequestMapping("/Tier2/UpdateCustomer")
     public String tier2UpdateAccount(final HttpServletRequest request, Model model) {
-		
-        return "Tier2CustomerUpdate";
-  
-        
+		model.addAttribute("userForm", new EmployeeSearch());
+        return "Tier2CustomerUpdate";    
     }
 	
 
@@ -259,36 +262,36 @@ public class Tier2DashboardController {
 			if(employeeSearchForm.getEmployeeSearchs().size()==0)
 			{
 				model.addAttribute("message", "An username not found");
+				model.addAttribute("userForm", new EmployeeSearch());
 				return "Tier2CustomerUpdate";
 			}		
 			else
 				{
 				System.out.println("CAME HERE!!!!!!");
 				System.out.println(employeeSearchForm.employeeSearchs.get(0).getEmail());
-				model.addAttribute("userName", username);
-				model.addAttribute("email",employeeSearchForm.employeeSearchs.get(0).getEmail());
-				model.addAttribute("firstName",employeeSearchForm.employeeSearchs.get(0).getFirstName());
-				model.addAttribute("lastName",employeeSearchForm.employeeSearchs.get(0).getLastName());
-				model.addAttribute("middleName",employeeSearchForm.employeeSearchs.get(0).getMiddleName());
-				model.addAttribute("phoneNumber",employeeSearchForm.employeeSearchs.get(0).getPhoneNumber());
+				model.addAttribute("userForm",employeeSearchForm.employeeSearchs.get(0));
 				return "Tier2CustomerUpdate";
 				}
     }
 	
 	@RequestMapping(value = "/Tier2/UpdateValues", method = RequestMethod.POST)
     public ModelAndView changeValue(
-    		@RequestParam(required = true, name="userName") String userName,
-    		@RequestParam(required = true, name="email") String email,
-    		@RequestParam(required = true, name="firstName") String firstName,
-    		@RequestParam(required = true, name="lastName") String lastName,
-    		@RequestParam(required = true, name="middleName") String middleName,
-    		@RequestParam(required = true, name="phoneNumber") String phoneNumber,
-    		final HttpServletRequest request, Model model)  {
-		
+    		@Valid @ModelAttribute("userForm") EmployeeSearch employeeForm,
+    		BindingResult result,
+            Map<String, Object> model)  {
 
+        if (result.hasErrors()) {
+        	return new ModelAndView("Tier2CustomerUpdate");
+        }
+        
+        Boolean flag = employeeServiceImpl.updateEmployees(
+        		employeeForm.getUserName(),
+        		employeeForm.getEmail(),
+        		employeeForm.getFirstName(),
+        		employeeForm.getLastName(),
+        		employeeForm.getMiddleName(),
+        		employeeForm.getPhoneNumber());
 
-		Boolean flag=employeeServiceImpl.updateEmployees(userName, email, firstName, lastName, middleName, phoneNumber);
-		
 		if(flag==null)
 			return new ModelAndView("Login");
 		else

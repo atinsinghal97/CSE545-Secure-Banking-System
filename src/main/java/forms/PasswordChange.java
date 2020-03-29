@@ -5,12 +5,14 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Pattern.Flag;
 
+import constants.Constants;
+
 public class PasswordChange {
 	@NotBlank
 	private String oldpassword;
 
 	@NotBlank
-	@Pattern(regexp = "^(?=.*\\d).{4,10}$", message="Password must be between 4 and 8 digits long and include at least one numeric digit.", flags = Flag.UNICODE_CASE)
+	@Pattern(regexp=Constants.passwordPattern, message=Constants.passwordErrorMessage, flags = Flag.UNICODE_CASE)
 	private String password;
 
 	@NotBlank

@@ -1,13 +1,36 @@
 package forms;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Pattern.Flag;
+
+import constants.Constants;
+
 public class EmployeeSearch {
+	@NotBlank
+	@Pattern(regexp = Constants.userNamePattern, message=Constants.userNameErrorMessage, flags = Flag.UNICODE_CASE)
 	public String userName;
+
+    @NotEmpty
+    @Email
 	public String email;
+
+	@NotBlank
+	@Pattern(regexp=Constants.namePattern, message=Constants.nameMessage)
 	public String firstName;
+
+	@NotBlank
+	@Pattern(regexp=Constants.namePattern, message=Constants.nameMessage)
 	public String lastName;
+
+	@Pattern(regexp=Constants.namePattern, message=Constants.nameMessage)
 	public String middleName;
-	public String phoneNumber;
 	
+	@NotBlank
+	@Pattern(regexp=Constants.phoneNumberPattern, message=Constants.phoneNumberErrorMessage)
+	public String phoneNumber;
 
 	public EmployeeSearch() {
 	}

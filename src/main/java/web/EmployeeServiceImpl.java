@@ -14,6 +14,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.ModelAndView;
 
 import database.SessionManager;
 import model.User;
@@ -23,9 +24,6 @@ import forms.EmployeeSearchForm;
 
 @Component(value = "employeeServiceImpl")
 public class EmployeeServiceImpl {
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-	
 	public EmployeeSearchForm getEmployees(String username) {
 		if (!WebSecurityConfig.currentSessionHasAnyAuthority("admin","tier2"))
 			return null;
@@ -162,58 +160,28 @@ public class EmployeeServiceImpl {
 		
 	}
 	
-	public Boolean createEmployee(String userType,String firstname,String middlename,String lastname,String username,String password,String email,String address,String phone,String dateOfBirth,String ssn,String secquestion1,String secquestion2) throws ParseException
-	{
+	public Boolean createEmployee(User user) {
 		if (!WebSecurityConfig.currentSessionHasAnyAuthority("admin"))
 			return null;
 		
-		Session s = SessionManager.getSession("");
-		Transaction tx = null;
-		List<User> users=null;
-		users=s.createQuery("FROM User WHERE username = :username", User.class)
-				.setParameter("username", username).getResultList();
-		if(users.size()==0)
-		{			
-			tx = s.beginTransaction();
-			System.out.println(password+"@@@@@@@@@@");
-			System.out.println(passwordEncoder);
-			User user = new User();
-			user.setUsername(username);
-			user.setPassword(passwordEncoder.encode(password));
-			user.setRole(userType);
-			user.setStatus(1);
-			s.saveOrUpdate(user);
-			UserDetail userDetail;
-			Date date = new SimpleDateFormat("mm-dd-yyyy").parse(dateOfBirth);
-			Integer uid = user.getId();
-			System.out.println("UID AFTER SAVE: " + uid);
-			userDetail = new UserDetail();
-			userDetail.setUser(user);
-			userDetail.setFirstName(firstname);
-			userDetail.setMiddleName(middlename);
-			userDetail.setLastName(lastname);
-			userDetail.setEmail(email);
-			userDetail.setPhone(phone);
-			userDetail.setAddress1(address);
-			userDetail.setAddress2("");
-			userDetail.setCity("");
-			userDetail.setDateOfBirth(date);
-			userDetail.setProvince("");
-			userDetail.setSsn(ssn);
-			userDetail.setZip(100L);
-			userDetail.setQuestion1(secquestion1);
-			userDetail.setQuestion2(secquestion2);
-			s.saveOrUpdate(userDetail);
-			if (tx.isActive())
-			    tx.commit();
-			s.close();
-			return true;
-		
-		}
-		else
-			return false;
+        Session session = SessionManager.getSession("");
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
 
+            session.save(user);
+            session.save(user.getUserDetail());
 
-
-		}
+            if (tx.isActive()) tx.commit();
+            
+            return true;
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        
+        return false;
 	}
+}

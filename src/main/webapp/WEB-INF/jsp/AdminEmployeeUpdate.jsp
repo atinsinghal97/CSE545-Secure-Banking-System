@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="/js/employee_validate.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
-<script src="/js/security.js"></script>
 
 <div class="content-wrapper">
 	<%@include file="HPT3.jsp"%>
@@ -36,60 +37,67 @@
 						</div>
 					</div>
 				</form>
-				<form class="form-horizontal" id="EmployeeUpdate"
-					action="/Admin/UpdateValues" method="post">
+				
+				<form:form cssClass="form-horizontal" id="EmployeeUpdate" action="/Admin/UpdateValues" method="post" modelAttribute="employeeForm">
 					<fieldset>
+				
 						<div class="form-group">
 							<label for="empusername" class="col-lg-2 control-label">Employee
 								Username</label>
+							<form:errors path="userName" cssClass="error"/>
 							<div class="col-lg-5">
-								<input type="text" class="form-control" name="userName"
+								<form:input type="text" cssClass="form-control" name="userName"
 									id="userName" placeholder="Username"
-									value=<%=request.getAttribute("userName")%> readOnly required>
+									path="userName" readOnly="true" required="true" />
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="email" class="col-lg-2 control-label">Email</label>
+							<form:errors path="email" cssClass="error"/>
 							<div class="col-lg-5">
-								<input type="email" class="form-control" name="email" id="email"
-									placeholder="Email" value=<%=request.getAttribute("email")%>
-									required>
+								<form:input type="email" cssClass="form-control" name="email" id="email"
+									placeholder="Email" path="email"
+									required="true" />
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="firstname" class="col-lg-2 control-label">First
 								Name</label>
+							<form:errors path="firstName" cssClass="error"/>
 							<div class="col-lg-5">
-								<input type="text" class="form-control" id="firstName"
+								<form:input type="text" cssClass="form-control" id="firstName"
 									name="firstName" placeholder="First Name"
-									value=<%=request.getAttribute("firstName")%> required>
+									path="firstName" required="true" />
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="middlename" class="col-lg-2 control-label">Middle
 								Name</label>
+							<form:errors path="middleName" cssClass="error"/>
 							<div class="col-lg-5">
-								<input type="text" class="form-control" id="middleName"
+								<form:input type="text" class="form-control" id="middleName"
 									name="middleName" placeholder="Middle Name"
-									value=<%=request.getAttribute("middleName")%> required>
+									path="middleName" required="true" />
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="lastname" class="col-lg-2 control-label">Last
 								Name</label>
+							<form:errors path="lastName" cssClass="error"/>
 							<div class="col-lg-5">
-								<input type="text" class="form-control" id="lastName"
+								<form:input type="text" class="form-control" id="lastName"
 									name="lastName" placeholder="Last Name"
-									value=<%=request.getAttribute("lastName")%> required>
+									path="lastName" required="true" />
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="phone" class="col-lg-2 control-label">Phone
 								Number</label>
+							<form:errors path="phoneNumber" cssClass="error"/>
 							<div class="col-lg-5">
-								<input type="text" class="form-control" name="phoneNumber"
+								<form:input type="text" class="form-control" name="phoneNumber"
 									id="phoneNumber" placeholder="Phone"
-									value=<%=request.getAttribute("phoneNumber")%> required>
+									path="phoneNumber" required="true" />
 							</div>
 						</div>
 						<br>
@@ -102,8 +110,10 @@
 									value="${_csrf.token}" />
 							</div>
 						</div>
+				
 					</fieldset>
-				</form>
+				</form:form>
+
 			</div>
 		</div>
 

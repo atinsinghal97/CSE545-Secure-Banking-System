@@ -1,11 +1,8 @@
 package web;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Map;
 import java.util.List;
 
@@ -41,9 +38,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import communication.Mailer;
 import communication.Messager;
 import database.SessionManager;
+import forms.CustomerForm;
 import forms.NewPassword;
 import forms.PasswordChange;
-import forms.UserForm;
 import model.Account;
 import model.Otp;
 import model.User;
@@ -265,13 +262,13 @@ public class LoginController {
 	
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String registerPage(Map<String, Object> model) {
-        UserForm user = new UserForm();
+        CustomerForm user = new CustomerForm();
         model.put("userForm", user);
         return "RegistrationExternal";
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ModelAndView doRegister(@Valid @ModelAttribute("userForm") UserForm userForm, BindingResult result,
+    public ModelAndView doRegister(@Valid @ModelAttribute("userForm") CustomerForm userForm, BindingResult result,
             Map<String, Object> model) {
 
         if (result.hasErrors()) {
@@ -287,11 +284,9 @@ public class LoginController {
             session.save(user);
             session.save(user.getUserDetail());
 
-            if (tx.isActive())
-                tx.commit();
+            if (tx.isActive()) tx.commit();
         } catch (Exception e) {
-            if (tx != null)
-                tx.rollback();
+            if (tx != null) tx.rollback();
             e.printStackTrace();
             model.put("message", "Unable to register. Please contact the bank.");
             return new ModelAndView("RegistrationExternal");

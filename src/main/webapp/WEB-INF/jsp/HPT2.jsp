@@ -17,7 +17,7 @@
 						<li class="cta"><a class="ButtonDesign"
 							href="/Tier2PendingTransaction">Approve/Decline Transactions</a></li>
 						<li class="cta"><a class="ButtonDesign"
-							href="/Tier2/UpdatePassword">Change Password</a></li>
+							href="/profile/change_password">Change Password</a></li>
 						<li class="cta"><a class="ButtonDesign"
 							href="/Tier2/PendingAccounts">Account Approval</a></li>
 						<li class="cta"><a class="ButtonDesign"
