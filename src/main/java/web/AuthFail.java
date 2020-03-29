@@ -18,7 +18,12 @@ implements AuthenticationFailureHandler {
 			org.springframework.security.core.AuthenticationException exception) throws IOException, ServletException {
 	    response.setStatus(HttpStatus.UNAUTHORIZED.value());
 	    HttpSession session = request.getSession(false);
-	    session.setAttribute("msg", exception.getMessage());
+	    
+	    if (exception.getMessage().equalsIgnoreCase("blocked")) {
+	    	session.setAttribute("msg", "Your IP has been blocked for 24 hours. Please contact the bank.");
+	    } else {
+		    session.setAttribute("msg", exception.getMessage());
+	    }
 	    
 	    response.sendRedirect("/login?error=true");
 	}

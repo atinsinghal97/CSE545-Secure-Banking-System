@@ -2,11 +2,14 @@ package web;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
+import java.util.Date;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,9 +17,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import database.SessionManager;
 import forms.EmployeeSearchForm;
 import forms.SearchForm;
 import forms.TransactionSearchForm;
+import forms.UserProfileSearch;
+import model.User;
 
 @Controller
 public class Tier2DashboardController {
@@ -173,6 +179,62 @@ public class Tier2DashboardController {
   
         
     }
+	
+	@RequestMapping(value = "/Tier2/LockedProfiles", method = RequestMethod.GET)
+    public String tier2ProfileSearch(final HttpServletRequest request, Model model) {
+		UserServiceImpl userServiceImpl = new UserServiceImpl();
+		UserProfileSearch userProfileSearch = userServiceImpl.getLockedUserProfiles("customer");
+		model.addAttribute("userSearch", userProfileSearch);
+
+	    HttpSession session = request.getSession(false);
+        if (session != null) {
+            Object msg = session.getAttribute("msg");
+            model.addAttribute("message", session.getAttribute("msg"));
+            if (msg != null)
+                session.removeAttribute("msg");
+        }
+		
+		return "Tier2SearchProfile";
+    }
+	
+	@RequestMapping(value = "/Tier2/UnlockProfile", method = RequestMethod.POST)
+    public ModelAndView tier2UnlockProfile(final HttpServletRequest request,
+    		@RequestParam(required = true, name="username") String username) {
+		
+		Session s = SessionManager.getSession("");
+		Transaction txn = null;
+		String message = null;
+		
+		try {
+			User u = s.createQuery("FROM User WHERE username = :username AND status = 0", User.class)
+				.setParameter("username", username)
+				.getSingleResult();
+
+			txn = s.beginTransaction();
+
+			u.setIncorrectAttempts(0);
+			u.setStatus(1);
+			u.setModifiedDate(new Date());
+			
+			s.update(u);
+			if (txn != null && txn.isActive()) txn.commit();
+			message = "Account unlocked.";
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (txn != null && txn.isActive()) txn.rollback();
+			message = "Could not unlock account.";
+		} finally {
+			s.close();
+		}
+
+	    HttpSession session = request.getSession(false);
+	    if (session != null) {
+	    	session.setAttribute("msg", message);
+	    }
+
+		return new ModelAndView("redirect:/Tier2/LockedProfiles");
+    }
+	
 	@RequestMapping(value = "/Tier2/Search", method = RequestMethod.POST)
     public ModelAndView tier2Page(@RequestParam(required = true, name="accountnumber") String accNumber, Model model) {
 
