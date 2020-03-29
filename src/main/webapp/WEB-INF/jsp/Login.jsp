@@ -4,7 +4,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<script src="/js/security.js"> </script>
+<script src="/js/security.js">
+	
+</script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet" href="/css/loginCSS.css">
 <title>Sun Devil Bank</title>
@@ -46,7 +48,7 @@
 						<div class="form-group">
 							<label for="psw"><b>Password: </b></label> <input type="password"
 								id="password" placeholder="Password" name="password"
-								maxlength="50" minlength="2" required>
+								maxlength="50" minlength="2" autocomplete="off" required>
 						</div>
 						<br>
 						<div class="g-recaptcha"

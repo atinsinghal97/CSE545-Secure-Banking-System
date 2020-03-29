@@ -55,8 +55,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-        http.csrf().disable()
-        .authorizeRequests()
+//        http.csrf().disable();
+        http.authorizeRequests()
 	        .antMatchers("/users/**").hasRole("USER")//USER role can access /users/**
 	        .antMatchers("/admin/**").hasRole("ADMIN")
 	        .antMatchers("/Tier2/**").hasAuthority("tier2") 
@@ -100,10 +100,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		    .logoutSuccessUrl("/login");
         http.requiresChannel().anyRequest().requiresSecure();
         http.sessionManagement().maximumSessions(1);
-        http.headers()
-        	.xssProtection()
-            .disable()
-            .httpStrictTransportSecurity();
+//        http.headers()
+//        	.xssProtection()
+//            .disable()
+//            .httpStrictTransportSecurity();
 //            .addHeaderWriter(new StaticHeadersWriter("X-Content-Security-Policy","script-src 'self'"));
     }
      

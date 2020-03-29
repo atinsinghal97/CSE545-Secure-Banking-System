@@ -8,15 +8,17 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <title>Registration</title>
 <style>
-  .error {
-    font-weight: bold;
-    color: red;
-  }
+.error {
+	font-weight: bold;
+	color: red;
+}
 </style>
 </head>
 
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="/js/cust_validate.js"></script>
 <script src="/js/security.js"></script>
@@ -67,7 +69,7 @@
           <div class="form-group">
             <label for="password" class="col-lg-2 control-label">Desired Password</label>
             <div class="col-lg-5">
-              <form:password cssClass="form-control" path="password" id="password" />
+              <form:password cssClass="form-control" path="password" id="password" autocomplete="off" required="true" />
               <form:errors path="password" cssClass="error"/>
             </div>
           </div>
@@ -75,7 +77,7 @@
           <div class="form-group">
             <label for="confirmpassword" class="col-lg-2 control-label">Confirm Password</label>
             <div class="col-lg-5">
-              <form:password cssClass="form-control" path="confirmpassword" id="confirmpassword" />
+              <form:password cssClass="form-control" path="confirmpassword" id="confirmpassword" autocomplete="off" required="true" />
               <form:errors path="confirmpassword" cssClass="error"/>
             </div>
           </div>
