@@ -4,6 +4,8 @@ import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -42,6 +44,10 @@ public class UserDetailServiceImpl implements UserDetailsService {
 		}
 
 		System.out.println("USER: " + u.getUsername());
+		System.out.println("IP: " + ip);
+//		final Logger logger = LoggerFactory.getLogger(this.getClass());
+//      Prints when user is found but password is incorrect.		
+//		logger.warn("Login attempt for User '" + u.getUsername() + "' from IP: "+ ip);
 		return new UserDetailsImpl(u);
 	}
 

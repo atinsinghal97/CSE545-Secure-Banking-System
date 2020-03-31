@@ -2,6 +2,8 @@ package security;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationFailureBadCredentialsEvent;
@@ -49,6 +51,9 @@ public class AuthenticationFailureListener implements ApplicationListener<Authen
             }
         });
 
+        final Logger logger = LoggerFactory.getLogger(this.getClass());
+        logger.warn("Login attempt for User '" + e.getAuthentication().getName() + "' received from IP: " + auth.getRemoteAddress());
+        logger.warn("Login attempt FAILED.");
         loginAttemptService.loginFailed(auth.getRemoteAddress());
     }
 }

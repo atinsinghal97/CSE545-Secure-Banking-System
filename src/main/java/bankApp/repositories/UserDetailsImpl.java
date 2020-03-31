@@ -19,6 +19,7 @@ public class UserDetailsImpl implements UserDetails {
 	public UserDetailsImpl(User user) {
 		this.user = user;
 		this.authorities = (Collection<? extends GrantedAuthority>) Arrays.asList(new SimpleGrantedAuthority(user.getRole()));
+//		System.out.println("ME: "+user.getUsername());
 	}
 
 	@Override

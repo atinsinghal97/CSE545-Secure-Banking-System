@@ -80,12 +80,10 @@ CREATE TABLE `secure_banking_system`.`appointment` (
 
 CREATE TABLE `secure_banking_system`.`login_history` (
   id INT PRIMARY KEY AUTO_INCREMENT, 
-  user_id INT NOT NULL,
-  logged_in DATETIME NOT NULL DEFAULT NOW(),
-  logged_out DATETIME DEFAULT NULL,
+  username VARCHAR(255) NOT NULL UNIQUE,
   ip_address VARCHAR(25) NOT NULL,
-  device_type VARCHAR(25) NOT NULL,
-  FOREIGN KEY (user_id) REFERENCES `secure_banking_system`.`user`(id)
+  logged_in DATETIME NOT NULL DEFAULT NOW(),
+  FOREIGN KEY (username) REFERENCES `secure_banking_system`.`user`(username)
 );
 
 
@@ -129,10 +127,10 @@ All have password: 1234
 */
 
 
-INSERT INTO `user` VALUES ('1','abernathy.donato','$2a$10$KERumbzDDN4phCp8ywE.IuSv2WesIQWAFWMPb3MZPytzYTyA/P35S','0','9','2013-07-23 10:39:46','1984-05-15 11:55:32','customer'),
-('2','reanna.dibbert','$2a$10$KERumbzDDN4phCp8ywE.IuSv2WesIQWAFWMPb3MZPytzYTyA/P35S','2','1','1977-08-26 12:32:30','1972-02-23 16:40:42','merchant'),
-('3','yrunolfsson','$2a$10$KERumbzDDN4phCp8ywE.IuSv2WesIQWAFWMPb3MZPytzYTyA/P35S','0','0','1993-11-29 07:47:43','1997-10-18 07:11:45','tier2'),
-('4','ifay','$2a$10$KERumbzDDN4phCp8ywE.IuSv2WesIQWAFWMPb3MZPytzYTyA/P35S','0','8','2015-06-26 23:51:29','2007-02-03 15:02:27','admin'),
+INSERT INTO `user` VALUES ('1','abernathy.donato','$2a$10$KERumbzDDN4phCp8ywE.IuSv2WesIQWAFWMPb3MZPytzYTyA/P35S','1','9','2013-07-23 10:39:46','1984-05-15 11:55:32','customer'),
+('2','reanna.dibbert','$2a$10$KERumbzDDN4phCp8ywE.IuSv2WesIQWAFWMPb3MZPytzYTyA/P35S','1','1','1977-08-26 12:32:30','1972-02-23 16:40:42','merchant'),
+('3','yrunolfsson','$2a$10$KERumbzDDN4phCp8ywE.IuSv2WesIQWAFWMPb3MZPytzYTyA/P35S','1','0','1993-11-29 07:47:43','1997-10-18 07:11:45','tier2'),
+('4','ifay','$2a$10$KERumbzDDN4phCp8ywE.IuSv2WesIQWAFWMPb3MZPytzYTyA/P35S','1','8','2015-06-26 23:51:29','2007-02-03 15:02:27','admin'),
 ('5','kristoffer.leuschke','64d73b08f103c391ee1d2930ed3c037357f68a184546f8046b977ca48b9f','2','7','2005-04-07 13:23:26','2019-07-19 04:19:41','customer'),
 ('6','vicky04','8737bc7dad85fa2760bffd3758175613366e72173b96caab8b34e666b61a','1','2','2008-05-16 06:54:21','1976-09-17 03:56:00','admin'),
 ('7','arlene21','11a76b4e37d1692379b58d7d2a8fc25f5d94bdeef56bf220829f387ac011','1','5','1970-08-16 13:46:58','1994-07-08 02:33:31','admin'),
@@ -654,106 +652,106 @@ INSERT INTO `transaction` VALUES ('1','0','0.73038','1','2011-10-28 19:00:36','2
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-INSERT INTO `login_history` VALUES ('1','1','1984-07-26 05:56:35','2013-03-06 17:29:15','19.161.138.67','tablet'),
-('2','2','1975-05-06 23:32:19','2009-05-06 09:21:03','254.184.54.84','unknown'),
-('3','3','2006-01-17 01:45:35','2018-07-22 08:57:49','129.126.232.165','mobile'),
-('4','4','2019-04-28 17:22:31','1988-08-12 04:25:21','198.50.254.105','tablet'),
-('5','5','1975-08-21 15:54:09','2003-06-17 05:26:01','245.25.27.205','desktop'),
-('6','6','1994-08-24 19:21:07','1981-12-17 04:35:23','205.54.162.97','tablet'),
-('7','7','1995-05-30 17:08:14','2003-03-27 07:17:19','82.190.89.23','unknown'),
-('8','8','1999-07-30 16:11:46','2010-01-31 08:04:09','135.166.251.175','tablet'),
-('9','9','2012-08-10 04:59:48','2001-04-25 14:43:27','41.211.168.157','mobile'),
-('10','10','2002-11-17 10:51:34','1996-07-26 06:03:46','65.124.77.207','unknown'),
-('11','11','2002-09-08 18:04:14','2017-04-27 19:17:24','236.177.242.129','desktop'),
-('12','12','2006-05-19 05:53:15','2001-11-25 08:57:02','127.211.191.252','mobile'),
-('13','13','2002-02-08 08:11:35','1998-08-09 15:56:32','124.42.217.248','desktop'),
-('14','14','1973-11-14 09:16:48','2019-03-09 10:33:16','174.93.164.157','desktop'),
-('15','15','2004-07-14 00:48:02','2001-01-11 22:33:05','89.29.214.206','desktop'),
-('16','16','1985-12-30 00:59:48','1997-08-15 03:41:26','67.188.16.222','tablet'),
-('17','17','1996-02-18 20:17:25','1982-05-24 07:53:40','139.133.225.101','mobile'),
-('18','18','1980-01-03 13:31:17','2004-10-30 16:56:15','188.254.141.103','desktop'),
-('19','19','2016-01-24 03:10:50','2018-05-07 12:28:18','4.94.46.250','desktop'),
-('20','20','2010-08-15 02:27:46','1992-11-02 22:50:52','12.205.42.146','unknown'),
-('21','21','1983-04-09 00:29:16','2001-07-20 03:24:49','209.226.230.2','mobile'),
-('22','22','2019-03-12 18:24:46','2016-06-25 23:26:46','75.48.24.171','tablet'),
-('23','23','2002-11-27 02:44:04','2004-01-23 21:44:19','165.147.192.174','desktop'),
-('24','24','1999-11-26 07:20:42','1988-01-09 21:59:31','254.49.248.198','tablet'),
-('25','25','1978-02-21 19:49:35','1978-11-22 11:03:39','32.251.31.164','mobile'),
-('26','26','1986-07-19 10:43:04','1998-12-17 15:04:19','234.162.124.7','mobile'),
-('27','27','2008-06-29 03:39:26','2008-06-25 08:33:37','219.24.158.210','unknown'),
-('28','28','1987-01-11 17:19:56','2015-04-09 01:42:08','21.161.180.139','tablet'),
-('29','29','1987-05-08 20:51:07','2005-12-15 20:23:27','199.172.74.195','desktop'),
-('30','30','2015-04-15 07:04:49','2002-09-24 06:31:23','88.249.175.184','tablet'),
-('31','31','1986-04-14 07:42:21','1990-07-31 09:46:24','49.15.193.36','unknown'),
-('32','32','1983-01-08 20:44:02','1998-04-17 20:20:58','69.158.219.65','unknown'),
-('33','33','2015-09-22 14:49:49','2003-09-10 20:59:11','99.75.13.240','unknown'),
-('34','34','1994-09-07 14:51:54','1977-08-24 12:39:05','163.77.184.115','unknown'),
-('35','35','2007-05-13 02:36:20','1971-10-24 04:10:20','181.74.106.130','desktop'),
-('36','36','2015-07-09 03:11:30','1995-01-27 23:51:37','129.79.121.197','mobile'),
-('37','37','1982-11-23 19:01:20','2001-12-03 19:30:35','25.222.239.68','mobile'),
-('38','38','2008-09-10 20:15:55','2013-02-19 04:52:44','97.244.6.166','mobile'),
-('39','39','1974-05-29 16:09:02','2007-03-16 04:31:26','218.55.98.168','desktop'),
-('40','40','1973-04-02 09:01:54','1979-10-01 05:32:28','150.24.237.125','mobile'),
-('41','41','2018-08-07 07:46:47','2013-05-27 18:50:13','26.106.174.35','tablet'),
-('42','42','1989-09-09 08:38:32','1972-06-06 02:59:26','194.89.252.251','tablet'),
-('43','43','1991-07-14 23:32:16','1991-08-20 12:27:37','195.1.223.25','mobile'),
-('44','44','2020-01-02 20:55:33','1971-05-23 10:36:38','34.3.81.225','desktop'),
-('45','45','2009-04-29 20:48:57','1990-11-14 14:26:41','150.103.192.53','desktop'),
-('46','46','1998-08-29 20:47:00','2004-06-14 16:17:33','129.212.61.36','tablet'),
-('47','47','2012-03-05 03:26:20','1996-01-21 00:58:25','200.251.174.227','unknown'),
-('48','48','2011-08-06 09:12:48','2001-09-26 17:51:48','8.214.38.126','unknown'),
-('49','49','2016-12-27 01:33:37','2003-03-19 06:53:33','178.125.143.140','mobile'),
-('50','50','2011-05-18 05:13:53','1989-07-09 18:16:10','147.214.1.251','unknown'),
-('51','51','2005-12-09 06:14:51','1983-03-30 14:06:55','206.18.31.225','tablet'),
-('52','52','1984-03-12 06:43:31','1992-01-15 18:58:03','126.164.157.27','desktop'),
-('53','53','2007-03-27 22:36:48','1995-06-09 07:12:34','80.141.100.88','unknown'),
-('54','54','1980-04-16 09:15:50','1991-07-11 15:29:25','8.178.128.90','tablet'),
-('55','55','1981-06-18 04:52:21','2011-01-25 22:43:36','90.132.235.27','tablet'),
-('56','56','1993-07-26 07:18:15','1985-08-19 03:30:46','204.189.86.76','desktop'),
-('57','57','1994-04-08 16:18:43','2004-08-17 12:56:10','123.160.211.86','unknown'),
-('58','58','2019-11-17 03:50:35','1978-06-27 04:45:57','159.218.234.132','unknown'),
-('59','59','1984-11-26 14:46:43','1979-10-10 05:48:30','26.53.82.126','tablet'),
-('60','60','1977-05-26 15:57:45','1986-11-19 05:38:59','29.143.251.221','tablet'),
-('61','61','2011-07-12 09:41:07','1981-10-10 15:17:34','14.248.53.172','mobile'),
-('62','62','1984-08-15 16:17:04','2013-09-13 13:40:23','198.100.215.42','tablet'),
-('63','63','1991-01-11 02:11:14','1991-04-27 18:46:51','184.25.133.245','tablet'),
-('64','64','1971-03-02 15:30:40','1998-10-02 14:06:14','95.111.140.32','unknown'),
-('65','65','1996-08-03 10:37:02','2017-08-19 18:42:48','66.197.167.158','mobile'),
-('66','66','1980-11-23 09:44:03','1995-09-18 22:31:15','92.162.71.229','unknown'),
-('67','67','2012-08-29 10:06:34','1974-02-21 21:16:27','89.255.123.151','tablet'),
-('68','68','1979-07-12 06:52:25','1977-08-28 18:31:24','126.42.43.221','unknown'),
-('69','69','1991-09-26 07:20:43','2019-06-01 03:03:45','45.236.112.142','mobile'),
-('70','70','1999-05-19 16:01:21','1998-05-10 05:26:09','171.123.208.21','mobile'),
-('71','71','1970-04-08 16:45:08','2002-02-07 04:05:35','42.137.129.151','desktop'),
-('72','72','1985-06-17 14:06:16','1974-10-22 19:28:19','192.53.117.176','tablet'),
-('73','73','2004-12-26 17:31:46','1974-08-27 22:36:46','218.134.58.140','mobile'),
-('74','74','1971-05-18 01:16:07','2003-04-03 03:26:16','0.135.214.23','tablet'),
-('75','75','2006-06-23 11:39:10','2008-11-08 18:29:13','203.96.108.64','desktop'),
-('76','76','1987-09-26 09:48:47','1991-05-04 22:57:09','11.191.227.155','mobile'),
-('77','77','1981-09-02 21:35:58','2017-01-05 03:55:12','194.248.23.16','desktop'),
-('78','78','2001-02-02 16:47:18','1977-01-18 12:07:03','187.140.212.224','tablet'),
-('79','79','1998-04-27 01:26:24','2011-02-13 08:08:17','14.5.46.116','mobile'),
-('80','80','1991-01-29 15:04:08','1989-01-15 15:07:25','10.8.222.154','unknown'),
-('81','81','1993-07-11 13:23:15','1988-01-12 11:08:07','110.42.19.99','unknown'),
-('82','82','1983-04-09 07:15:15','1990-06-04 17:31:08','13.62.129.31','tablet'),
-('83','83','2015-12-29 09:13:55','2015-04-16 18:13:39','190.156.0.123','tablet'),
-('84','84','1970-06-29 10:04:19','2008-11-26 04:45:37','193.193.233.102','unknown'),
-('85','85','1970-03-23 09:55:27','1973-10-18 13:25:09','88.186.151.203','desktop'),
-('86','86','1980-07-30 21:27:17','1975-07-01 22:17:38','134.236.64.174','unknown'),
-('87','87','2002-12-22 04:54:00','2018-04-23 18:09:11','176.71.42.102','unknown'),
-('88','88','1987-05-30 21:12:58','1970-05-11 16:40:01','239.203.69.122','desktop'),
-('89','89','2013-03-18 05:05:38','2013-02-02 21:23:16','208.195.39.202','desktop'),
-('90','90','2020-01-27 04:05:37','1971-06-15 15:46:27','68.250.31.88','unknown'),
-('91','91','2002-01-24 15:39:50','2005-10-11 03:14:04','56.198.99.113','mobile'),
-('92','92','1978-12-11 01:48:53','1978-10-20 19:21:57','150.66.194.86','unknown'),
-('93','93','2004-01-03 23:57:18','2011-10-24 19:06:03','224.212.34.84','unknown'),
-('94','94','1984-06-12 05:09:08','2005-11-30 08:32:47','175.22.143.32','unknown'),
-('95','95','1993-11-10 11:51:37','1980-07-17 03:03:31','53.121.108.45','unknown'),
-('96','96','2001-02-21 06:25:47','1985-10-18 16:04:08','215.25.131.49','mobile'),
-('97','97','2003-04-03 13:11:20','1983-08-23 23:58:55','163.177.227.57','unknown'),
-('98','98','2014-03-13 13:51:35','1979-10-28 18:29:15','129.23.175.127','desktop'),
-('99','99','1998-10-04 09:38:36','2011-05-25 05:33:01','57.27.95.185','tablet'),
-('100','100','1991-11-09 04:53:48','1979-05-10 12:12:26','253.23.176.59','tablet'); 
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (1, 'adams.dana', '204.184.93.137', '2018-02-20 04:08:15');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (2, 'aufderhar.victor', '0.232.68.183', '2006-08-27 06:16:50');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (3, 'gsawayn', '19.202.191.156', '1976-03-21 03:13:38');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (4, 'harris.travon', '187.178.56.143', '2001-07-02 19:34:11');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (5, 'ahowe', '42.189.60.37', '2001-12-10 17:43:18');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (6, 'jhartmann', '115.114.153.32', '2013-08-13 03:38:22');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (7, 'michael.cormier', '122.194.32.165', '2000-02-07 08:27:59');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (8, 'jada98', '167.160.128.62', '1994-06-28 11:05:33');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (9, 'maureen.lubowitz', '37.24.170.38', '1982-06-01 19:11:52');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (10, 'assunta.murazik', '134.17.12.27', '1983-01-05 02:46:42');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (11, 'volkman.verna', '34.237.109.0', '1985-10-08 17:45:16');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (12, 'zachariah.bernier', '31.0.43.252', '1996-12-11 03:48:47');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (13, 'vwuckert', '133.28.70.51', '2005-08-30 11:48:51');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (14, 'nwuckert', '11.130.242.149', '1972-01-17 04:40:26');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (15, 'kuphal.vernon', '180.47.181.22', '2007-05-15 20:05:05');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (16, 'carmine.boyer', '252.55.38.158', '2019-08-13 16:35:17');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (17, 'samanta.torphy', '56.70.55.75', '1990-09-07 21:00:46');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (18, 'champlin.ashtyn', '112.220.78.113', '1976-11-21 18:54:16');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (19, 'keshawn.glover', '54.0.198.111', '2004-06-15 10:04:20');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (20, 'marlin.hartmann', '193.150.154.32', '1980-02-05 09:41:36');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (21, 'dstokes', '49.120.156.112', '2010-01-28 03:29:02');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (22, 'christop.beer', '21.4.17.108', '1980-01-18 01:38:54');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (23, 'mazie.haley', '160.135.95.237', '1988-05-28 22:56:08');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (24, 'tankunding', '122.83.55.66', '1974-07-22 04:39:59');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (25, 'juliet20', '177.27.188.216', '2018-10-18 05:12:20');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (26, 'ashley61', '190.106.62.239', '1975-10-06 01:15:16');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (27, 'ezra.lynch', '117.13.73.168', '1994-06-23 15:31:49');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (28, 'leon60', '20.35.125.144', '2006-04-06 16:23:08');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (29, 'eladio.muller', '248.147.109.221', '2003-11-18 06:38:46');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (30, 'marilou.kling', '80.216.118.60', '2000-07-29 01:47:03');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (31, 'zhomenick', '112.4.109.63', '1973-03-24 02:39:38');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (32, 'drake.marks', '77.228.122.96', '1997-11-05 18:32:50');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (33, 'karen.harris', '115.69.90.10', '2005-09-28 17:42:07');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (34, 'umcglynn', '122.74.219.61', '1986-03-10 15:54:04');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (35, 'florine83', '41.31.221.82', '1987-10-08 08:41:06');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (36, 'ureilly', '232.110.12.64', '1971-02-05 09:53:23');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (37, 'qgrady', '107.82.104.24', '1994-02-13 05:10:49');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (38, 'xwelch', '1.151.33.79', '1970-11-20 00:30:09');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (39, 'brekke.tiana', '102.246.104.155', '1984-01-27 14:49:19');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (40, 'rath.sydnee', '156.91.237.181', '1975-10-26 23:05:26');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (41, 'schuppe.avis', '167.243.212.154', '2007-12-20 02:41:11');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (42, 'fpagac', '213.138.38.78', '1997-10-17 15:27:16');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (43, 'elfrieda.stokes', '143.185.48.149', '2016-11-06 03:54:46');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (44, 'jaron.johnson', '185.41.172.50', '1975-12-21 22:43:29');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (45, 'dayana56', '0.52.42.17', '1982-08-31 01:25:18');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (46, 'cale87', '219.171.208.108', '2006-01-12 09:24:08');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (47, 'tromp.kristopher', '251.173.249.184', '2014-12-15 04:07:37');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (48, 'bjohns', '31.244.193.168', '2016-05-03 19:55:15');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (49, 'chudson', '234.77.217.155', '1970-12-27 15:47:54');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (50, 'so\'connell', '51.119.199.248', '2014-10-07 20:42:30');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (51, 'ronaldo.langworth', '174.120.189.105', '2000-12-17 22:00:35');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (52, 'madonna98', '215.79.245.133', '2009-08-09 07:26:06');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (53, 'pollich.mercedes', '134.186.54.26', '1971-10-01 19:12:10');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (54, 'nkris', '5.42.239.3', '1993-04-19 05:02:50');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (55, 'hallie94', '214.190.213.2', '1999-02-17 14:31:13');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (56, 'miller.odessa', '56.227.185.211', '2009-05-20 01:15:32');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (57, 'vonrueden.yolanda', '14.142.60.46', '1996-10-05 02:41:36');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (58, 'powlowski.salvador', '245.241.123.80', '1976-10-30 01:35:53');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (59, 'triston.pollich', '20.95.190.200', '2015-09-11 23:02:36');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (60, 'xswaniawski', '97.204.125.133', '2008-04-20 04:23:16');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (61, 'shanahan.cedrick', '71.215.98.85', '1998-09-01 16:44:52');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (62, 'einar69', '71.30.196.78', '2002-07-16 00:53:09');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (63, 'mbayer', '162.44.79.16', '1973-07-25 05:37:43');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (64, 'yost.karson', '112.137.58.2', '1985-02-03 00:34:05');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (65, 'heller.adella', '188.17.218.124', '1985-05-27 23:43:30');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (66, 'janice31', '203.120.42.115', '2000-11-02 06:11:29');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (67, 'eliseo58', '33.2.28.61', '2000-10-29 01:09:56');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (68, 'smitham.arch', '13.12.249.92', '1999-02-07 05:51:32');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (69, 'ppadberg', '178.186.52.70', '1978-05-27 10:07:10');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (70, 'birdie.streich', '121.92.255.250', '2017-05-01 03:56:06');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (71, 'sister15', '254.14.180.174', '2002-06-16 14:37:19');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (72, 'brown.shanie', '234.37.184.234', '2011-07-05 06:48:16');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (73, 'ko\'reilly', '229.93.94.147', '1992-04-29 10:45:59');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (74, 'franecki.olaf', '30.7.215.23', '1993-11-11 02:01:57');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (75, 'tkozey', '134.207.149.58', '2018-08-27 00:14:21');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (76, 'xo\'kon', '10.246.47.145', '1998-03-06 02:07:21');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (77, 'flarkin', '209.224.9.161', '2015-05-13 17:14:14');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (78, 'xlittle', '238.230.124.176', '2008-12-28 09:56:13');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (79, 'elinore.konopelski', '78.127.127.229', '2000-03-05 19:49:24');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (80, 'hbode', '22.140.205.73', '2008-06-13 13:23:21');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (81, 'yasmin.carter', '225.100.224.98', '1981-01-04 10:53:11');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (82, 'cole72', '83.66.183.183', '1991-07-17 05:40:26');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (83, 'savanna.kiehn', '21.80.153.150', '1975-12-10 21:30:03');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (84, 'ottis07', '238.47.198.139', '1991-10-31 12:23:35');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (85, 'pollich.jerad', '21.16.54.87', '2002-08-27 08:28:23');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (86, 'christine.denesik', '47.238.133.224', '2008-09-29 19:23:46');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (87, 'ukertzmann', '84.12.218.55', '2002-01-06 22:13:47');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (88, 'kennedy31', '39.205.187.20', '2004-09-11 08:09:53');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (89, 'mireille.leannon', '5.181.117.176', '1993-08-24 09:55:44');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (90, 'timothy.swaniawski', '227.79.131.241', '2018-12-09 22:41:49');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (91, 'grimes.dariana', '149.44.170.99', '2010-02-12 10:52:49');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (92, 'turcotte.johnny', '144.31.5.164', '1992-01-08 11:27:26');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (93, 'terrill90', '143.254.203.82', '1980-03-03 19:32:56');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (94, 'lee58', '129.12.118.179', '1971-06-05 02:58:07');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (95, 'roosevelt.cole', '57.19.91.246', '2017-05-21 18:56:16');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (96, 'schumm.peyton', '8.174.53.207', '2020-02-13 18:36:53');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (97, 'mjenkins', '163.131.99.44', '1990-08-22 01:06:36');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (98, 'taylor.hettinger', '29.229.16.51', '1997-10-31 07:38:05');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (99, 'ibalistreri', '201.129.98.62', '1972-10-19 16:33:06');
+INSERT INTO `login_history` (`id`, `username`, `ip_address`, `logged_in`) VALUES (100, 'kane.walter', '78.146.251.44', '1981-02-08 05:00:48');
 
 
 

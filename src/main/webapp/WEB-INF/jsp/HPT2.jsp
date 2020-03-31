@@ -19,19 +19,20 @@
 						<li class="cta"><a class="ButtonDesign"
 							href="/profile/change_password">Change Password</a></li>
 						<li class="cta"><a class="ButtonDesign"
+							href="/Tier2/LockedProfiles">Manage Locked Account</a></li>
+						<li class="cta"><a class="ButtonDesign"
 							href="/Tier2/PendingAccounts">Account Approval</a></li>
 						<li class="cta"><a class="ButtonDesign"
 							href="/Tier2/SearchAccount">Search Customer Account</a></li>
 						<li class="cta"><a class="ButtonDesign"
 							href="/Tier2/DeleteAccount">Delete Customer Account</a></li>
-            <li class="cta"><a class="ButtonDesign"
-              href="/Tier2/UpdateCustomer">Update Customer Info</a></li>
+						<li class="cta"><a class="ButtonDesign"
+							href="/Tier2/UpdateCustomer">Update Customer Info</a></li>
 						<li class="cta"><a class="ButtonDesign"
 							href="/ViewAppointments">View Appointments of the day</a></li>
 						<form method="post" action="/perform_logout" id="form-logout">
-							<input type="submit" value="Logout" />
-							<input type="hidden" name="${_csrf.parameterName}"
-								value="${_csrf.token}" />
+							<input type="submit" value="Logout" /> <input type="hidden"
+								name="${_csrf.parameterName}" value="${_csrf.token}" />
 						</form>
 					</ul>
 				</nav>
