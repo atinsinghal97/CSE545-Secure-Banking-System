@@ -61,7 +61,7 @@ public class Tier1DashboardController {
 	}
 	
 	@RequestMapping(value = "/Tier1/AuthorizeTransaction", method = RequestMethod.POST)
-    public ModelAndView tier1AuthorizeTransaction(HttpServletRequest request, @RequestParam(required = true, name="id") int id, @RequestParam(required = true, name="fromAccountNumber") String fromAccountNumber, @RequestParam(required = true, name="toAccountNumber") String toAccountNumber, @RequestParam(required = true, name="id") BigDecimal amount) throws ParseException {		
+    public ModelAndView tier1AuthorizeTransaction(HttpServletRequest request, @RequestParam(required = true, name="id") int id, @RequestParam(required = true, name="fromAccountNumber") String fromAccountNumber, @RequestParam(required = true, name="toAccountNumber") String toAccountNumber, @RequestParam(required = true, name="amount") BigDecimal amount, @RequestParam(required = true, name="transferType") String transferType) throws ParseException {		
 		if(transactionServiceImpl.approveTransactions(id))
 			return new ModelAndView("redirect:/Tier1PendingTransactions");  
 		
@@ -71,7 +71,7 @@ public class Tier1DashboardController {
     }
 	
 	@RequestMapping(value = "/Tier1/DeclineTransaction", method = RequestMethod.POST)
-    public ModelAndView tier1DeclineTransaction(HttpServletRequest request, @RequestParam(required = true, name="id") int id, @RequestParam(required = true, name="fromAccountNumber") String fromAccountNumber, @RequestParam(required = true, name="toAccountNumber") String toAccountNumber, @RequestParam(required = true, name="id") BigDecimal amount) throws ParseException {
+    public ModelAndView tier1DeclineTransaction(HttpServletRequest request, @RequestParam(required = true, name="id") int id, @RequestParam(required = true, name="fromAccountNumber") String fromAccountNumber, @RequestParam(required = true, name="toAccountNumber") String toAccountNumber, @RequestParam(required = true, name="amount") BigDecimal amount, @RequestParam(required = true, name="transferType") String transferType) throws ParseException {
 		if(transactionServiceImpl.declineTransactions(id))
 			return new ModelAndView("redirect:/Tier1PendingTransactions");  
 		

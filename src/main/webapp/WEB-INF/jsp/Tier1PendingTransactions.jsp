@@ -22,6 +22,7 @@
 					<th>From Account</th>
 					<th>To Account</th>
 					<th>Amount</th>
+					<th>Transfer Type</th>
 				</tr>
 			</thead>
 
@@ -42,36 +43,27 @@
 						<td>${transactionSearch.fromAccountNumber}&nbsp&nbsp&nbsp&nbsp</td>
 						<td>${transactionSearch.toAccountNumber}&nbsp&nbsp&nbsp&nbsp</td>
 						<td>${transactionSearch.amount}&nbsp&nbsp&nbsp&nbsp</td>
+						<td>${transactionSearch.transferType}&nbsp&nbsp&nbsp&nbsp</td>
 						<td>&nbsp&nbsp&nbsp&nbsp
-							<form method="post" action="/Tier1/AuthorizeTransaction"
-								id="authorize">
-								<input type="hidden" name="id" id="id"
-									value="${transactionSearch.id}"> <input type="hidden"
-									name="fromAccountNumber" id="fromAccountNumber"
-									value="${transactionSearch.fromAccountNumber}"> <input
-									type="hidden" name="toAccountNumber" id="toAccountNumber"
-									value="${transactionSearch.toAccountNumber}"> <input
-									type="hidden" name="amount" id="amount"
-									value="${transactionSearch.amount}"> <input
-									type="hidden" name="${_csrf.parameterName}"
-									value="${_csrf.token}" /> <input type="submit"
-									value="Authorize">
+							<form method="post" action="/Tier1/AuthorizeTransaction" id="authorize">
+								<input type="hidden" name="id" id="id" value="${transactionSearch.id}"> 
+								<input type="hidden" name="fromAccountNumber" id="fromAccountNumber" value="${transactionSearch.fromAccountNumber}"> 
+								<input type="hidden" name="toAccountNumber" id="toAccountNumber" value="${transactionSearch.toAccountNumber}"> 
+								<input type="hidden" name="amount" id="amount" value="${transactionSearch.amount}">
+								<input type="hidden" name="transferType" id="transferType" value="${transactionSearch.transferType}"> 
+								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> <input type="submit" value="Authorize">
 							</form>
 						</td>
 
 						<td>&nbsp&nbsp&nbsp&nbsp
 							<form method="post" action="/Tier1/DeclineTransaction"
 								id="decline">
-								<input type="hidden" name="id" id="id"
-									value="${transactionSearch.id}"> <input type="hidden"
-									name="fromAccountNumber" id="fromAccountNumber"
-									value="${transactionSearch.fromAccountNumber}"> <input
-									type="hidden" name="toAccountNumber" id="toAccountNumber"
-									value="${transactionSearch.toAccountNumber}"> <input
-									type="hidden" name="amount" id="amount"
-									value="${transactionSearch.amount}"> <input
-									type="hidden" name="${_csrf.parameterName}"
-									value="${_csrf.token}" /> <input type="submit" value="Decline">
+								<input type="hidden" name="id" id="id" value="${transactionSearch.id}"> 
+								<input type="hidden" name="fromAccountNumber" id="fromAccountNumber" value="${transactionSearch.fromAccountNumber}"> 
+								<input type="hidden" name="toAccountNumber" id="toAccountNumber" value="${transactionSearch.toAccountNumber}"> 
+								<input type="hidden" name="amount" id="amount" value="${transactionSearch.amount}"> 
+								<input type="hidden" name="transferType" id="transferType" value="${transactionSearch.transferType}"> 
+								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> <input type="submit" value="Decline">
 							</form>
 						</td>
 					</tr>
