@@ -1,6 +1,7 @@
 package web;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.ParseException;
 
 import javax.annotation.Resource;
@@ -95,12 +96,15 @@ public class Tier1DashboardController {
 		if (!accountServicesImpl.doesAccountExists(accountNumber))
 			message = "Account doesn't exist";
 
-		else if (transactionServiceImpl.issueCheque(amount, accountNumber))
+		else if (transactionServiceImpl.issueCheque(amount, accountNumber)) {
+			BigInteger count = transactionServiceImpl.getTransactionId();
+			if(count == BigInteger.valueOf(0))
+				message = "The Cheque was not issued";
 			if(amount.intValue() <= Constants.THRESHOLD_AMOUNT.intValue())
-				message = "The Cheque was issued successfully";
+				message = "The Cheque was issued successfully. Cheque Id = " + count.toString();
 			else
-				message = "The Cheque pending approval";
-		else
+				message = "The Cheque pending approval. Cheque Id = " + count.toString();
+		}else
 			message = "The Cheque was not issued";	
 
 		if (message != null)
