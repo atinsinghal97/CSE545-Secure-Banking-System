@@ -93,20 +93,21 @@ public class Tier1DashboardController {
 		AccountServicesImpl accountServicesImpl = new AccountServicesImpl();
 		String message = null;
 		
-		if (!accountServicesImpl.doesAccountExists(accountNumber))
+		if (!accountServicesImpl.doesAccountExists(accountNumber)) {
 			message = "Account doesn't exist";
-
-		else if (transactionServiceImpl.issueCheque(amount, accountNumber)) {
-			BigInteger count = transactionServiceImpl.getTransactionId();
-			if(count == BigInteger.valueOf(0))
-				message = "The Cheque was not issued";
-			if(amount.intValue() <= Constants.THRESHOLD_AMOUNT.intValue())
-				message = "The Cheque was issued successfully. Cheque Id = " + count.toString();
-			else
-				message = "The Cheque pending approval. Cheque Id = " + count.toString();
-		}else
-			message = "The Cheque was not issued";	
-
+		}
+		
+		else {
+			BigInteger count = transactionServiceImpl.issueCheque(amount, accountNumber);
+	
+			if (count.compareTo(BigInteger.valueOf(0)) == 1) {
+				if(amount.intValue() <= Constants.THRESHOLD_AMOUNT.intValue())
+					message = "The Cheque was issued successfully. Cheque Id = " + count.toString();
+				else
+					message = "The Cheque pending approval. Cheque Id = " + count.toString();
+			}else
+				message = "The Cheque was not issued";	
+		}
 		if (message != null)
 			request.getSession().setAttribute("message", message);
 

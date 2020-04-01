@@ -2,7 +2,6 @@ package web;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -363,12 +362,14 @@ public class TransactionServicesImpl {
 		return false;
 	}
 	
-	public Boolean issueCheque(BigDecimal amount, String accountNumber) {
+	public BigInteger issueCheque(BigDecimal amount, String accountNumber) {
 		String currentSessionUser = WebSecurityConfig
 		  .getCurrentSessionAuthority()
 		  .filter(a -> a.equals(Constants.TIER1) || a.equals(Constants.TIER2))
 		  .findFirst().orElse(null);
 
+		BigInteger count = BigInteger.valueOf(0);
+		
 		if (currentSessionUser == null)
 		  return null;
 
@@ -388,19 +389,27 @@ public class TransactionServicesImpl {
 				session.update(from);
 
 			}
+			
 			session.update(transaction);
 
 			if (txn.isActive()) txn.commit();
 			
+			try {
+				count = (BigInteger) session
+					.createSQLQuery("select count(*) FROM Transaction")
+					.uniqueResult();
+			} catch (Exception e) {
+				return count;
+			}
+			return count;
+			
 		} catch (Exception e) {
 			if(txn != null && txn.isActive()) txn.rollback();
 			e.printStackTrace();
-			return false;
+			return count;
 		} finally {
 			session.close();
-		}
-		
-		return true;
+		}		
 	}
 	
 	public boolean doesTransactionExists(int transactionId, String transactionType) {
@@ -424,29 +433,5 @@ public class TransactionServicesImpl {
 		}
 
 		return true;
-	}
-	
-	public BigInteger getTransactionId() {
-		BigInteger count = BigInteger.valueOf(0);
-		String currentSessionUser = WebSecurityConfig
-		  .getCurrentSessionAuthority()
-		  .filter(a -> a.equals(Constants.TIER1) || a.equals(Constants.TIER2))
-		  .findFirst().orElse(null);
-
-		if (currentSessionUser == null)
-		  return count;
-
-		Session session = SessionManager.getSession(currentSessionUser);
-
-		try {
-			count = (BigInteger) session
-				.createSQLQuery("select count(*) FROM Transaction")
-				.uniqueResult();
-		} catch (Exception e) {
-			return count;
-		}
-
-		return count;
-	}
-	
+	}	
 }
