@@ -80,7 +80,7 @@ CREATE TABLE `secure_banking_system`.`appointment` (
 
 CREATE TABLE `secure_banking_system`.`login_history` (
   id INT PRIMARY KEY AUTO_INCREMENT, 
-  username VARCHAR(255) NOT NULL UNIQUE,
+  username VARCHAR(255) NOT NULL,
   ip_address VARCHAR(25) NOT NULL,
   logged_in DATETIME NOT NULL DEFAULT NOW(),
   FOREIGN KEY (username) REFERENCES `secure_banking_system`.`user`(username)
