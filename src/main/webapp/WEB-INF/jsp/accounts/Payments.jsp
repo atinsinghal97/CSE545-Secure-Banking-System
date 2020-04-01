@@ -104,7 +104,7 @@
 										action="/paymentactionemph" class="card-body" 
 										style="text-align: left;">
 										<div class="input-group mb-3">
-											<label>Recipient Email Address</label> <input type="email"
+											<label>Email Address</label> <input type="email"
 												minlength="4" maxlength="30" class="form-control"
 												placeholder="Recipient Email Address"
 												name="Recipient Email Address"
@@ -112,7 +112,7 @@
 										</div>
 
 										<div class="input-group mb-3">
-											<label>Recipient Phone Number</label> <input type="tel"
+											<label>Phone Number</label> <input type="tel"
 												oninvalid="this.setCustomValidity('Must be a 10 digit number')"
 												pattern="[0-9]{10}" class="form-control"
 												placeholder="Recipient Phone Number"

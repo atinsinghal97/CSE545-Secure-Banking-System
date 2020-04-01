@@ -317,10 +317,14 @@ public class LoginController {
 		Authentication x = SecurityContextHolder.getContext().getAuthentication();
 		System.out.println(x.getName());
 		Session s = SessionManager.getSession("");
-		List<User> user=null;
+		User user=null;
 		user=s.createQuery("FROM User WHERE username = :username", User.class)
-				.setParameter("username", x.getName()).getResultList();	
+				.setParameter("username", x.getName()).getSingleResult();	
 		List<Account> account = new ArrayList<Account>();
+		account = user.getAccounts();
+		for(Account a:account) {
+			if(a.getStatus()!=1)account.remove(a);
+		}
 		Account dummy = new Account();
 		dummy.setAccountNumber("1111111");
 		dummy.setInterest(new BigDecimal("1.25"));
@@ -333,7 +337,7 @@ public class LoginController {
 		model.addAttribute("checking",account);
 		model.addAttribute("savings",account);
 		model.addAttribute("creditcards",account);
-		model.addAttribute("role",user.get(0).getRole());
+		model.addAttribute("role",user.getRole());
 		s.close();
 		return "CustomerDashboard";
     }

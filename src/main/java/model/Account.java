@@ -33,6 +33,9 @@ public class Account implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="created_date")
 	private Date createdDate;
+	
+	@Column(name="default_flag")
+	private Integer defaultFlag;
 
 	@Column(name="current_balance")
 	private BigDecimal currentBalance;
@@ -40,6 +43,9 @@ public class Account implements Serializable {
 	private BigDecimal interest;
 
 	private Integer status;
+	
+	
+	
 
 	//bi-directional many-to-one association to User
 	@ManyToOne
@@ -111,7 +117,15 @@ public class Account implements Serializable {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
+	
+	public Integer getDefaultFlag() {
+		return defaultFlag;
+	}
 
+	public void setDefaultFlag(Integer defaultFlag) {
+		this.defaultFlag = defaultFlag;
+	}
+	
 	public User getUser() {
 		return this.user;
 	}

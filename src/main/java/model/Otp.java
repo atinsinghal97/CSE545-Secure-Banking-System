@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="otp")
+@Table(name="otp",schema = "secure_banking_system")
 @NamedQuery(name="Otp.findAll", query="SELECT o FROM Otp o")
 @org.hibernate.annotations.NamedQueries({
     @org.hibernate.annotations.NamedQuery(name = "FindPendingTransactionsByUser", 

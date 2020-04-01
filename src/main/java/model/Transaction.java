@@ -61,6 +61,10 @@ public class Transaction implements Serializable {
 
 	@Column(name="transaction_type")
 	private String transactionType;
+	
+	//0 for not asked 1 for authorised 2 for declined
+	@Column(name="customer_approval")
+	private int customerApproval;
 
 	public Transaction() {
 	}
@@ -176,5 +180,14 @@ public class Transaction implements Serializable {
 	public void setTransactionType(String transactionType) {
 		this.transactionType = transactionType;
 	}
+
+	public int getCustomerApproval() {
+		return customerApproval;
+	}
+
+	public void setCustomerApproval(int customerApproval) {
+		this.customerApproval = customerApproval;
+	}
+	
 
 }

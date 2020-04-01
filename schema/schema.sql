@@ -45,12 +45,14 @@ CREATE TABLE `secure_banking_system`.`account` (
   status BOOLEAN NOT NULL,
   interest DECIMAL(10, 5) DEFAULT 0.0,
   approval_date DATETIME,
+  default_flag INT,
   FOREIGN KEY (user_id) REFERENCES `secure_banking_system`.`user`(id)
 );
 
 CREATE TABLE `secure_banking_system`.`transaction` (
   id INT PRIMARY KEY AUTO_INCREMENT,
   approval_status BOOLEAN NOT NULL,
+  customer_approval INT NOT NULL DEFAULT 0,
   amount DECIMAL(10, 5),
   is_critical_transaction BOOLEAN NOT NULL,
   requested_date DATETIME NOT NULL DEFAULT NOW(),
