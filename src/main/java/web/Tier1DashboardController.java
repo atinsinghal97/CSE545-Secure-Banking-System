@@ -98,13 +98,13 @@ public class Tier1DashboardController {
 		}
 		
 		else {
-			BigInteger count = transactionServiceImpl.issueCheque(amount, accountNumber);
+			int count = transactionServiceImpl.issueCheque(amount, accountNumber);
 	
-			if (count.compareTo(BigInteger.valueOf(0)) == 1) {
+			if (count > 0) {
 				if(amount.intValue() <= Constants.THRESHOLD_AMOUNT.intValue())
-					message = "The Cheque was issued successfully. Cheque Id = " + count.toString();
+					message = "The Cheque was issued successfully. Cheque Id = " + String.valueOf(count);
 				else
-					message = "The Cheque pending approval. Cheque Id = " + count.toString();
+					message = "The Cheque pending approval. Cheque Id = " + String.valueOf(count);
 			}else
 				message = "The Cheque was not issued";	
 		}

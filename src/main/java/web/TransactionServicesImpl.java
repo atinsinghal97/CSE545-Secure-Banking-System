@@ -362,16 +362,16 @@ public class TransactionServicesImpl {
 		return false;
 	}
 	
-	public BigInteger issueCheque(BigDecimal amount, String accountNumber) {
+	public int issueCheque(BigDecimal amount, String accountNumber) {
 		String currentSessionUser = WebSecurityConfig
 		  .getCurrentSessionAuthority()
 		  .filter(a -> a.equals(Constants.TIER1) || a.equals(Constants.TIER2))
 		  .findFirst().orElse(null);
 
-		BigInteger count = BigInteger.valueOf(0);
+		int count = 0;
 		
 		if (currentSessionUser == null)
-		  return null;
+		  return count;
 
 		Session session = SessionManager.getSession(currentSessionUser);
 		org.hibernate.Transaction txn = null;
@@ -394,13 +394,8 @@ public class TransactionServicesImpl {
 
 			if (txn.isActive()) txn.commit();
 			
-			try {
-				count = (BigInteger) session
-					.createSQLQuery("select count(*) FROM Transaction")
-					.uniqueResult();
-			} catch (Exception e) {
-				return count;
-			}
+			count = transaction.getId();
+			
 			return count;
 			
 		} catch (Exception e) {
