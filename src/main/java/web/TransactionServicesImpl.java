@@ -395,15 +395,14 @@ public class TransactionServicesImpl {
 			if (txn.isActive()) txn.commit();
 			
 			count = transaction.getId();
-			
+			session.close();
 			return count;
 			
 		} catch (Exception e) {
 			if(txn != null && txn.isActive()) txn.rollback();
 			e.printStackTrace();
-			return count;
-		} finally {
 			session.close();
+			return count;
 		}		
 	}
 	
