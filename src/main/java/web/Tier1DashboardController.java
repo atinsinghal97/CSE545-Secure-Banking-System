@@ -1,6 +1,7 @@
 package web;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.ParseException;
 
 import javax.annotation.Resource;
@@ -60,7 +61,7 @@ public class Tier1DashboardController {
 	}
 	
 	@RequestMapping(value = "/Tier1/AuthorizeTransaction", method = RequestMethod.POST)
-    public ModelAndView tier1AuthorizeTransaction(HttpServletRequest request, @RequestParam(required = true, name="id") int id, @RequestParam(required = true, name="fromAccountNumber") String fromAccountNumber, @RequestParam(required = true, name="toAccountNumber") String toAccountNumber, @RequestParam(required = true, name="id") BigDecimal amount) throws ParseException {		
+    public ModelAndView tier1AuthorizeTransaction(HttpServletRequest request, @RequestParam(required = true, name="id") int id, @RequestParam(required = true, name="fromAccountNumber") String fromAccountNumber, @RequestParam(required = true, name="toAccountNumber") String toAccountNumber, @RequestParam(required = true, name="amount") BigDecimal amount, @RequestParam(required = true, name="transferType") String transferType) throws ParseException {		
 		if(transactionServiceImpl.approveTransactions(id))
 			return new ModelAndView("redirect:/Tier1PendingTransactions");  
 		
@@ -70,7 +71,7 @@ public class Tier1DashboardController {
     }
 	
 	@RequestMapping(value = "/Tier1/DeclineTransaction", method = RequestMethod.POST)
-    public ModelAndView tier1DeclineTransaction(HttpServletRequest request, @RequestParam(required = true, name="id") int id, @RequestParam(required = true, name="fromAccountNumber") String fromAccountNumber, @RequestParam(required = true, name="toAccountNumber") String toAccountNumber, @RequestParam(required = true, name="id") BigDecimal amount) throws ParseException {
+    public ModelAndView tier1DeclineTransaction(HttpServletRequest request, @RequestParam(required = true, name="id") int id, @RequestParam(required = true, name="fromAccountNumber") String fromAccountNumber, @RequestParam(required = true, name="toAccountNumber") String toAccountNumber, @RequestParam(required = true, name="amount") BigDecimal amount, @RequestParam(required = true, name="transferType") String transferType) throws ParseException {
 		if(transactionServiceImpl.declineTransactions(id))
 			return new ModelAndView("redirect:/Tier1PendingTransactions");  
 		
@@ -92,17 +93,21 @@ public class Tier1DashboardController {
 		AccountServicesImpl accountServicesImpl = new AccountServicesImpl();
 		String message = null;
 		
-		if (!accountServicesImpl.doesAccountExists(accountNumber))
+		if (!accountServicesImpl.doesAccountExists(accountNumber)) {
 			message = "Account doesn't exist";
-
-		else if (transactionServiceImpl.issueCheque(amount, accountNumber))
-			if(amount.intValue() <= Constants.THRESHOLD_AMOUNT.intValue())
-				message = "The Cheque was issued successfully";
-			else
-				message = "The Cheque pending approval";
-		else
-			message = "The Cheque was not issued";	
-
+		}
+		
+		else {
+			int count = transactionServiceImpl.issueCheque(amount, accountNumber);
+	
+			if (count > 0) {
+				if(amount.intValue() <= Constants.THRESHOLD_AMOUNT.intValue())
+					message = "The Cheque was issued successfully. Cheque Id = " + String.valueOf(count);
+				else
+					message = "The Cheque pending approval. Cheque Id = " + String.valueOf(count);
+			}else
+				message = "The Cheque was not issued";	
+		}
 		if (message != null)
 			request.getSession().setAttribute("message", message);
 

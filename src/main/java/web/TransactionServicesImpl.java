@@ -1,6 +1,7 @@
 package web;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,7 +44,7 @@ public class TransactionServicesImpl {
 		TransactionSearchForm transactionSearchForm = new TransactionSearchForm();
 		List<TransactionSearch> transactionSearch = transactions.stream()
 //            .filter(t -> currentSessionUser.equals(Constants.TIER1) ? t.getAmount().compareTo(Constants.THRESHOLD_AMOUNT) == -1 : true)
-              .map(temp -> new TransactionSearch(temp.getId(), temp.getFromAccount(), temp.getToAccount(), temp.getAmount()))
+              .map(temp -> new TransactionSearch(temp.getId(), temp.getFromAccount(), temp.getToAccount(), temp.getAmount(), temp.getTransactionType()))
               .collect(Collectors.toList());
 		
 		transactionSearchForm.setTransactionSearches(transactionSearch);
@@ -361,14 +362,16 @@ public class TransactionServicesImpl {
 		return false;
 	}
 	
-	public Boolean issueCheque(BigDecimal amount, String accountNumber) {
+	public int issueCheque(BigDecimal amount, String accountNumber) {
 		String currentSessionUser = WebSecurityConfig
 		  .getCurrentSessionAuthority()
 		  .filter(a -> a.equals(Constants.TIER1) || a.equals(Constants.TIER2))
 		  .findFirst().orElse(null);
 
+		int count = 0;
+		
 		if (currentSessionUser == null)
-		  return null;
+		  return count;
 
 		Session session = SessionManager.getSession(currentSessionUser);
 		org.hibernate.Transaction txn = null;
@@ -382,21 +385,25 @@ public class TransactionServicesImpl {
 			txn = session.beginTransaction();
 
 			Account from = getAccountByNumber(accountNumber, session);
-			if (applyTransaction(from, null, transaction, currentSessionUser))
+			if (applyTransaction(from, null, transaction, currentSessionUser)) {
 				session.update(from);
+
+			}
+			
 			session.update(transaction);
 
 			if (txn.isActive()) txn.commit();
 			
+			count = transaction.getId();
+			session.close();
+			return count;
+			
 		} catch (Exception e) {
 			if(txn != null && txn.isActive()) txn.rollback();
 			e.printStackTrace();
-			return false;
-		} finally {
 			session.close();
-		}
-		
-		return true;
+			return count;
+		}		
 	}
 	
 	public boolean doesTransactionExists(int transactionId, String transactionType) {
@@ -420,6 +427,5 @@ public class TransactionServicesImpl {
 		}
 
 		return true;
-	}
-	
+	}	
 }

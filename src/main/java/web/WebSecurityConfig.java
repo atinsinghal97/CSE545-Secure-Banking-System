@@ -25,6 +25,8 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.header.writers.StaticHeadersWriter;
 import org.springframework.stereotype.Component;
 
+import constants.Constants;
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -57,32 +59,33 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
 //        http.csrf().disable();
         http.authorizeRequests()
-	        .antMatchers("/users/**").hasRole("USER")//USER role can access /users/**
-	        .antMatchers("/admin/**").hasRole("ADMIN")
-	        .antMatchers("/Tier2/**").hasAuthority("tier2") 
-	        .antMatchers("/Admin/**").hasAuthority("admin")
-	        .antMatchers("/Tier1**").hasAuthority("tier1")
-	        .antMatchers("/Tier1/**").hasAuthority("tier1")
+	        .antMatchers("/users/**").hasRole(Constants.USER)//USER role can access /users/**
+	        .antMatchers("/admin/**").hasRole(Constants.ADMIN)
+	        .antMatchers("/Tier2/**").hasAuthority(Constants.TIER2)
+	        .antMatchers("/Tier2**").hasAuthority(Constants.TIER2) 
+	        .antMatchers("/Admin/**").hasAuthority(Constants.ADMIN)
+	        .antMatchers("/Tier1**").hasAuthority(Constants.TIER1)
+	        .antMatchers("/Tier1/**").hasAuthority(Constants.TIER1)
 	        .antMatchers("/login").permitAll()// anyone can access /quests/**
 	        .antMatchers("/externalregister").permitAll()// anyone can access /quests/**
 	        .antMatchers("/register").permitAll()// anyone can access /quests/**
 	        .antMatchers("/Update").permitAll()
 	        .antMatchers("/Search").permitAll()
 	        .antMatchers("/ChangeValue").permitAll()
-	        .antMatchers("/Appointment").hasAuthority("customer")
-	        .antMatchers("/AppointmentCreate").hasAuthority("customer")
-	        .antMatchers("/ViewAppointments").hasAnyAuthority("tier1","tier2")
+	        .antMatchers("/Appointment").hasAuthority(Constants.CUSTOMER)
+	        .antMatchers("/AppointmentCreate").hasAuthority(Constants.CUSTOMER)
+	        .antMatchers("/ViewAppointments").hasAnyAuthority(Constants.TIER1,Constants.TIER2)
 	        .antMatchers("/Download").permitAll()
 	        .antMatchers("/forgot_password").permitAll()
 	        .antMatchers("/reset_password").permitAll()
-	        .antMatchers("/change_password").hasAuthority("CHANGE_PASSWORD_PRIVILEGE")
-	        .antMatchers("/AdminDashboard").hasAuthority("admin")
-	        .antMatchers("/EmployeeView").hasAuthority("admin")
-	        .antMatchers("/EmployeeInsert").hasAuthority("admin")
-	        .antMatchers("/EmployeeUpdate").hasAuthority("admin")
-	        .antMatchers("/EmployeeDelete").hasAuthority("admin")
-	        .antMatchers("/SystemLogs").hasAuthority("admin")
-	        .antMatchers("/homepage").hasAuthority("customer")
+	        .antMatchers("/change_password").hasAuthority(Constants.CHANGE_PASSWORD_PRIVILEGE)
+	        .antMatchers("/AdminDashboard").hasAuthority(Constants.ADMIN)
+	        .antMatchers("/EmployeeView").hasAuthority(Constants.ADMIN)
+	        .antMatchers("/EmployeeInsert").hasAuthority(Constants.ADMIN)
+	        .antMatchers("/EmployeeUpdate").hasAuthority(Constants.ADMIN)
+	        .antMatchers("/EmployeeDelete").hasAuthority(Constants.ADMIN)
+	        .antMatchers("/SystemLogs").hasAuthority(Constants.ADMIN)
+	        .antMatchers("/homepage").hasAuthority(Constants.CUSTOMER)
 	        .antMatchers("/js/**").permitAll()
 	        .antMatchers("/css/**").permitAll()
 	        .anyRequest().authenticated()//any other request just need authentication

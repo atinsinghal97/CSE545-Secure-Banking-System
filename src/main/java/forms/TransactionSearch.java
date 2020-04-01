@@ -8,14 +8,24 @@ public class TransactionSearch {
 	String fromAccountNumber;
 	String toAccountNumber;
 	BigDecimal amount;
+	String transferType;
 	
-	public TransactionSearch(int id, String fromAccountNumber, String toAccountNumber, BigDecimal amount) {
+	public TransactionSearch(int id, String fromAccountNumber, String toAccountNumber, BigDecimal amount, String transferType) {
 		this.id = id;
 		this.fromAccountNumber = fromAccountNumber;
 		this.toAccountNumber = toAccountNumber;
 		this.amount = amount;
+		this.transferType = transferType;
 	}
 	
+	public String getTransferType() {
+		return transferType;
+	}
+
+	public void setTransferType(String transferType) {
+		this.transferType = transferType;
+	}
+
 	public int getId() {
 		return id;
 	}

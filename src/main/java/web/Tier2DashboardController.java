@@ -54,7 +54,7 @@ public class Tier2DashboardController {
         
     }
 	@RequestMapping(value = "/Tier2/AuthorizeTransaction", method = RequestMethod.POST)
-    public ModelAndView tier2AuthorizeTransaction(@RequestParam(required = true, name="id") int id, @RequestParam(required = true, name="fromAccountNumber") String fromAccountNumber, @RequestParam(required = true, name="toAccountNumber") String toAccountNumber, @RequestParam(required = true, name="id") BigDecimal amount, Model model) throws ParseException {
+    public ModelAndView tier2AuthorizeTransaction(@RequestParam(required = true, name="id") int id, @RequestParam(required = true, name="fromAccountNumber") String fromAccountNumber, @RequestParam(required = true, name="toAccountNumber") String toAccountNumber, @RequestParam(required = true, name="amount") BigDecimal amount, @RequestParam(required = true, name="transferType") String transferType, Model model) throws ParseException {
 		
 		TransactionServicesImpl transactionServicesImpl = new TransactionServicesImpl();
 		
@@ -67,7 +67,7 @@ public class Tier2DashboardController {
     }
 	
 	@RequestMapping(value = "/Tier2/DeclineTransaction", method = RequestMethod.POST)
-    public ModelAndView tier2DeclineTransaction(@RequestParam(required = true, name="id") int id, @RequestParam(required = true, name="fromAccountNumber") String fromAccountNumber, @RequestParam(required = true, name="toAccountNumber") String toAccountNumber, @RequestParam(required = true, name="id") BigDecimal amount, Model model) throws ParseException {
+    public ModelAndView tier2DeclineTransaction(@RequestParam(required = true, name="id") int id, @RequestParam(required = true, name="fromAccountNumber") String fromAccountNumber, @RequestParam(required = true, name="toAccountNumber") String toAccountNumber, @RequestParam(required = true, name="amount") BigDecimal amount, @RequestParam(required = true, name="transferType") String transferType, Model model) throws ParseException {
 		
 		TransactionServicesImpl transactionServicesImpl = new TransactionServicesImpl();
 		

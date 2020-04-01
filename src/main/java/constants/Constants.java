@@ -14,6 +14,8 @@ public final class Constants {
     public static final String ADMIN = "admin";
     public static final String INDIVIDUAL = "individual";
     public static final String CUSTOMER = "customer";
+    public static final String USER = "USER";
+    public static final String CHANGE_PASSWORD_PRIVILEGE = "CHANGE_PASSWORD_PRIVILEGE";
     public static final int DEFAULT_TIER1 = 9;
     public static final int DEFAULT_TIER2 = 3;
     public static final int DEFAULT_ADMIN = 4;
