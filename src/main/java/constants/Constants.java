@@ -24,6 +24,8 @@ public final class Constants {
     public static final String ACCOUNT = "account";
     public static final String EMAIL = "email";
     public static final String PHONE = "phone";
+    public static final String CREDITCARD = "creditcard";
+
     public static final BigDecimal THRESHOLD_AMOUNT = BigDecimal.valueOf(1000);
 
 

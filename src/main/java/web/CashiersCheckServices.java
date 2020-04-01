@@ -25,7 +25,7 @@ public class CashiersCheckServices {
 		transaction.setDecisionDate(null);
 		transaction.setRequestedDate(new Date());
 		transaction.setTransactionType(type);
-		transaction.setCustomerApproval(0);
+		transaction.setCustomerApproval(1);
 
 		if (amount.compareTo(Constants.THRESHOLD_AMOUNT) <= 0) {
 			transaction.setIsCriticalTransaction(false);

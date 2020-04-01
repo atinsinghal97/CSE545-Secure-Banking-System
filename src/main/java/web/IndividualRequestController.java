@@ -178,7 +178,7 @@ public class IndividualRequestController {
 			
 			 List<Account> account = user.get(0).getAccounts();
 			 List<String> accounts = new ArrayList<>();
-			 accounts.add("Lets go nigga!!");
+			 accounts.add("Lets go!!");
 			 for(Account a:account) {
 				 accounts.add(a.getAccountType());
 			 }

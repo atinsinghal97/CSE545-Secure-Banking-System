@@ -23,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import database.SessionManager;
+import model.Account;
 import model.User;
 @Controller
 public class PaymentsController {
@@ -130,4 +131,65 @@ public class PaymentsController {
 		return new ModelAndView(("redirect:/accinfo"), model);
 		
 	}
+	
+	
+	
+	@RequestMapping(value= {"/OpenPayments"}, method = RequestMethod.POST)
+    public ModelAndView paymentactionCC(HttpServletRequest request, HttpSession session) throws Exception {
+		ModelMap model = new ModelMap();
+		boolean isPresent = false;
+		String account = request.getParameter("accountid");
+		try {
+		Session s = SessionManager.getSession("");
+		User user=null;
+		Authentication x = SecurityContextHolder.getContext().getAuthentication();
+		user=s.createQuery("FROM User WHERE username = :username", User.class)
+				.setParameter("username", x.getName()).getSingleResult();	
+		isPresent = user.getAccounts().stream().distinct().anyMatch(f->{
+			if(f.getAccountNumber().equals(account) && f.getAccountType().contentEquals("CreditCard"))
+					return true;
+			else 
+						return false;
+			});
+		s.close();
+		}catch(Exception e) {
+			return new ModelAndView("Login");
+		}
+		if(isPresent) {
+		session.setAttribute("SelectedAccount",Integer.parseInt(account));
+		return new ModelAndView("accounts/CreditCardPayments",model);
+		}
+		request.getSession().setAttribute("message", "no creditcard account");
+		return new ModelAndView("redirect:/homepage");
+	}
+	
+	@RequestMapping(value= {"/paymentactionemph"}, method = RequestMethod.POST)
+    public ModelAndView paymentactionCCard(HttpServletRequest request, HttpSession session) throws Exception {
+		ModelMap model = new ModelMap();
+		String amount = request.getParameter("Amount").toString();
+		String FromAcc =session.getAttribute("SelectedAccount").toString();
+		String ToAcc = request.getParameter("Account");
+		Optional<Account> AccExists ;
+		boolean transfer =false;
+		try {
+			Session s = SessionManager.getSession("");
+			User user=null;
+			Authentication x = SecurityContextHolder.getContext().getAuthentication();
+			user=s.createQuery("FROM User WHERE username = :username", User.class)
+					.setParameter("username", x.getName()).getSingleResult();	
+			AccExists = user.getAccounts().stream().distinct().filter(f->{
+				if(f.getAccountNumber().equals(FromAcc) && f.getAccountType().equals("CreditCard")
+						)return true;
+				else return false;
+			}).findFirst();
+			
+			if(AccExists.isPresent() && Integer.parseInt(amount)>0) {
+				transfer = transactionservicesimpl.creditcardtransfer(FromAcc,ToAcc,amount);
+			}
+		}catch(Exception e) {
+			return new ModelAndView("Login");
+		}
+		return null;
+	}
+	
 }

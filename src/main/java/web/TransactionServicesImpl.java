@@ -640,7 +640,24 @@ public class TransactionServicesImpl {
 		}
 	}
 
-	
+	public boolean creditcardtransfer(String fromAcc, String toAcc, String amount) {
+		Session s = SessionManager.getSession("");
+		org.hibernate.Transaction txn = null;
+		try {
+			txn = s.beginTransaction();
+			Transaction transaction = createTransaction(fromAcc, toAcc, new BigDecimal(amount), Constants.CREDITCARD);
+			s.save(transaction);
+			if (txn.isActive()) txn.commit();
+			return true;
+	}catch(Exception e) {
+		if(txn != null && txn.isActive()) txn.rollback();
+		e.printStackTrace();
+		return false;
+	} finally {
+		s.close();
+		}
+
+	}
 	
 	}
 	
