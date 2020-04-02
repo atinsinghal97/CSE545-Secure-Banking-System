@@ -101,7 +101,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		    .invalidateHttpSession(false)
 		    .deleteCookies("JSESSIONID")
 		    .logoutSuccessUrl("/login");
-        http.requiresChannel().anyRequest().requiresSecure();
+//        http.requiresChannel().anyRequest().requiresSecure();
         http.sessionManagement().maximumSessions(1);
 //        http.headers()
 //        	.xssProtection()
