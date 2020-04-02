@@ -20,7 +20,7 @@
         }
     </style>
 <h1>JavaScript is not enabled, please check your browser settings.</h1>
-<meta http-equiv="refresh" content="3;" />
+<meta http-equiv="refresh" content="5;" />
 </noscript>
 
 </html>
