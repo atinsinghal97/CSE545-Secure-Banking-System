@@ -51,9 +51,6 @@
 								maxlength="50" minlength="2" autocomplete="off" required>
 						</div>
 						<br>
-						<div class="g-recaptcha"
-							data-sitekey="your_site_key: https://developers.google.com/recaptcha/docs/display"></div>
-						<br>
 						<div class="form-group">
 							<button type="submit"
 								style="background-color: #FFD700; color: #8B0000; font-family: 'AlgerianRegular'; font-weight: bold; font-size: 22px; line-height: 24px; margin: 0 0 24px;">Login</button>
