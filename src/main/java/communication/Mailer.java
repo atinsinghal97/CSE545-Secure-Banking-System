@@ -25,7 +25,7 @@ public class Mailer {
 	public Boolean sendEmail(String email, String subject, String body) {	
 		MimeMessage mimeMessage = mailSender.createMimeMessage();
 		MimeMessageHelper message = new MimeMessageHelper(mimeMessage, "utf-8");
-		String htmlMsg = "<h3>Please use the otp to reset your password<br><a href='" + body + "'>" + body + "</a></h3>";
+		String htmlMsg = body;
 		try {
 			message.setText(htmlMsg, true);
 		    message.setTo(email); 

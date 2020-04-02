@@ -36,6 +36,7 @@
 	<div class="container">
 		<div class="starter-template">
 			<h2>OTP Validation</h2>
+			<p>${ message }</p>
 			<form method="post" action="/OpenAccount" id="validateOtp">
 				<fieldset>
 					<%-- <div th:if="${param.error}">
@@ -53,7 +54,6 @@
 							<input name="${_csrf.parameterName}" type="hidden"
 								value="${_csrf.token}" />
 						</div>
-						<div class="col-md-5 col-xs-5 col-sm-5"></div>
 					</div>
 				</fieldset>
 			</form>

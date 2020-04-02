@@ -34,7 +34,7 @@
 	<div class="container">
 		<div class="starter-template">
 			<h2>OTP Validation</h2>
-			<form method="post" action="/ScheduleAppointment" id="validateOtp">
+			<form method="post" action="/Appointment" id="validateOtp">
 				<fieldset>
 					<%-- <div th:if="${param.error}">
 						<div class="alert alert-danger">Otp is invalid. Try Again.</div>
@@ -52,7 +52,7 @@
 								type="hidden" />
 
 						</div>
-						<div class="col-md-5 col-xs-5 col-sm-5"></div>
+						<div class="col-md-5 col-xs-5 col-sm-5">${ message }</div>
 					</div>
 				</fieldset>
 			</form>

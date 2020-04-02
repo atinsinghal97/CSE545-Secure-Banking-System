@@ -46,17 +46,29 @@ import java.util.Random;
 
 @Controller
 public class AppointmentController {
-
 	@RequestMapping("/Appointment")
-    public String home(final HttpServletRequest request, Model model) {
-		return "ScheduleAppointment";
+    public ModelAndView home(final HttpServletRequest request, HttpSession session) {
+		Object validOtp = session.getAttribute("OtpValid");
+		if (validOtp == null || !(validOtp instanceof Integer)) {
+			return new ModelAndView("redirect:/homepage"); 
+		}
+
+		return new ModelAndView("ScheduleAppointment");
     }
+
 	@RequestMapping(value = "/AppointmentCreate", method = RequestMethod.POST)
     public ModelAndView appointmentCreate(
+    		HttpServletRequest request, HttpSession session,
     		@RequestParam(required = true, name="appointment") String status,
     		@RequestParam(required = true, name="schedule_date") String dateapp,Model model) throws ParseException  {	
+		Object validOtp = session.getAttribute("OtpValid");
+		if (validOtp == null || !(validOtp instanceof Integer)) {
+			return new ModelAndView("redirect:/homepage"); 
+		}
+		
 		if (!WebSecurityConfig.currentSessionHasAnyAuthority("customer"))
 			return new ModelAndView("Login"); 
+
 		Authentication x = SecurityContextHolder.getContext().getAuthentication();
 		String username=x.getName();
 		
@@ -72,8 +84,10 @@ public class AppointmentController {
 		List<User> employees=null;
 		employees=s.createQuery("FROM User WHERE role = :tier1 OR role= :tier2", User.class)
 				.setParameter("tier1", "tier1").setParameter("tier2", "tier2").getResultList();
-		if(user.size()==0)
-			return new ModelAndView("Login"); 
+		if(user.size()==0) {
+			session.removeAttribute("OtpValid");
+			return new ModelAndView("redirect:/login"); 
+		}
 		for(User temp : user )
 		{
 			Random rand = new Random(); 
@@ -93,7 +107,11 @@ public class AppointmentController {
 		if (tx.isActive())
 		    tx.commit();
 		s.close();
-		return new ModelAndView("ScheduleAppointment","message","appointment created");
+		
+		session.removeAttribute("OtpValid");
+		
+		session.setAttribute("message", "Appointment creation successful!");
+		return new ModelAndView("redirect:/homepage");
     }
 	
 	@RequestMapping("/ViewAppointments")

@@ -25,6 +25,9 @@ public class UserDetail implements Serializable {
 
 	private String city;
 
+	@Column(name="user_id", insertable=false, updatable=false)
+	private Integer userId;
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="date_of_birth")
 	private Date dateOfBirth;
@@ -187,6 +190,14 @@ public class UserDetail implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 }

@@ -73,7 +73,7 @@ CREATE TABLE `secure_banking_system`.`appointment` (
   appointment_user_id INT NOT NULL,
   assigned_to_user_id INT NOT NULL,
   created_date DATETIME NOT NULL DEFAULT NOW(),
-  appointment_status VARCHAR(25) NOT NULL,
+  appointment_status VARCHAR(255) NOT NULL,
   FOREIGN KEY (appointment_user_id) REFERENCES `secure_banking_system`.`user`(id),
   FOREIGN KEY (assigned_to_user_id) REFERENCES `secure_banking_system`.`user`(id)
 );
@@ -97,6 +97,16 @@ CREATE TABLE `secure_banking_system`.`otp` (
   completed BOOLEAN NOT NULL DEFAULT FALSE,
   ip_address VARCHAR(255) NOT NULL,
   FOREIGN KEY (initator) REFERENCES `secure_banking_system`.`user`(id)
+);
+
+CREATE TABLE `secure_banking_system`.`cashierscheck` (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  from_account_number VARCHAR(255) NOT NULL,
+  first_name VARCHAR(255) NOT NULL,
+  last_name VARCHAR(255) NOT NULL,
+  middle_name VARCHAR(255),
+  transaction_status VARCHAR(100),
+  deposit_amount DECIMAL(30, 5) NOT NULL
 );
 
 
@@ -227,8 +237,6 @@ INSERT INTO `user` VALUES ('1','abernathy.donato','$2a$10$KERumbzDDN4phCp8ywE.Iu
 ('98','ikshlerin','0c790e6ac09e9416d90d0893da48ce7aef80944a3da78f7fa45b9ba0bdf4','1','7','2016-10-01 19:43:00','1976-02-16 05:12:57','tier1'),
 ('99','collier.shaina','47417443d85c7a8cf38d99e84fb4c481ac1a6de1d0c1c30058ba9c2a6f79','0','1','1990-11-12 01:55:10','2017-07-28 19:45:12','tier1'),
 ('100','ruecker.nichole','7568b79f89789a7e622203f5c45c9400377e8f99e7fb11d7014a9fe62dee','1','3','1987-05-12 22:20:02','2017-09-26 15:18:56','merchant'); 
-
-
 
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -494,7 +502,7 @@ INSERT INTO `account` VALUES ('1','24','4555266457458','savings','20993.91000','
 ('100','23','5264637589496079','checking','48955.59000','2007-06-18 18:37:47','0','0.35000','2011-10-02 01:11:44'); 
 
 
-
+ALTER TABLE account ADD COLUMN default_flag INT;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
@@ -626,7 +634,7 @@ INSERT INTO `transaction` VALUES ('1','0','0.73038','1','2011-10-28 19:00:36','2
 ('99','0','99999.99999','0','1996-03-07 10:10:07','2013-02-06 04:49:49','5264637589496079','6011417025406643','debit','46','tier2','0','0','0'),
 ('100','0','22.59393','0','2018-01-24 16:07:35','1970-09-03 09:32:28','4539260853473246','4485877341105','cc','82','tier2','1','0','0'); 
 
-
+ALTER TABLE transaction ADD COLUMN customer_approval INT;
 
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -969,3 +977,107 @@ INSERT INTO `otp` VALUES ('1','1daec9ef-b79b-33b7-a63f-7cc25f2b8fab','66','1984-
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+
+INSERT INTO `cashierscheck` VALUES ('1','30','Henri','Johnson','Tillman','1','519769632.80436'),
+('2','43','German','Zboncak','Carolyn','','4442.00000'),
+('3','63','Claud','Feest','Alda','','4164.72302'),
+('4','86','Eusebio','Tromp','Branson','1','4332.39625'),
+('5','20','Judah','Dibbert','Emilio','','349.49427'),
+('6','5','Forest','Simonis','Valerie','1','1.60870'),
+('7','18','Mohammad','Roberts','Jason','','97731221.50000'),
+('8','7','Deshaun','Streich','Garland','1','15811.78230'),
+('9','64','Ozella','McKenzie','Cortez','1','919.50000'),
+('10','99','Shanel','Willms','Cayla','','19217.54244'),
+('11','29','Aron','Zboncak','Collin','1','8882.91000'),
+('12','11','Bruce','Connelly','Fern','1','10750182.80000'),
+('13','50','Ariane','Goldner','Caterina','','151756.58000'),
+('14','17','Sandy','Bergstrom','Marilou','','0.00000'),
+('15','58','Sonia','Schroeder','Brandi','1','0.00000'),
+('16','16','Eulalia','Roberts','Georgiana','1','5.45493'),
+('17','58','Prudence','Aufderhar','Okey','1','44.67680'),
+('18','2','Nathanial','Considine','Telly','1','0.00000'),
+('19','14','Shanna','Brekke','Saul','1','5801653.70000'),
+('20','67','Dan','Cronin','Lacy','1','2967.61720'),
+('21','92','Roslyn','Roberts','Lizzie','','102.34991'),
+('22','73','Kay','Huels','Carleton','','948726.00000'),
+('23','81','Andreanne','Kassulke','Minnie','1','959.19723'),
+('24','25','Larissa','Murray','Katherine','1','168908.06010'),
+('25','79','Ignatius','Lind','Trudie','1','78649317.18667'),
+('26','34','Melany','Labadie','Janiya','1','897072.51000'),
+('27','80','Alia','Macejkovic','Amelia','','4077.44000'),
+('28','7','Jaren','Lynch','Camilla','','168.80660'),
+('29','18','Hosea','Fadel','Amina','1','2.36010'),
+('30','64','Tyreek','Batz','Victor','1','0.89725'),
+('31','18','Noah','Becker','Lessie','','974.30000'),
+('32','1','Ashleigh','Kris','Felton','1','2240.85503'),
+('33','25','Isabel','Lockman','Maiya','1','51613171.05500'),
+('34','95','Douglas','Glover','Berneice','','1.53931'),
+('35','69','Tony','Murazik','John','1','0.20000'),
+('36','87','Kristina','Lang','Gaston','','0.00000'),
+('37','74','Jeremy','Torp','Aglae','','3112505.57620'),
+('38','81','Boris','Swaniawski','Mariam','','539.34113'),
+('39','71','Rosario','Lang','Dashawn','','0.00000'),
+('40','8','Hyman','Hettinger','Kyra','1','0.37025'),
+('41','67','Ervin','Johnson','Avis','1','49907212.12479'),
+('42','34','Hallie','Conn','Janice','','779060906.65150'),
+('43','9','Al','Kub','Beatrice','1','4652336.06350'),
+('44','72','Wilhelmine','Nitzsche','Naomi','1','2082.60000'),
+('45','3','Mandy','Bechtelar','Alba','1','19336.31666'),
+('46','19','Ruthie','Maggio','Cleo','','800047.22420'),
+('47','59','Laurie','Orn','Coleman','1','25097.83350'),
+('48','84','Dario','Spencer','Breanne','1','1215026.36000'),
+('49','91','Dolores','Wolff','Alexandria','','2.39657'),
+('50','90','Edwardo','Nader','Tyra','1','862.77271'),
+('51','30','Spencer','Stoltenberg','Mose','1','75770585.00000'),
+('52','3','Althea','Mills','Jerrell','','10505956.65994'),
+('53','54','Shemar','Hand','Lyric','1','9856.27082'),
+('54','35','Gilbert','Beier','Agustina','1','50.00000'),
+('55','34','Joana','Watsica','Dangelo','','1830.70547'),
+('56','29','Mireya','Boehm','Talia','','8860.40287'),
+('57','30','Kattie','Dickinson','Georgette','','4336.48524'),
+('58','53','Sydnie','Wolf','Cara','','22937628.93900'),
+('59','11','Marcella','Langosh','Zakary','','461649299.94431'),
+('60','1','Kamryn','Feest','Donnie','1','51034292.00000'),
+('61','94','Adam','Mraz','Kelton','1','45992879.66695'),
+('62','69','Scot','Feil','Bennett','1','417.90000'),
+('63','41','Kirsten','Becker','Zoila','','12.66000'),
+('64','40','Mitchel','Jaskolski','Clair','','0.06700'),
+('65','25','Kayli','Macejkovic','Jaycee','','31802188.67426'),
+('66','28','Paxton','Hammes','Cicero','','15309.77500'),
+('67','95','Maye','Breitenberg','Sheridan','1','38792318.76640'),
+('68','36','Bryce','Gibson','Enrico','1','0.50970'),
+('69','99','Travon','Brekke','Janick','1','2523.86729'),
+('70','78','Lionel','Ledner','Yasmin','','21594.67000'),
+('71','26','Fae','Hammes','Wellington','1','1528.38000'),
+('72','80','Itzel','Conn','Gabriella','1','878471.12459'),
+('73','57','Malachi','Berge','Lavinia','','0.00000'),
+('74','96','Ava','Hirthe','Carroll','','2.00000'),
+('75','57','Violet','Mueller','Sheldon','','120890587.37100'),
+('76','48','Gage','Halvorson','Julian','1','472188.37300'),
+('77','32','Jalen','Reichert','Macy','1','0.00000'),
+('78','98','Rowan','O\'Conner','Macy','1','0.00000'),
+('79','7','Ian','Nicolas','Rhea','','115199022.40000'),
+('80','15','Josephine','Kassulke','Kirsten','','225665.80000'),
+('81','39','Autumn','Jenkins','Rafael','','0.89770'),
+('82','25','Earnestine','Smitham','Guy','','46549.87236'),
+('83','8','Kirsten','Frami','Devante','','4186033.00000'),
+('84','68','Joanne','Zulauf','Bernice','','7405551.78580'),
+('85','71','Margarete','Kris','Lauren','1','24.91319'),
+('86','74','Jeff','Mayert','Franz','','1139469.00000'),
+('87','60','Robb','McGlynn','Nicole','','320.46205'),
+('88','95','Athena','Kilback','Ewald','','325849.46070'),
+('89','3','Filomena','Kshlerin','Brody','1','10957.53410'),
+('90','41','Esteban','Swaniawski','Teagan','1','44177.00000'),
+('91','91','Lyda','Harber','Benny','1','223106.20530'),
+('92','58','Cecil','Mohr','Thalia','','21.47280'),
+('93','93','Uriah','Wolf','Rylan','1','29187.20747'),
+('94','43','Dianna','Parisian','Frankie','1','4.37605'),
+('95','97','Violette','Collins','Kaya','1','14795494.70897'),
+('96','62','Wilford','O\'Keefe','Ashleigh','','7.60904'),
+('97','61','Graham','Bailey','Neha','','680.51500'),
+('98','88','Bradley','Runte','Heber','1','10.00717'),
+('99','53','Tate','Lubowitz','Victoria','1','41126773.99000'),
+('100','36','Alayna','Mosciski','Trever','1','206426.62784'); 
+
+

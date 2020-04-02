@@ -33,6 +33,7 @@
 								<li><span>Order Checks</span>&nbsp;&nbsp; <span>Deposit
 										Check</span>&nbsp;&nbsp; <span>Online</span></li>
 							</div>
+							<p>${ message }</p>
 						</div>
 					</div>
 				</div>
@@ -56,7 +57,7 @@
 											<label>Recipient's First Name</label> <input type="text"
 												pattern="[a-zA-Z]{1,30}" class="form-control"
 												placeholder="Recipient's First Name"
-												name="Recipient's First Name"
+												name="rec_first_name"
 												aria-describedby="basic-addon1" required="required">
 										</div>
 
@@ -65,7 +66,7 @@
 												oninvalid="this.setCustomValidity('Enter a Proper Middle Name')"
 												pattern="[a-zA-Z]{1,30}" class="form-control"
 												placeholder="Recipient's Middle Name"
-												name="Recipient's Middle Name"
+												name="rec_middle_name"
 												aria-describedby="basic-addon2">
 										</div>
 
@@ -73,12 +74,12 @@
 											<label>Recipient's Last Name</label> <input type="text"
 												oninvalid="this.setCustomValidity('Enter a Proper Last Name')"
 												pattern="[a-zA-Z]{1,30}" class="form-control"
-												placeholder="Recipient's Last Name"
-												name="Recipient's Last Name" aria-describedby="basic-addon2">
+												placeholder="Recipient's Middle Name"
+												name="rec_last_name" aria-describedby="basic-addon2">
 										</div>
 
 										<div class="input-group mb-3">
-											<label>Select Account</label> <select name="Account"
+											<label>Select Account</label> <select name="from_account"
 												class="selectpicker mr-3" id="from-account"
 												title="Select Account" data-live-search="false">
 												<c:forEach var="account" items="${accounts}">
@@ -91,7 +92,7 @@
 											<label>Amount</label> &nbsp;&nbsp; <input type="number"
 												class="form-control" min="1" max="${balance}"
 												oninvalid="this.setCustomValidity('You ain't got that kinda moolah bud!')"
-												placeholder="Amount" name="Amount">
+												placeholder="Amount" name="amount">
 										</div>
 
 										<div class="input-group">
@@ -118,13 +119,13 @@
 											<label>Cashier's Check Number</label> <input type="text"
 												pattern="[0-9]{3,}\CCX[0-9]{3,}" class="form-control"
 												placeholder="Cashier's Check Number"
-												name="Cashier's Check Number"
+												name="check_number"
 												aria-describedby="basic-addon1">
 										</div>
 
 										<div class="input-group mb-3">
-											<label>Select Account to Deposit to</label> <select
-												name="Account" class="selectpicker mr-3" id="from-account"
+											<label>Select Account to Deposit to</label> <select name="to_account"
+												class="selectpicker mr-3" id="from-account"
 												title="Select Account" data-live-search="false">
 												<c:forEach var="account" items="${accounts}">
 													<option value="${account}">${account}</option>

@@ -143,9 +143,10 @@ public class LoginController {
 			    		
 			    		if (mode == 1) {
 				    		System.out.println("Sending Email...");
+				    		String link = appUrl + "/reset_password?token=" + otp.getOtpKey();
 					    	mailer.sendEmail(details.getEmail(),
 					    			"BigPPBank: Your link to reset your password.",
-					    			appUrl + "/reset_password?token=" + otp.getOtpKey());
+					    			"<h3>Please use the otp to reset your password<br><a href='" + link + "'>" + link + "</a></h3>");
 			    		} else if (mode == 0) {
 				    		System.out.println("Sending Message...");
 				    		messager.sendSms(details.getPhone(), otp.getOtpKey());
@@ -299,27 +300,37 @@ public class LoginController {
 
 	@RequestMapping("/homepage")
     public String home(final HttpServletRequest request, Model model) {
-		
+	    HttpSession session = request.getSession(false);
+	    
+        if (session != null) {
+            Object msg = session.getAttribute("message");
+            model.addAttribute("message", (String) msg);
+            if (msg != null)
+                session.removeAttribute("message");
+        }
+
 		Authentication x = SecurityContextHolder.getContext().getAuthentication();
 		System.out.println(x.getName());
 		Session s = SessionManager.getSession("");
-		List<User> user=null;
+		User user=null;
 		user=s.createQuery("FROM User WHERE username = :username", User.class)
-				.setParameter("username", x.getName()).getResultList();	
+				.setParameter("username", x.getName()).getSingleResult();	
 		List<Account> account = new ArrayList<Account>();
-		Account dummy = new Account();
-		dummy.setAccountNumber("1111111");
-		dummy.setInterest(new BigDecimal("1.25"));
-		dummy.setAccountType("checkings");
-		dummy.setCurrentBalance(new BigDecimal("10000"));
+		List<Account>  checkingAcc =new ArrayList<Account>();
+		List<Account>  SavingAcc =new ArrayList<Account>();
+		List<Account>  Creditcard =new ArrayList<Account>();
+		account = user.getAccounts();
+		for(Account a:account) {
+			if(a.getAccountType().equalsIgnoreCase("Savings") && a.getStatus()==1)SavingAcc.add(a);
+			else if(a.getAccountType().equalsIgnoreCase("Checking") && a.getStatus()==1)checkingAcc.add(a);
+			else if(a.getAccountType().equalsIgnoreCase("credit") && a.getStatus()==1)Creditcard.add(a);
+		}
 		
-		account.add(dummy);
 		model.addAttribute("users",x.getName());
-		System.out.print("here we go" + model.getAttribute("users"));
-		model.addAttribute("checking",account);
-		model.addAttribute("savings",account);
-		model.addAttribute("creditcards",account);
-		model.addAttribute("role",user.get(0).getRole());
+		model.addAttribute("checking",checkingAcc);
+		model.addAttribute("savings",SavingAcc);
+		model.addAttribute("creditcards",Creditcard);
+		model.addAttribute("role",user.getRole());
 		s.close();
 		return "CustomerDashboard";
     }

@@ -92,6 +92,32 @@
 						</div>
 					</c:forEach>
 				</div>
+				<div id="xvg">
+					<table>
+						<thead>
+							<tr>
+								<th>From Account</th>
+								<th>To Account</th>
+								<th>Amount</th>
+								<th>Transfer Type</th>
+							</tr>
+						</thead>
+
+						<tbody>
+
+							<c:forEach items="${transactionSearchForm.transactionSearches}" var="transactionSearch">
+
+							<tr>
+								<td>${transactionSearch.fromAccountNumber}&nbsp&nbsp&nbsp&nbsp</td>
+								<td>${transactionSearch.toAccountNumber}&nbsp&nbsp&nbsp&nbsp</td>
+								<td>${transactionSearch.amount}&nbsp&nbsp&nbsp&nbsp</td>
+								<td>${transactionSearch.transferType}&nbsp&nbsp&nbsp&nbsp</td>
+							</tr>
+
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
 			</div>
 			<div class="col-sm-4 well" id="transfer">
 				<div class="thumbnail">

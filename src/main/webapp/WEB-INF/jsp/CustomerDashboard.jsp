@@ -1,6 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,6 +17,7 @@
 	<div class="content-container">
 		<div class="accounts-container cards">
 			<div>Hello ${users}!</div>
+			<p>${ message }</p>
 			<label>Accounts</label>
 			<c:forEach var="entry" items="${savings}">
 				<div class="account-detail cards">
@@ -75,25 +77,24 @@
 					<div>
 						<div class="account-header">
 							<h2>Credit Card Number: ${entry.accountNumber}</h2>
-							<c:choose>
-								<c:when test="${role eq 'Individual'}">
-									<button class="customButton"
-										onclick="ViewTransactions(${entry.accountNumber})">View
-										Transactions</button>
-									<button class="customButton"
-										onclick="OpenMerchPayments(${entry.accountNumber})">Pay
-										Merchant</button>
-								</c:when>
-								<c:otherwise>
-									<button class="customButton"
-										onclick="ViewTransactions(${entry.accountNumber})">View
-										Transactions</button>
-									<button class="customButton"
-										onclick="OpenMerchPayments(${entry.accountNumber})">Initiate
-										Payment</button>
-								</c:otherwise>
-							</c:choose>
-
+							
+							<sec:authorize access="hasAuthority('customer')">
+						    	<button class="customButton"
+									onclick="ViewTransactions(${entry.accountNumber})">View
+									Transactions</button>
+								<button class="customButton"
+									onclick="OpenMerchPayments(${entry.accountNumber})">Pay
+									Merchant</button>
+							</sec:authorize>
+							
+							<sec:authorize access="hasAuthority('merchant')">
+								<button class="customButton"
+									onclick="ViewTransactions(${entry.accountNumber})">View
+									Transactions</button>
+								<button class="customButton"
+									onclick="OpenMerchPayments(${entry.accountNumber})">Initiate
+									Payment</button>
+							</sec:authorize>
 
 						</div>
 						<div class="account-body">

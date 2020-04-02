@@ -32,6 +32,7 @@ import database.SessionManager;
 import forms.Search;
 import forms.SearchForm;
 import model.Account;
+import model.User;
 
 
 public class AccountServicesImpl {
@@ -300,7 +301,76 @@ public class AccountServicesImpl {
 		return true;
 	}
 	
+	public Boolean findAccount(String accountNumber) {
+		Session s = SessionManager.getSession("");
+		Transaction tx = null;
+		tx = s.beginTransaction();
+		Account account = null;
+		try {
+			account = s.createQuery("FROM Account WHERE account_number = :accountNumber", Account.class)
+				.setParameter("accountNumber", accountNumber).getSingleResult();
+		}catch (NoResultException e){
+			return false;
+		}
+		if(account == null)
+			return false;
+		
+		if (tx.isActive())
+		    tx.commit();
+		s.close();
+		return true;
+	}
 
+	public boolean setPrimaryAccount(String account, User user) {
+		
+		Session s = SessionManager.getSession("");
+		Transaction tx = null;
+		tx = s.beginTransaction();
+		try {
+			List<Account> useraccounts = user.getAccounts();
+			for(Account ua:useraccounts) {
+				if(ua.getAccountNumber().equalsIgnoreCase(account)) {
+					ua.setDefaultFlag(1);
+					s.update(ua);
+
+				}
+				else if(ua.getDefaultFlag() != null && ua.getDefaultFlag() == 1) {
+					ua.setDefaultFlag(0);
+					s.update(ua);
+
+				}
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+			return false;
+		}
+		if (tx.isActive())
+		    tx.commit();
+		s.close();
+		return true;
+	}
+
+	public boolean findByAccountNumberAndLastName(String recipientaccnum, String lastname) {
+		Session s = SessionManager.getSession("");
+		Transaction tx = null;
+		Account account = null;
+		tx = s.beginTransaction();
+		try {
+			
+			account = s.createQuery("FROM Account WHERE account_number = :accountNumber", Account.class)
+					.setParameter("accountNumber", recipientaccnum).getSingleResult();
+			
+		}catch(Exception e) {
+			return false;
+		}
+		if(account == null)
+			return false;
+		if(!account.getUser().getUserDetail().getLastName().equals((lastname)))return false;
+		if (tx.isActive())
+		    tx.commit();
+		s.close();
+		return true;
+	}
 	
 	
 

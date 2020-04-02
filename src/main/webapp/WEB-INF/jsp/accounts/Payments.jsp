@@ -31,6 +31,7 @@
 					<div class="col-sm-12">
 						<div class="panel panel-default text-left">
 							<div class="panel-body">
+								<p>${ message }</p>
 								<p contenteditable="false">${acctype}</p>
 								<p>
 								<li><span>Account Number: ${accountid}</span> <span>Balance:
@@ -55,7 +56,7 @@
 
 								<div id="send" class="collapse" aria-labelledby="headingOne"
 									data-parent="#accordion">
-									<form method="post" action="/paymentactionacc"
+									<form method="post" action="/payment/transfer"
 										class="card-body" style="text-align: left;">
 
 										<div class="input-group mb-3">
@@ -63,7 +64,7 @@
 												step="1" class="form-control"
 												oninvalid="this.setCustomValidity('Enter a Proper Account Number')"
 												placeholder="Recipient Account Number"
-												name="Recipient Account Number"
+												name="to_acc_number"
 												aria-describedby="basic-addon1" required="required">
 										</div>
 
@@ -71,20 +72,20 @@
 											<label>Recipient Last Name</label> <input type="text"
 												class="form-control" placeholder="Recipient Last Name"
 												oninvalid="this.setCustomValidity('Enter a Proper Last Name')"
-												pattern="[a-zA-Z]{1,30}" name="Recipient Last Name"
+												pattern="[a-zA-Z]{1,30}" name="rec_last_name"
 												aria-describedby="basic-addon2" required="required">
 										</div>
 
 										<div class="input-group mb-3">
 											<label>Amount</label> <input type="number"
 												class="form-control" min="1" max="${balance}"
-												placeholder="Amount" name="Amount" required="required">
+												placeholder="Amount" name="amount" required="required">
 										</div>
 
 										<div class="input-group">
 											<input type="hidden" name="${_csrf.parameterName}"
 												value="${_csrf.token}" /> <input type="submit"
-												class="btn btn-success" value="Request">
+												class="btn btn-success" value="Transfer">
 										</div>
 									</form>
 								</div>
@@ -101,36 +102,36 @@
 								<div id="request" class="collapse" aria-labelledby="headingTwo"
 									data-parent="#accordion">
 									<form method="post" class="card-body"
-										action="/paymentactionemph" class="card-body"
+										action="/payment/transfer_by_default" class="card-body"
 										style="text-align: left;">
 										<div class="input-group mb-3">
-											<label>Recipient Email Address</label> <input type="email"
+											<label>Email Address</label> <input type="email"
 												minlength="4" maxlength="30" class="form-control"
 												placeholder="Recipient Email Address"
-												name="Recipient Email Address"
+												name="email"
 												aria-describedby="basic-addon1">
 										</div>
 
 										<div class="input-group mb-3">
-											<label>Recipient Phone Number</label> <input type="tel"
-												oninvalid="this.setCustomValidity('Must be a 10 digit number')"
-												pattern="[0-9]{10}" class="form-control"
-												placeholder="Recipient Phone Number"
-												name="Recipient Phone Number"
-												aria-describedby="basic-addon2">
+											<label>Phone Number</label> 
+											<input type="text"
+												name="phone"
+												pattern="(\+?1-?)?(\([2-9]([02-9]\d|1[02-9])\)|[2-9]([02-9]\d|1[02-9]))-?[2-9]\d{2}-?\d{4}"
+												title="Recipients's valid US Phone number +1XXXXXXXXXX"
+												class="form-control" />
 										</div>
 
 										<div class="input-group mb-3">
 											<label>Amount</label> <input type="number"
 												class="form-control" min="1" max="${balance}"
-												placeholder="Amount" name="Amount" required="required">
+												placeholder="Amount" name="amount" required="required">
 										</div>
 
 										<div class="input-group">
 											<input type="hidden" name="${_csrf.parameterName}"
 												value="${_csrf.token}" /> <input type="submit"
-												onclick="return validate();" class="btn btn-success"
-												value="Request">
+												 class="btn btn-success"
+												value="Transfer">
 										</div>
 									</form>
 								</div>

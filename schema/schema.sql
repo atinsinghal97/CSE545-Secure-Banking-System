@@ -45,12 +45,14 @@ CREATE TABLE `secure_banking_system`.`account` (
   status BOOLEAN NOT NULL,
   interest DECIMAL(10, 5) DEFAULT 0.0,
   approval_date DATETIME,
+  default_flag INT,
   FOREIGN KEY (user_id) REFERENCES `secure_banking_system`.`user`(id)
 );
 
 CREATE TABLE `secure_banking_system`.`transaction` (
   id INT PRIMARY KEY AUTO_INCREMENT,
   approval_status BOOLEAN NOT NULL,
+  customer_approval INT NOT NULL DEFAULT 0,
   amount DECIMAL(10, 5),
   is_critical_transaction BOOLEAN NOT NULL,
   requested_date DATETIME NOT NULL DEFAULT NOW(),
@@ -73,7 +75,7 @@ CREATE TABLE `secure_banking_system`.`appointment` (
   appointment_user_id INT NOT NULL,
   assigned_to_user_id INT NOT NULL,
   created_date DATETIME NOT NULL DEFAULT NOW(),
-  appointment_status VARCHAR(25) NOT NULL,
+  appointment_status VARCHAR(255) NOT NULL,
   FOREIGN KEY (appointment_user_id) REFERENCES `secure_banking_system`.`user`(id),
   FOREIGN KEY (assigned_to_user_id) REFERENCES `secure_banking_system`.`user`(id)
 );
@@ -101,6 +103,17 @@ CREATE TABLE `secure_banking_system`.`otp` (
   completed BOOLEAN NOT NULL DEFAULT FALSE,
   ip_address VARCHAR(255) NOT NULL,
   FOREIGN KEY (initator) REFERENCES `secure_banking_system`.`user`(id)
+);
+
+
+CREATE TABLE `secure_banking_system`.`cashierscheck` (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  from_account_number VARCHAR(255) NOT NULL,
+  first_name VARCHAR(255) NOT NULL,
+  last_name VARCHAR(255) NOT NULL,
+  middle_name VARCHAR(255),
+  transaction_status VARCHAR(100),
+  deposit_amount DECIMAL(30, 5) NOT NULL
 );
 
 DELIMITER $$

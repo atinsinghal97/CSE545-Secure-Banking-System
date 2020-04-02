@@ -101,7 +101,7 @@ public class Tier1DashboardController {
 			int count = transactionServiceImpl.issueCheque(amount, accountNumber);
 	
 			if (count > 0) {
-				if(amount.intValue() <= Constants.THRESHOLD_AMOUNT.intValue())
+				if(amount.intValue() < Constants.THRESHOLD_AMOUNT.intValue())
 					message = "The Cheque was issued successfully. Cheque Id = " + String.valueOf(count);
 				else
 					message = "The Cheque pending approval. Cheque Id = " + String.valueOf(count);
@@ -136,7 +136,7 @@ public class Tier1DashboardController {
 			message = "Account doesn't exist";
 
 		else if (transactionServiceImpl.depositCheque(chequeId, amount, accountNumber))
-			if(amount.intValue() <= Constants.THRESHOLD_AMOUNT.intValue())
+			if(amount.intValue() < Constants.THRESHOLD_AMOUNT.intValue())
 				message = "The Cheque was deposited successfully";
 			else
 				message = "The Cheque pending approval";
@@ -164,9 +164,10 @@ public class Tier1DashboardController {
 		AccountServicesImpl accountServicesImpl = new AccountServicesImpl();
 		String message = null;
 		
+		
 		if(!accountServicesImpl.doesAccountExists(accountNumber))
 			message = "Account doesn't exist";
-		else if(amount.intValue() <= Constants.THRESHOLD_AMOUNT.intValue())
+		else if(amount.intValue() < Constants.THRESHOLD_AMOUNT.intValue())
 			if(transactionServiceImpl.depositMoney(amount, accountNumber))
 				message = "Amount deposited successfully";
 			else
@@ -197,7 +198,7 @@ public class Tier1DashboardController {
 		
 		if (!accountServicesImpl.doesAccountExists(accountNumber))
 			message = "Account doesn't exist";
-		else if (amount.intValue() <= Constants.THRESHOLD_AMOUNT.intValue())
+		else if (amount.intValue() < Constants.THRESHOLD_AMOUNT.intValue())
 			if (transactionServiceImpl.withdrawMoney(amount, accountNumber))
 				message = "Amount withdrawed successfully";
 			else
@@ -242,7 +243,7 @@ public class Tier1DashboardController {
 			message = "From Account and To Account can't be same";
 
 		else if(transactionServiceImpl.createTransaction(amount, fromAccountNumber, toAccountNumber))
-			if(amount.intValue() <= Constants.THRESHOLD_AMOUNT.intValue())
+			if(amount.intValue() < Constants.THRESHOLD_AMOUNT.intValue())
 				message = "Transaction created successfully";
 			else
 				message = "Transaction pending approval";

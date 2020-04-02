@@ -65,9 +65,8 @@
 												placeholder="Deposit Amount" name="Amount"
 												required="required">
 										</div>
-										<input type="hidden" name="Deposit" value="sys" /> <input
-											type="hidden" name="${_csrf.parameterName}"
-											value="${_csrf.token}" />
+										<input type="hidden" name="Deposit" value="choicemade"/>
+										<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 										<div class="input-group">
 											<input type="submit" class="btn btn-success" value="Deposit">
 										</div>
@@ -94,9 +93,8 @@
 												placeholder="Withdrawal Amount" name="Amount"
 												required="required">
 										</div>
-										<input type="hidden" name="Withdraw" value="sys" /> <input
-											type="hidden" name="${_csrf.parameterName}"
-											value="${_csrf.token}" />
+										<input type="hidden" name="Withdraw" value="choicemade"/>
+										<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 										<div class="input-group">
 											<input type="submit" class="btn btn-success" value="Withdraw">
 										</div>
