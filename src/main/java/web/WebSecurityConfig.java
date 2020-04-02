@@ -86,6 +86,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	        .antMatchers("/EmployeeDelete").hasAuthority(Constants.ADMIN)
 	        .antMatchers("/SystemLogs").hasAuthority(Constants.ADMIN)
 	        .antMatchers("/homepage").hasAuthority(Constants.CUSTOMER)
+	        .antMatchers("/SignInHistory").hasAnyAuthority(Constants.TIER1,Constants.TIER2,Constants.ADMIN,Constants.CUSTOMER)
 	        .antMatchers("/js/**").permitAll()
 	        .antMatchers("/css/**").permitAll()
 	        .anyRequest().authenticated()//any other request just need authentication
