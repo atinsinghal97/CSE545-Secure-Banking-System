@@ -133,3 +133,6 @@
 		$('#date_of_birth').attr('min', minDate);
 	});
 </script>
+
+</body>
+</html>
