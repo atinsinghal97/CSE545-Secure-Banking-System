@@ -717,8 +717,6 @@ public class TransactionServicesImpl {
 			} else {
 				throw new Exception("Email or Phone is required to do a default transfer.");
 			}
-
-			System.out.println("GOT TO ACCOUNT: " + to.getAccountNumber());
 			
 			Transaction t = createTransaction(fromAccount, to.getAccountNumber(), amount, Constants.TRANSFER);
 			if (applyTransaction(from, to, t, currentSessionUser)) {

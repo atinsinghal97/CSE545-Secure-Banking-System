@@ -91,7 +91,7 @@
 										<div class="input-group mb-3">
 											<label>Amount</label> &nbsp;&nbsp; <input type="number"
 												class="form-control" min="1" max="${balance}"
-												oninvalid="this.setCustomValidity('You ain't got that kinda moolah bud!')"
+												oninvalid="this.setCustomValidity('Something is wrong')"
 												placeholder="Amount" name="amount">
 										</div>
 

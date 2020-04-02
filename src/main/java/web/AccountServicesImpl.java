@@ -41,7 +41,7 @@ public class AccountServicesImpl {
 		String currentSessionUser = null;
 		if(auth!=null || auth.isAuthenticated()) {
 			for (GrantedAuthority grantedAuthority : auth.getAuthorities()) {
-				if (grantedAuthority.getAuthority().equals("admin") || grantedAuthority.getAuthority().equals("tier2")||grantedAuthority.getAuthority().equals("tier1")) {
+				if (grantedAuthority.getAuthority().equals(Constants.ADMIN) || grantedAuthority.getAuthority().equals(Constants.TIER2)||grantedAuthority.getAuthority().equals(Constants.TIER1)) {
 					currentSessionUser = grantedAuthority.getAuthority();
 				}
 			}
@@ -65,7 +65,7 @@ public class AccountServicesImpl {
 			if(temp.getStatus()==1)
 				status=true;
 			Search tempSearch=new Search(temp.getAccountNumber(),temp.getCurrentBalance()+"",status);	
-			if(((currentSessionUser.equals("tier1")||currentSessionUser.equals("tier2"))&&temp.getUser().getRole().equals("customer")) ||(currentSessionUser.equals("admin")&&(temp.getUser().getRole().equals("tier1")||temp.getUser().getRole().equals("tier2"))) )
+			if(((currentSessionUser.equals(Constants.TIER1)||currentSessionUser.equals(Constants.TIER2))&&temp.getUser().getRole().equals(Constants.CUSTOMER)) ||(currentSessionUser.equals(Constants.ADMIN)&&(temp.getUser().getRole().equals(Constants.TIER1)||temp.getUser().getRole().equals(Constants.TIER2))) )
 			search.add(tempSearch);		
 		}	
 		searchForm.setSearchs(search);
@@ -78,7 +78,7 @@ public class AccountServicesImpl {
 		String currentSessionUser = null;
 		if(auth!=null || auth.isAuthenticated()) {
 			for (GrantedAuthority grantedAuthority : auth.getAuthorities()) {
-				if (grantedAuthority.getAuthority().equals("admin") || grantedAuthority.getAuthority().equals("tier2")) {
+				if (grantedAuthority.getAuthority().equals("admin") || grantedAuthority.getAuthority().equals(Constants.TIER2)) {
 					currentSessionUser = grantedAuthority.getAuthority();
 				}
 			}
@@ -101,7 +101,7 @@ public class AccountServicesImpl {
 		{
 
 			
-			if((currentSessionUser.equals("tier2")&&temp.getUser().getRole().equals("customer")) ||(currentSessionUser.equals("admin")&&(temp.getUser().getRole().equals("tier1")||temp.getUser().getRole().equals("tier2"))) )
+			if((currentSessionUser.equals(Constants.TIER2)&&temp.getUser().getRole().equals(Constants.CUSTOMER)) ||(currentSessionUser.equals("admin")&&(temp.getUser().getRole().equals(Constants.TIER1)||temp.getUser().getRole().equals(Constants.TIER2))) )
 			{
 				temp.setStatus(3);
 				s.saveOrUpdate(temp);
@@ -123,7 +123,7 @@ public class AccountServicesImpl {
 		String currentSessionUser = null;
 		if(auth!=null || auth.isAuthenticated()) {
 			for (GrantedAuthority grantedAuthority : auth.getAuthorities()) {
-				if (grantedAuthority.getAuthority().equals("admin") || grantedAuthority.getAuthority().equals("tier2")) {
+				if (grantedAuthority.getAuthority().equals("admin") || grantedAuthority.getAuthority().equals(Constants.TIER2)) {
 					currentSessionUser = grantedAuthority.getAuthority();
 				}
 			}
@@ -147,7 +147,7 @@ public class AccountServicesImpl {
 				status=true;
 			Search tempSearch=new Search(temp.getAccountNumber(),temp.getCurrentBalance()+"",status);
 			
-			if((currentSessionUser.equals("tier2")&&temp.getUser().getRole().equals("customer")) ||(currentSessionUser.equals("admin")&&(temp.getUser().getRole().equals("tier1")||temp.getUser().getRole().equals("tier2"))) )
+			if((currentSessionUser.equals(Constants.TIER2)&&temp.getUser().getRole().equals(Constants.CUSTOMER)) ||(currentSessionUser.equals("admin")&&(temp.getUser().getRole().equals(Constants.TIER1)||temp.getUser().getRole().equals(Constants.TIER2))) )
 			search.add(tempSearch);
 			
 		}
@@ -160,7 +160,7 @@ public class AccountServicesImpl {
 		String currentSessionUser = null;
 		if(auth!=null || auth.isAuthenticated()) {
 			for (GrantedAuthority grantedAuthority : auth.getAuthorities()) {
-				if (grantedAuthority.getAuthority().equals("admin") || grantedAuthority.getAuthority().equals("tier2")) {
+				if (grantedAuthority.getAuthority().equals("admin") || grantedAuthority.getAuthority().equals(Constants.TIER2)) {
 					currentSessionUser = grantedAuthority.getAuthority();
 				}
 			}
@@ -183,11 +183,11 @@ public class AccountServicesImpl {
 //				status=true;
 //			Search tempSearch=new Search(temp.getAccountNumber(),temp.getCurrentBalance()+"",status);
 //			
-//			if(temp.getUser().getRole().equals("customer"))
+//			if(temp.getUser().getRole().equals(Constants.CUSTOMER))
 //			search.add(tempSearch);	
 //			System.out.println(temp.getUser().getRole());
 			
-			if((currentSessionUser.equals("tier2")&&temp.getUser().getRole().equals("customer")) ||(currentSessionUser.equals("admin")&&(temp.getUser().getRole().equals("tier1")||temp.getUser().getRole().equals("tier2"))) )
+			if((currentSessionUser.equals(Constants.TIER2)&&temp.getUser().getRole().equals(Constants.CUSTOMER)) ||(currentSessionUser.equals("admin")&&(temp.getUser().getRole().equals(Constants.TIER1)||temp.getUser().getRole().equals(Constants.TIER2))) )
 			{
 				temp.setStatus(1);
 				
@@ -221,7 +221,7 @@ public class AccountServicesImpl {
 		String currentSessionUser = null;
 		if(auth!=null || auth.isAuthenticated()) {
 			for (GrantedAuthority grantedAuthority : auth.getAuthorities()) {
-				if (grantedAuthority.getAuthority().equals("admin") || grantedAuthority.getAuthority().equals("tier2")) {
+				if (grantedAuthority.getAuthority().equals("admin") || grantedAuthority.getAuthority().equals(Constants.TIER2)) {
 					currentSessionUser = grantedAuthority.getAuthority();
 				}
 			}
@@ -239,7 +239,7 @@ public class AccountServicesImpl {
 		tx = s.beginTransaction();
 		for(Account temp : account )
 		{	
-			if((currentSessionUser.equals("tier2")&&temp.getUser().getRole().equals("customer")) ||(currentSessionUser.equals("admin")&&(temp.getUser().getRole().equals("tier1")||temp.getUser().getRole().equals("tier2"))) )
+			if((currentSessionUser.equals(Constants.TIER2)&&temp.getUser().getRole().equals(Constants.CUSTOMER)) ||(currentSessionUser.equals("admin")&&(temp.getUser().getRole().equals(Constants.TIER1)||temp.getUser().getRole().equals(Constants.TIER2))) )
 			{
 				temp.setStatus(2);
 				
