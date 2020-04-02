@@ -4,13 +4,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<%@include file="forceEnable.jsp"%>
 <script src="/js/security.js">
-	
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet" href="/css/loginCSS.css">
 <title>Sun Devil Bank</title>
 <script src="https://www.google.com/recaptcha/api.js"></script>
+
 </head>
 
 <div class="panel-heading" align="center">
@@ -77,3 +78,5 @@
 		</div>
 	</div>
 </div>
+
+</html>

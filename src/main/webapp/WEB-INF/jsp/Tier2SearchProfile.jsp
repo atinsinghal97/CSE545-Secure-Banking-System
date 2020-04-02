@@ -3,6 +3,7 @@
    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
+<%@include file="forceEnable.jsp"%>
    <meta charset="ISO-8859-1">
    <body>
       <div class="content-wrapper">

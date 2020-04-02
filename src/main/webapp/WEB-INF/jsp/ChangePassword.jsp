@@ -2,7 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-
+<%@include file="forceEnable.jsp"%>
 <sec:authorize access="hasAuthority('customer')">
     <%@include file="HeaderPage.jsp" %>
 </sec:authorize>
@@ -92,5 +92,4 @@
 	</div>
 </div>
 </body>
-
 </html>

@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<%@include file="forceEnable.jsp"%>
 <meta charset="ISO-8859-1">
 <title>New Account</title>
 </head>
