@@ -75,43 +75,48 @@ public class AppointmentController {
 		
 		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); 
 		Date date = (Date)formatter.parse(dateapp);
-		//date.setMonth((date.getMonth() - 1 + 2) % 12 + 1);
-		Session s = SessionManager.getSession("");
-		List<User> user=null;
-		user=s.createQuery("FROM User WHERE username = :username", User.class)
-						.setParameter("username", username).getResultList();		 
+		// date.setMonth((date.getMonth() - 1 + 2) % 12 + 1);
+		 
 		Transaction tx = null;
-		tx = s.beginTransaction();
-		List<User> employees=null;
-		employees=s.createQuery("FROM User WHERE role = :tier1 OR role= :tier2", User.class)
-				.setParameter("tier1", Constants.TIER1).setParameter("tier2", Constants.TIER2).getResultList();
-		if(user.size()==0) {
-			session.removeAttribute("OtpValid");
-			return new ModelAndView("redirect:/login"); 
+		Session s = SessionManager.getSession("");
+		try {
+			List<User> user=null;
+			user=s.createQuery("FROM User WHERE username = :username", User.class)
+							.setParameter("username", username).getResultList();
+			tx = s.beginTransaction();
+			List<User> employees=null;
+			employees=s.createQuery("FROM User WHERE role = :tier1 OR role= :tier2", User.class)
+					.setParameter("tier1", "tier1").setParameter("tier2", "tier2").getResultList();
+			if(user.size()==0) {
+				session.removeAttribute("OtpValid");
+				return new ModelAndView("redirect:/login"); 
+			}
+			for(User temp : user )
+			{
+				Random rand = new Random(); 
+				User random=employees.get(rand.nextInt(employees.size())); 
+				Appointment app=new Appointment(); 
+				app.setUser1(temp);
+				app.setUser2(random);
+				app.setCreatedDate(date);
+				app.setAppointmentStatus(status);
+				System.out.println(app.getCreatedDate());
+				Date todayDate = new Date();
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+				System.out.println(sdf.format(todayDate).equals(sdf.format(date)));
+				s.saveOrUpdate(app);
+				
+			}
+			if (tx.isActive()) tx.commit();
+			session.setAttribute("message", "Appointment creation successful!");
+		} catch (Exception e) {
+			if (tx != null && tx.isActive()) tx.rollback();
+			session.setAttribute("message", "Appointment creation failed!");
+		} finally {
+			s.close();
 		}
-		for(User temp : user )
-		{
-			Random rand = new Random(); 
-			User random=employees.get(rand.nextInt(employees.size())); 
-			Appointment app=new Appointment(); 
-			app.setUser1(temp);
-			app.setUser2(random);
-			app.setCreatedDate(date);
-			app.setAppointmentStatus(status);
-			System.out.println(app.getCreatedDate());
-			Date todayDate = new Date();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-			System.out.println(sdf.format(todayDate).equals(sdf.format(date)));
-			s.saveOrUpdate(app);
-			
-		}
-		if (tx.isActive())
-		    tx.commit();
-		s.close();
 		
 		session.removeAttribute("OtpValid");
-		
-		session.setAttribute("message", "Appointment creation successful!");
 		return new ModelAndView("redirect:/homepage");
     }
 	
@@ -119,7 +124,6 @@ public class AppointmentController {
     public ModelAndView viewAppointment(Model model) {
 		if (!WebSecurityConfig.currentSessionHasAnyAuthority("tier2","tier1"))
 			return new ModelAndView("Login"); 
-		Session s = SessionManager.getSession("");
 		Authentication x = SecurityContextHolder.getContext().getAuthentication();
 		String username=x.getName();
 		
@@ -134,15 +138,22 @@ public class AppointmentController {
 			}		
 		}
 		
-		User employee=null;
-		employee=s.createQuery("FROM User WHERE username= :username", User.class)
-				.setParameter("username", username).getSingleResult();
+		User employee = null;
 		AppSearchForm appSearchForm = new AppSearchForm();
-	
 		List<AppSearch> appSearch = new ArrayList<AppSearch>();
-		List<Appointment> appointments=s.createQuery("FROM Appointment WHERE assigned_to_user_id = :uid", Appointment.class)
-										.setParameter("uid", employee.getId()).getResultList();
-	
+		List<Appointment> appointments = new ArrayList<Appointment>();
+
+		Session s = SessionManager.getSession("");
+		try {
+		    employee=s.createQuery("FROM User WHERE username= :username", User.class)
+			.setParameter("username", username).getSingleResult();
+		    appointments = s.createQuery("FROM Appointment WHERE assigned_to_user_id = :uid", Appointment.class)
+			.setParameter("uid", employee.getId()).getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			s.close();
+		}
 		
 		Date todayDate = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");

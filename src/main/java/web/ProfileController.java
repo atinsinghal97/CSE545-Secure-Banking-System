@@ -91,7 +91,6 @@ public class ProfileController {
         } catch (Exception e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
-            s.close();
         } finally {
             s.close();
         }

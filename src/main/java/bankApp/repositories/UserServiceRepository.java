@@ -24,6 +24,7 @@ public class UserServiceRepository {
 			if (exists) return true;
 
 		} catch (Exception e) {
+			session.close();
 			throw e;
 		} finally {
 			session.close();

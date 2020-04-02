@@ -85,7 +85,6 @@ public class OtpUtils {
 		} catch (Exception e) {
 			if (tx != null) tx.rollback();
 			e.printStackTrace();
-			return null;
 
 		} finally {
 			s.close();

@@ -38,6 +38,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 			u = s.createQuery("FROM User WHERE username = :username", User.class)
 					.setParameter("username", username).getSingleResult();
 		} catch (NoResultException e) {
+			s.close();
 			throw new UsernameNotFoundException("Invalid username or password.");
 		} finally {
 			s.close();
