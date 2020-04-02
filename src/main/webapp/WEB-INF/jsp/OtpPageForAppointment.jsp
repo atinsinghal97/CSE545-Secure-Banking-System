@@ -58,6 +58,10 @@
 			</form>
 		</div>
 	</div>
+	<div class="form-group"
+			style="background-color: #f1f1f1; height: 30px">
+			<span><a href="/homepage">Go to Home Page</a></span>
+	</div>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$("#otpsender").click(function(event) {
