@@ -36,8 +36,21 @@
 			<h3 class="panel-title">SignIn History</h3>
 		</div>
 
-<ul>
-    <c:forEach var="record" items="${history}">
-        <li>${record.getId()}   ${record.getUsername()}  ${record.getIpAddress()}  ${record.getLoggedIn()} </li>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>UserName</th>
+    <th>IP Address</th>
+    <th>Log In</th>
+  </tr>
+<c:forEach var="record" items="${history}">
+
+  <tr>
+    <td>${record.getId()}</td>
+    <td>${record.getUsername()}</td>
+    <td>${record.getIpAddress()}</td>
+    <td>${record.getLoggedIn()}</td>
+  </tr>
+
     </c:forEach>
-</ul> 
+</table>
