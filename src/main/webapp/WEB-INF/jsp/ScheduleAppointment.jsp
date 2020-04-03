@@ -61,12 +61,10 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="schedule_date" class="col-lg-2 control-label">Schedule
-							Date</label>
-						<div class="col-lg-5">
-							<input type="date" class="form-control" name="schedule_date"
-								id="schedule_date" placeholder="Schedule Date">
-						</div>
+					     <label for="schedule_date" class="col-lg-2 control-label">Schedule Date</label>
+						      <div class="col-lg-5">
+						        <input type="date" class="form-control" name="schedule_date" id="schedule_date" placeholder="Schedule Date">
+						      </div>
 					</div>
 
 					<div class="form-group">

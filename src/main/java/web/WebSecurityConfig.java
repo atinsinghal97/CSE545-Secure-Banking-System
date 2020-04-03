@@ -75,7 +75,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	        .antMatchers("/Appointment").hasAuthority(Constants.CUSTOMER)
 	        .antMatchers("/AppointmentCreate").hasAuthority(Constants.CUSTOMER)
 	        .antMatchers("/ViewAppointments").hasAnyAuthority(Constants.TIER1,Constants.TIER2)
-	        .antMatchers("/Download").permitAll()
+	        // .antMatchers("/Download").permitAll()
 	        .antMatchers("/forgot_password").permitAll()
 	        .antMatchers("/reset_password").permitAll()
 	        .antMatchers("/change_password").hasAuthority(Constants.CHANGE_PASSWORD_PRIVILEGE)
