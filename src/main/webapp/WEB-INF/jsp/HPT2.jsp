@@ -31,6 +31,8 @@
 							href="/Tier2/UpdateCustomer">Update Customer Info</a></li>
 						<li class="cta"><a class="ButtonDesign"
 							href="/ViewAppointments">View Appointments of the day</a></li>
+						<li class="cta"><a class="ButtonDesign"
+							href="/SignInHistory">Sign In History</a></li>
 						<form method="post" action="/perform_logout" id="form-logout">
 							<input type="submit" value="Logout" /> <input type="hidden"
 								name="${_csrf.parameterName}" value="${_csrf.token}" />

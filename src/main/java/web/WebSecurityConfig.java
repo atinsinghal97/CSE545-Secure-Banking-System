@@ -92,6 +92,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	        .antMatchers("/PrimeAccount").hasAuthority(Constants.CUSTOMER)
 	        .antMatchers("/generateAccountOtp").hasAuthority(Constants.CUSTOMER)
 	        .antMatchers("/generateAppointmentOtp").hasAuthority(Constants.CUSTOMER)
+	        .antMatchers("/SignInHistory").hasAnyAuthority(Constants.TIER1,Constants.TIER2,Constants.ADMIN,Constants.CUSTOMER)
 	        .antMatchers("/js/**").permitAll()
 	        .antMatchers("/css/**").permitAll()
 	        .anyRequest().authenticated()//any other request just need authentication

@@ -33,6 +33,8 @@
 							href="/profile/change_password">Change Password</a></li>
 						<li class="cta"><a class="ButtonDesign"
 							href="/ViewAppointments">View Appointments of the day</a></li>
+						<li class="cta"><a class="ButtonDesign"
+							href="/SignInHistory">Sign In History</a></li>
 						<form method="post" action="/perform_logout" id="form-logout">
 							<input type="submit" value="Logout" />
 							<input type="hidden" name="${_csrf.parameterName}"
