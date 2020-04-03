@@ -197,7 +197,7 @@ public class LoginController {
 		// We have to unset the session status
         WebSecurityConfig.forceLogout();
 		
-	    User u = otpUtils.validateOtp(otp, request.getRemoteHost());
+	    User u = otpUtils.validateOtp(otp, WebSecurityConfig.getClientIP(request));
 
 	    if (u != null) {
 	    	Authentication auth = new UsernamePasswordAuthenticationToken(
