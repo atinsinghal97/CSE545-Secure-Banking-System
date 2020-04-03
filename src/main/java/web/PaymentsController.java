@@ -40,7 +40,6 @@ public class PaymentsController {
 		System.out.println("DATA " + (String) data);
 		
 		if (data == null || !(data instanceof String)) {
-			System.out.println("Moving back, didnt find");
 			return new ModelAndView("redirect:/homepage");
 		}
 		
@@ -72,7 +71,6 @@ public class PaymentsController {
 
         	response.setViewName("accounts/Payments");
         } catch (Exception e) {
-			System.out.println("Moving back, error");
         	e.printStackTrace();
         	response.getModelMap().clear();
         	response.setViewName("redirect:/homepage");

@@ -86,6 +86,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	        .antMatchers("/EmployeeDelete").hasAuthority(Constants.ADMIN)
 	        .antMatchers("/SystemLogs").hasAuthority(Constants.ADMIN)
 	        .antMatchers("/homepage").hasAuthority(Constants.CUSTOMER)
+	        .antMatchers("/ServiceRequest").hasAuthority(Constants.CUSTOMER)
+	        .antMatchers("/PendingTransactions").hasAuthority(Constants.CUSTOMER)
+	        .antMatchers("/CashiersCheck").hasAuthority(Constants.CUSTOMER)
+	        .antMatchers("/PrimeAccount").hasAuthority(Constants.CUSTOMER)
+	        .antMatchers("/generateAccountOtp").hasAuthority(Constants.CUSTOMER)
+	        .antMatchers("/generateAppointmentOtp").hasAuthority(Constants.CUSTOMER)
 	        .antMatchers("/js/**").permitAll()
 	        .antMatchers("/css/**").permitAll()
 	        .anyRequest().authenticated()//any other request just need authentication

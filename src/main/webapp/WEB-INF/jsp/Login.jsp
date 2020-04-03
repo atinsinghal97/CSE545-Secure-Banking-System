@@ -10,10 +10,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet" href="/css/loginCSS.css">
 <title>Sun Devil Bank</title>
-<script src="https://www.google.com/recaptcha/api.js"></script>
-
 </head>
-
+<body>
 <div class="panel-heading" align="center">
 	<h1 class="panel-title">Welcome to Sun Devil Bank!</h1>
 </div>
@@ -52,9 +50,6 @@
 								maxlength="50" minlength="2" autocomplete="off" required>
 						</div>
 						<br>
-						<div class="g-recaptcha"
-							data-sitekey="your_site_key: https://developers.google.com/recaptcha/docs/display"></div>
-						<br>
 						<div class="form-group">
 							<button type="submit"
 								style="background-color: #FFD700; color: #8B0000; font-family: 'AlgerianRegular'; font-weight: bold; font-size: 22px; line-height: 24px; margin: 0 0 24px;">Login</button>
@@ -79,4 +74,5 @@
 	</div>
 </div>
 
+</body>
 </html>
