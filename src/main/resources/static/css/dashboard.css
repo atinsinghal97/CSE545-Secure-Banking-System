@@ -1,33 +1,34 @@
 @charset "ISO-8859-1";
 
-* {
-  color: white;
+.red {
+  background-color: #ff0000;
 }
 
 .black {
-  background-color: black;
+  background-color: #000000;
 }
 
-.red {
-  background-color: red;
+* {
+  color: #ffffff;
 }
+
 
 nav {
-  background-color: antiquewhite;
   margin: 0px;
+  background-color: #ffefdb;
 }
 
 .row {
 }
 
 .head {
-  background-color: aqua;
+  background-color: #00FFFF;
 }
 
-@media screen and (max-width: 300px) {
+@media screen and (max-width: 275px) {
   span.psw {
-    display: block;
-    float: none;
+	float: none;
+	display: block;
   }
   .cancelbtn {
     width: 100%;
