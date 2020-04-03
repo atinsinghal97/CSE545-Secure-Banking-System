@@ -12,6 +12,7 @@
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="js/cust_validate.js"></script>
 <script src="js/jquery.validate.js"></script>
+<script src="/js/security.js"></script>
 <script>
 		
 		$(function(){

@@ -7,7 +7,8 @@
 	<head>
 		<meta charset="ISO-8859-1">
 		<title>Approve/Decline Transactions</title>
-        <link rel="stylesheet" href="css/cssClassess.css"/>   
+        <link rel="stylesheet" href="css/cssClassess.css"/>  
+        <script src="/js/security.js"></script> 
 	</head>
 	<body>
 		<%@include file="HeaderPage.jsp" %>

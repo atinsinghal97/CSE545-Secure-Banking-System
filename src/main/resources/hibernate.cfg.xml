@@ -4,7 +4,7 @@
     <session-factory>
         <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.password">shivank</property>
+        <property name="hibernate.connection.password">ASUSpring_20</property>
         <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/secure_banking_system</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>

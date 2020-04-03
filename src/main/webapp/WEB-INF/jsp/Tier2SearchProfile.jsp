@@ -5,6 +5,9 @@
 <html>
 <%@include file="forceEnable.jsp"%>
    <meta charset="ISO-8859-1">
+   <head>
+   <script src="/js/security.js"></script>
+   </head>
    <body>
       <div class="content-wrapper">
          <%@include file="HPT2.jsp" %>

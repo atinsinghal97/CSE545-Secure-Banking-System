@@ -4,6 +4,7 @@
 <%@include file="forceEnable.jsp"%>
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="/js/employee_validate.js"></script>
+<script src="/js/security.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
 </head>
 <div class="content-wrapper">
