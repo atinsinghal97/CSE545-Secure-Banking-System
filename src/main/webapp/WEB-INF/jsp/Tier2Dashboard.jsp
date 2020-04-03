@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<%@include file="forceEnable.jsp"%>
 <script src="/js/security.js"></script>
 <meta charset="ISO-8859-1">
 <title>Tier2 HomePage</title>

@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<%@include file="forceEnable.jsp"%>
 <meta charset="ISO-8859-1">
 <link rel="stylesheet" href="/css/cssClasses.css" />
 <script src="/js/security.js"></script>

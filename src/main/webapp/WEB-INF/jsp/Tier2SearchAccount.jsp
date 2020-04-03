@@ -6,6 +6,7 @@
 <html>
 <meta charset="ISO-8859-1">
 <head>
+<%@include file="forceEnable.jsp"%>
 <script src="/js/security.js"></script>
 </head>
 <body>

@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@include file="forceEnable.jsp"%>
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="/js/employee_validate.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
 <script src="/js/security.js"></script>
-
+</head>
 <div class="content-wrapper">
 	<%@include file="HPT3.jsp"%>
 </div>
@@ -132,5 +133,6 @@
 		$('#date_of_birth').attr('min', minDate);
 	});
 </script>
+
 </body>
 </html>
