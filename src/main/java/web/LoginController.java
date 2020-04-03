@@ -80,8 +80,9 @@ public class LoginController {
 	@RequestMapping("/forgot_password")
 	public ModelAndView forgotPassword(
 			final HttpServletRequest request,
-    		@RequestParam(required = false, name="username") String username,
-    		@RequestParam(required = false, name="mode") Integer mode) {
+    		@RequestParam(required = false, name="username") String username
+//    		, @RequestParam(required = false, name="mode") Integer mode
+    		) {
 	    ModelAndView response = new ModelAndView();
 	    Map<String, Object> model = response.getModel();
 	    
@@ -138,19 +139,20 @@ public class LoginController {
 		    		try {
 		    			tx = sess.beginTransaction();
 
-			    		otp = otpUtils.generateOtp(u, ipAddress, mode);
+//			    		otp = otpUtils.generateOtp(u, ipAddress, mode);
+			    		otp = otpUtils.generateOtp(u, ipAddress, 1);
 			    		sess.save(otp);
 			    		
-			    		if (mode == 1) {
+//			    		if (mode == 1) {
 				    		System.out.println("Sending Email...");
 				    		String link = appUrl + "/reset_password?token=" + otp.getOtpKey();
 					    	mailer.sendEmail(details.getEmail(),
 					    			"BigPPBank: Your link to reset your password.",
 					    			"<h3>Please use the otp to reset your password<br><a href='" + link + "'>" + link + "</a></h3>");
-			    		} else if (mode == 0) {
-				    		System.out.println("Sending Message...");
-				    		messager.sendSms(details.getPhone(), otp.getOtpKey());
-			    		}
+//			    		} else if (mode == 0) {
+//				    		System.out.println("Sending Message...");
+//				    		messager.sendSms(details.getPhone(), otp.getOtpKey());
+//			    		}
 						System.out.println("Sent!");
 		    			
 		    			if (tx.isActive())
@@ -177,13 +179,13 @@ public class LoginController {
 	    }
 	    
 
-	    if (mode == 0) {
-	    	model.put("message", "If your username exists in the database, you'll recieve a message to reset your password.");
-		    response.setViewName("ForgotPassword");
-	    } else {
+//	    if (mode == 0) {
+//	    	model.put("message", "If your username exists in the database, you'll recieve a message to reset your password.");
+//		    response.setViewName("ForgotPassword");
+//	    } else {
 		    session.setAttribute("msg", "If your username exists in the database, you'll recieve a message to reset your password.");
 	    	response.setViewName("redirect:/login");
-	    }
+//	    }
 
 	    return response;
     }

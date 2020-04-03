@@ -53,19 +53,20 @@
 									name="username" placeholder="User's Name" required>
 							</div>
 						</div>
-
+<!--
 						<div>
 							<label for="email">Email</label><br>
 							<div>
 								<input type="radio" id="email" name="mode" value="1">
 							</div>
 						</div>
-						<div>
+						 <div>
 							<label for="sms">SMS</label><br>
 							<div>
 								<input type="radio" id="sms" name="mode" value="0">
 							</div>
 						</div>
+-->
 			</div>
 
 			<div>
@@ -80,6 +81,7 @@
 			</form>
 		</div>
 
+<!--
 		<div class="panel-body">
 			<form id="ResetPassword" action="/reset_password" method="post">
 				<fieldset>
@@ -106,6 +108,7 @@
 				</fieldset>
 			</form>
 		</div>
+-->
 
 		<div class="form-group"
 			style="background-color: #f1f1f1; height: 30px">
