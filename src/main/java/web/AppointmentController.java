@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import constants.Constants;
 import database.SessionManager;
 import forms.Search;
 import forms.SearchForm;
@@ -83,7 +84,7 @@ public class AppointmentController {
 		tx = s.beginTransaction();
 		List<User> employees=null;
 		employees=s.createQuery("FROM User WHERE role = :tier1 OR role= :tier2", User.class)
-				.setParameter("tier1", "tier1").setParameter("tier2", "tier2").getResultList();
+				.setParameter("tier1", Constants.TIER1).setParameter("tier2", Constants.TIER2).getResultList();
 		if(user.size()==0) {
 			session.removeAttribute("OtpValid");
 			return new ModelAndView("redirect:/login"); 
@@ -123,13 +124,13 @@ public class AppointmentController {
 		String username=x.getName();
 		
 		for (GrantedAuthority grantedAuthority : x.getAuthorities()) {
-			if (grantedAuthority.getAuthority().equals("tier2"))
+			if (grantedAuthority.getAuthority().equals(Constants.TIER2))
 			{
-				model.addAttribute("role", "tier2");
+				model.addAttribute("role", Constants.TIER2);
 			}
-			if (grantedAuthority.getAuthority().equals("tier1"))
+			if (grantedAuthority.getAuthority().equals(Constants.TIER1))
 			{
-				model.addAttribute("role", "tier1");
+				model.addAttribute("role", Constants.TIER1);
 			}		
 		}
 		
