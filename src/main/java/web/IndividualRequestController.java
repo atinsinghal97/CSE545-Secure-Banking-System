@@ -102,6 +102,7 @@ public class IndividualRequestController {
 		 return new ModelAndView(("accounts/Transactions"), model);
 	}catch(Exception e) {
 		System.out.print(e);
+		s.close();
 		return new ModelAndView("Login");
 	}
 	}
@@ -113,10 +114,10 @@ public class IndividualRequestController {
 	
 	@RequestMapping(value= {"/depositwithdrawal"}, method = RequestMethod.POST)
 	public ModelAndView depositwithdrawal(HttpServletRequest request, HttpSession session){
-		 session = request.getSession(false);
+		session = request.getSession(false);
 		ModelMap model = new ModelMap();
+		Session s = SessionManager.getSession("");
 		try {
-			Session s = SessionManager.getSession("");
 			User user=null;
 			Authentication x = SecurityContextHolder.getContext().getAuthentication();
 			user=s.createQuery("FROM User WHERE username = :username", User.class)
@@ -130,13 +131,14 @@ public class IndividualRequestController {
 			System.out.print("setting session"+session.getAttribute("SelectedAccount"));
 			if(account.getAccountType().equals("checking"))model.addAttribute("accType","checking");
 			if(account.getAccountType().equals("savings"))model.addAttribute("accType","savings");
-			
+
+			s.close();
 			return new ModelAndView(("accounts/DepositWithdrawal"), model);	
-	}catch(Exception e) {
-		System.out.print(e);
-		return new ModelAndView("Login");
-	}
-		
+		} catch(Exception e) {
+			System.out.print(e);
+			s.close();
+			return new ModelAndView("Login");
+		}
 	}
 	
 	@RequestMapping(value="/accinfo", method = RequestMethod.GET)
@@ -208,9 +210,9 @@ public class IndividualRequestController {
 	        	session.removeAttribute("message");
 	        }
 	    }
-		
+
+		Session s = SessionManager.getSession("");
 		try {
-			Session s = SessionManager.getSession("");
 			List<User> user=null;
 			Authentication x = SecurityContextHolder.getContext().getAuthentication();
 			user=s.createQuery("FROM User WHERE username = :username", User.class)
@@ -225,7 +227,8 @@ public class IndividualRequestController {
 			 s.close();
 		}catch(Exception e) {
 			System.out.print(e);
-			return new ModelAndView("Login");
+			 s.close();
+			return new ModelAndView("error");
 		}
 
 		return new ModelAndView("ServiceRequests/CashiersCheckOrder", model);
@@ -341,22 +344,24 @@ public class IndividualRequestController {
 			if (tx.isActive())
 			    tx.commit();
 
+			s.close();
 			session.removeAttribute("OtpValid");
 			session.setAttribute("message", "Account approval pending by Bank Employees.");
 			return new ModelAndView("redirect:/homepage");
 		} catch(Exception e) {
 			e.printStackTrace();
 			session.removeAttribute("OtpValid");
+			s.close();
 			return new ModelAndView("error");
 		}
 	}
 	
 	@RequestMapping(value= {"/setprimary"}, method= RequestMethod.POST)
 	public ModelAndView setAccountAsPrimary(HttpServletRequest request, HttpSession session) {
+		Session s = SessionManager.getSession("");
 		try {
 			ModelMap model = new ModelMap();
 			String account = request.getParameter("Account");
-			Session s = SessionManager.getSession("");
 			User user=null;
 			Authentication x = SecurityContextHolder.getContext().getAuthentication();
 			user=s.createQuery("FROM User WHERE username = :username", User.class)
@@ -372,8 +377,9 @@ public class IndividualRequestController {
 				
 			}
 			s.close();
-		}catch(Exception e) {
-			return new ModelAndView("Login");
+		} catch(Exception e) {
+			s.close();
+			return new ModelAndView("error");
 		}
 		return new ModelAndView("Login");
 	}
@@ -381,8 +387,8 @@ public class IndividualRequestController {
 	@RequestMapping(value= {"/PrimeAccount"}, method=RequestMethod.GET)
 	public ModelAndView setDefaultAccount(HttpServletRequest request, HttpSession session) {
 		ModelMap model = new ModelMap();
+		Session s = SessionManager.getSession("");
 		try {
-			Session s = SessionManager.getSession("");
 			User user=null;
 			Authentication x = SecurityContextHolder.getContext().getAuthentication();
 			user=s.createQuery("FROM User WHERE username = :username", User.class)
@@ -401,11 +407,13 @@ public class IndividualRequestController {
 					 model.addAttribute("prime_account", a.getAccountNumber());
 			 }
 
+			 s.close();
 			 model.addAttribute("accounts",accounts);
 			 return new ModelAndView("ServiceRequests/PrimaryAccount",model);
 		}catch(Exception e){
-			e.printStackTrace();
-			return new ModelAndView("Login");
+			 e.printStackTrace();
+			 s.close();
+			 return new ModelAndView("error");
 		}
 		
 		

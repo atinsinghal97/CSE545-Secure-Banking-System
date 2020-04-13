@@ -57,7 +57,6 @@ public class FundsController {
 			*/
 			if (tx.isActive())
 			    tx.commit();
-			s.close();
 		
 		} catch (Exception e) {
 			if (tx != null) tx.rollback();
@@ -108,7 +107,6 @@ public class FundsController {
 			
 			if (tx.isActive())
 			    tx.commit();
-			s.close();
 		
 		} catch (Exception e) {
 			if (tx != null) tx.rollback();

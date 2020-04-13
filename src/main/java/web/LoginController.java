@@ -174,8 +174,8 @@ public class LoginController {
 	    	e.printStackTrace();
 	    } catch (Exception e) {
 			e.printStackTrace();
-		} finally {		    
-		    s.close();
+		} finally {  
+		    if (s != null) s.close();
 	    }
 	    
 
@@ -254,7 +254,6 @@ public class LoginController {
             if (tx != null) tx.rollback();
             e.printStackTrace();
         	request.getSession().setAttribute("msg", "Password not changed!");
-            s.close();
         } finally {
             s.close();
         }
@@ -292,6 +291,7 @@ public class LoginController {
             if (tx != null) tx.rollback();
             e.printStackTrace();
             model.put("message", "Unable to register. Please contact the bank.");
+			session.close();
             return new ModelAndView("RegistrationExternal");
         } finally {
             session.close();
@@ -314,26 +314,36 @@ public class LoginController {
 		Authentication x = SecurityContextHolder.getContext().getAuthentication();
 		System.out.println(x.getName());
 		Session s = SessionManager.getSession("");
-		User user=null;
-		user=s.createQuery("FROM User WHERE username = :username", User.class)
-				.setParameter("username", x.getName()).getSingleResult();	
-		List<Account> account = new ArrayList<Account>();
-		List<Account>  checkingAcc =new ArrayList<Account>();
-		List<Account>  SavingAcc =new ArrayList<Account>();
-		List<Account>  Creditcard =new ArrayList<Account>();
-		account = user.getAccounts();
-		for(Account a:account) {
-			if(a.getAccountType().equalsIgnoreCase("Savings") && a.getStatus()==1)SavingAcc.add(a);
-			else if(a.getAccountType().equalsIgnoreCase("Checking") && a.getStatus()==1)checkingAcc.add(a);
-			else if(a.getAccountType().equalsIgnoreCase("credit") && a.getStatus()==1)Creditcard.add(a);
+
+		try {
+			
+			User user=null;
+			user=s.createQuery("FROM User WHERE username = :username", User.class)
+					.setParameter("username", x.getName()).getSingleResult();	
+			List<Account> account = new ArrayList<Account>();
+			List<Account>  checkingAcc =new ArrayList<Account>();
+			List<Account>  SavingAcc =new ArrayList<Account>();
+			List<Account>  Creditcard =new ArrayList<Account>();
+			account = user.getAccounts();
+			for(Account a:account) {
+				if(a.getAccountType().equalsIgnoreCase("Savings") && a.getStatus()==1)SavingAcc.add(a);
+				else if(a.getAccountType().equalsIgnoreCase("Checking") && a.getStatus()==1)checkingAcc.add(a);
+				else if(a.getAccountType().equalsIgnoreCase("credit") && a.getStatus()==1)Creditcard.add(a);
+			}
+			
+			model.addAttribute("users",x.getName());
+			model.addAttribute("checking",checkingAcc);
+			model.addAttribute("savings",SavingAcc);
+			model.addAttribute("creditcards",Creditcard);
+			model.addAttribute("role",user.getRole());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			// Let this thru?
+		} finally {
+			s.close();
 		}
 		
-		model.addAttribute("users",x.getName());
-		model.addAttribute("checking",checkingAcc);
-		model.addAttribute("savings",SavingAcc);
-		model.addAttribute("creditcards",Creditcard);
-		model.addAttribute("role",user.getRole());
-		s.close();
 		return "CustomerDashboard";
     }
 }

@@ -147,8 +147,9 @@ public class PaymentsController {
 		String payeracc = session.getAttribute("SelectedAccount").toString();
 		boolean accountExists =false;
 		boolean depo=false,with=false, successfulTransactoin=false;
+		Session s = SessionManager.getSession("");
+
 		try {
-			Session s = SessionManager.getSession("");
 			User user=null;
 			Authentication x = SecurityContextHolder.getContext().getAuthentication();
 			user=s.createQuery("FROM User WHERE username = :username", User.class)
@@ -173,7 +174,9 @@ public class PaymentsController {
 				
 			}
 		
-		}catch(Exception e) {
+			s.close();
+		} catch(Exception e) {
+			s.close();
 			return new ModelAndView("Login");
 		}
 		
@@ -198,8 +201,8 @@ public class PaymentsController {
 		String payeracc =session.getAttribute("SelectedAccount").toString();
 		double amount = Double.parseDouble(request.getParameter("Amount").toString());
 		boolean isPresent = false;
-		try {
 		Session s = SessionManager.getSession("");
+		try {
 		User user=null;
 		Authentication x = SecurityContextHolder.getContext().getAuthentication();
 		user=s.createQuery("FROM User WHERE username = :username", User.class)
@@ -212,6 +215,7 @@ public class PaymentsController {
 			});
 		s.close();
 		}catch(Exception e) {
+			s.close();
 			return new ModelAndView("Login");
 		}
 		if(amount>0 && (isPresent && (emailID!=null && !"".equals(emailID)) || (phno!=null && !"".equals(phno)))) {
@@ -235,8 +239,8 @@ public class PaymentsController {
 		ModelMap model = new ModelMap();
 		boolean isPresent = false;
 		String account = request.getParameter("accountid");
-		try {
 		Session s = SessionManager.getSession("");
+		try {
 		User user=null;
 		Authentication x = SecurityContextHolder.getContext().getAuthentication();
 		user=s.createQuery("FROM User WHERE username = :username", User.class)
@@ -249,6 +253,7 @@ public class PaymentsController {
 			});
 		s.close();
 		}catch(Exception e) {
+			s.close();
 			return new ModelAndView("Login");
 		}
 		if(isPresent) {
@@ -268,8 +273,8 @@ public class PaymentsController {
 		String ToAcc = request.getParameter("Account");
 		Optional<Account> AccExists ;
 		boolean transfer =false;
+		Session s = SessionManager.getSession("");
 		try {
-			Session s = SessionManager.getSession("");
 			User user=null;
 			Authentication x = SecurityContextHolder.getContext().getAuthentication();
 			user=s.createQuery("FROM User WHERE username = :username", User.class)
@@ -285,9 +290,12 @@ public class PaymentsController {
 			if(AccExists.isPresent() && Integer.parseInt(amount)>0 && account!=null) {
 				transfer = transactionservicesimpl.creditcardtransfer(FromAcc,ToAcc,amount);
 			}
+			
+			s.close();
 			if(transfer)return new ModelAndView("redirect:/homepage");
 			else return new ModelAndView("error");
 		}catch(Exception e) {
+			s.close();
 			return new ModelAndView("error");
 		}
 	}

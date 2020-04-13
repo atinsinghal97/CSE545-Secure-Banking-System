@@ -33,25 +33,31 @@ public class AuthSuccess implements AuthenticationSuccessHandler {
     HttpServletResponse response, Authentication authentication)
     throws IOException {
 
-	  final Logger logger = LoggerFactory.getLogger(this.getClass());
-	  logger.warn("Login attempt for User '" + authentication.getName() + "' from IP: "+ WebSecurityConfig.getClientIP(request));
-	  
-	  String currentSessionUser = WebSecurityConfig.getCurrentSessionAuthority().filter(a -> a.equals(Constants.CUSTOMER) || a.equals(Constants.INDIVIDUAL) || a.equals(Constants.TIER1) || a.equals(Constants.TIER2) || a.equals(Constants.TIER3) || a.equals(Constants.ADMIN)).findFirst().orElse(null);
+		final Logger logger = LoggerFactory.getLogger(this.getClass());
+		logger.warn("Login attempt for User '" + authentication.getName() + "' from IP: "+ WebSecurityConfig.getClientIP(request));
 
-	  org.hibernate.Session session = SessionManager.getSession(currentSessionUser);
-	  session.beginTransaction();
-      
-      SigninHistory history = new SigninHistory();
-      history.setUsername(authentication.getName());
-      history.setIpAddress(WebSecurityConfig.getClientIP(request));
-      history.setLoggedIn(new Timestamp(System.currentTimeMillis()));
-      
-      session.save(history);
-      session.getTransaction().commit();
-      session.close();
-	  
-      handle(request, response, authentication);
-      clearAuthenticationAttributes(request);
+		org.hibernate.Session session = SessionManager.getSession("");
+		org.hibernate.Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			
+			SigninHistory history = new SigninHistory();
+			history.setUsername(authentication.getName());
+			history.setIpAddress(WebSecurityConfig.getClientIP(request));
+			history.setLoggedIn(new Timestamp(System.currentTimeMillis()));
+			
+			session.save(history);
+			
+			if (tx != null && tx.isActive()) tx.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (tx != null && tx.isActive()) tx.rollback();
+		} finally {
+			session.close();
+		}
+		  
+		handle(request, response, authentication);
+		clearAuthenticationAttributes(request);
   }
 
   protected void handle(HttpServletRequest request, 

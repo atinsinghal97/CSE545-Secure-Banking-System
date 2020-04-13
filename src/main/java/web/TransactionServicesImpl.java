@@ -533,23 +533,23 @@ public class TransactionServicesImpl {
 				transaction = createTransaction(payeracc,reciever.getAccountNumber(), new BigDecimal(amount), Constants.EMAIL);
 				
 				}
-				else {
-					reciever = getAccountByPhoneNumber(phno,s);
-					if(reciever==null)return false;
-					transaction = createTransaction(payeracc,reciever.getAccountNumber(), new BigDecimal(amount), Constants.PHONE);
-				}
-			
-				s.save(transaction);
-				if (txn.isActive()) txn.commit();
-				return true;
+			else {
+				reciever = getAccountByPhoneNumber(phno,s);
+				if(reciever==null)return false;
+				transaction = createTransaction(payeracc,reciever.getAccountNumber(), new BigDecimal(amount), Constants.PHONE);
+			}
+		
+			s.save(transaction);
+			if (txn.isActive()) txn.commit();
+			s.close();
 		} catch (Exception e) {
-		if(txn != null && txn.isActive()) txn.rollback();
-		e.printStackTrace();
-		return false;
-		} finally {
-		s.close();
+			if(txn != null && txn.isActive()) txn.rollback();
+			e.printStackTrace();
+			s.close();
+			return false;
 		}
-		}
+		return true;
+	}
 
 	public TransactionSearchForm getPendingTransactionsUser(User user) {
 		String currentSessionUser = WebSecurityConfig
@@ -568,6 +568,7 @@ public class TransactionServicesImpl {
 					.setParameter("user_id", user.getId())
 					.setParameter("customerApproval", 0).getResultList();
 		} catch(NoResultException e) {
+			session.close();
 			return null;
 		}
 
@@ -646,21 +647,21 @@ public class TransactionServicesImpl {
 		try {
 			txn = s.beginTransaction();
 
-		account=s.createQuery("FROM Account WHERE account_number = :accountNumber", Account.class)
-				.setParameter("accountNumber", accountNumber).getSingleResult();
-		if(account== null)return false;
+			account=s.createQuery("FROM Account WHERE account_number = :accountNumber", Account.class)
+					.setParameter("accountNumber", accountNumber).getSingleResult();
+			if(account== null)return false;
+			
+			account.setCurrentBalance(account.getCurrentBalance().add(amount));
+			
+			s.update(account);
+			if (txn.isActive()) txn.commit();
+			s.close();
 		
-		account.setCurrentBalance(account.getCurrentBalance().add(amount));
-		
-		s.update(account);
-		if (txn.isActive()) txn.commit();
-		
-		}catch(Exception e) {
+		} catch(Exception e) {
 			if (txn != null && txn.isActive()) txn.rollback();
 			e.printStackTrace();
-			return false;
-		}finally {
 			s.close();
+			return false;
 		}
 		
 		return true;
@@ -674,21 +675,21 @@ public class TransactionServicesImpl {
 		try {
 			txn = s.beginTransaction();
 
-		account=s.createQuery("FROM Account WHERE account_number = :accountNumber", Account.class)
-				.setParameter("accountNumber", accountNumber).getSingleResult();
-		if(account== null || account.getCurrentBalance().compareTo(amount) == -1)return false;
+			account=s.createQuery("FROM Account WHERE account_number = :accountNumber", Account.class)
+					.setParameter("accountNumber", accountNumber).getSingleResult();
+			if(account== null || account.getCurrentBalance().compareTo(amount) == -1)return false;
+			
+			account.setCurrentBalance(account.getCurrentBalance().subtract(amount));
+			
+			s.update(account);
+			if (txn.isActive()) txn.commit();
+			s.close();
 		
-		account.setCurrentBalance(account.getCurrentBalance().subtract(amount));
-		
-		s.update(account);
-		if (txn.isActive()) txn.commit();
-		
-		}catch(Exception e) {
+		} catch(Exception e) {
 			if (txn != null && txn.isActive()) txn.rollback();
 			e.printStackTrace();
-			return false;
-		}finally {
 			s.close();
+			return false;
 		}
 		
 		return true;
@@ -787,10 +788,10 @@ public class TransactionServicesImpl {
 			if(account==null)return false;
 			Transaction transaction = createTransaction(payeracc, recipientaccnum, amount, Constants.ACCOUNT);
 			s.save(transaction);
-				//create transaction object
-				if (txn.isActive()) txn.commit();
-				s.close();
-				return true;
+			//create transaction object
+			if (txn.isActive()) txn.commit();
+			s.close();
+			return true;
 		} catch (Exception e) {
 			if(txn != null && txn.isActive()) txn.rollback();
 			e.printStackTrace();
@@ -809,16 +810,16 @@ public class TransactionServicesImpl {
 			if (txn.isActive()) txn.commit();
 			s.close();
 			return true;
-	}catch(Exception e) {
-		if(txn != null && txn.isActive()) txn.rollback();
-		e.printStackTrace();
-		s.close();
-		return false;
-	}
+		} catch(Exception e) {
+			if(txn != null && txn.isActive()) txn.rollback();
+			e.printStackTrace();
+			s.close();
+			return false;
+		}
 
 	}
 	
-	}
+}
 	
 
 
